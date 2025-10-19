@@ -1,0 +1,21 @@
+{
+  "name": "java21-maven-node",
+  "image": "mcr.microsoft.com/devcontainers/java:1-21-bookworm",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "20"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "vscjava.vscode-java-pack",
+        "mhutchie.git-graph",
+        "github.copilot",
+        "github.copilot-chat",
+        "redhat.vscode-yaml"
+      ]
+    }
+  },
+  "postCreateCommand": "java -version && mvn -version && node -v && npm -v"
+}

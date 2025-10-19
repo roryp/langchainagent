@@ -1,0 +1,7 @@
+server:
+  port: 8080
+
+app:
+  name: getting-started
+
+# Values are read from environment variables (see .env.example)
