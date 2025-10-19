@@ -8,8 +8,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 /**
- * Simple REST controller exposing a chat endpoint.  It delegates
- * requests to the AzureOpenAiChatModel provided by LangChain4j.
+ * Simple REST controller exposing a chat endpoint.
+ * Delegates requests to the AzureOpenAiChatModel provided by LangChain4j.
+ * 
+ * This controller demonstrates basic stateless chat completion without memory.
+ * For conversational chat with history, see {@link ConversationController}.
  */
 @RestController
 @RequestMapping("/api/chat")
@@ -17,15 +20,14 @@ public class ChatController {
 
   private final AzureOpenAiChatModel model;
 
-  public ChatController() {
-    // Read configuration from environment variables.  If any of
-    // these are missing the builder will throw an exception.
-    this.model = AzureOpenAiChatModel.builder()
-        .endpoint(System.getenv("AZURE_OPENAI_ENDPOINT"))
-        .apiKey(System.getenv("AZURE_OPENAI_API_KEY"))
-        .deploymentName(System.getenv("AZURE_OPENAI_DEPLOYMENT"))
-        .temperature(0.2)
-        .build();
+  /**
+   * Constructor injection of the chat model bean.
+   * Model is configured via LangChainConfig or environment variables.
+   *
+   * @param model configured Azure OpenAI chat model
+   */
+  public ChatController(AzureOpenAiChatModel model) {
+    this.model = model;
   }
 
   /**
