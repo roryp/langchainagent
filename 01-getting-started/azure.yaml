@@ -12,3 +12,10 @@ services:
     docker:
       path: ./Dockerfile
       context: ..
+  rag:
+    project: ../02-rag
+    language: java
+    host: containerapp
+    docker:
+      path: ../Dockerfile.rag
+      context: ..

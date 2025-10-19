@@ -121,7 +121,7 @@ module openAi 'core/ai/cognitiveservices.bicep' = {
   }
 }
 
-// Container App
+// Container App - Getting Started
 module app 'core/host/container-app.bicep' = {
   name: 'app'
   scope: rg
@@ -134,6 +134,7 @@ module app 'core/host/container-app.bicep' = {
     managedIdentityName: managedIdentity.outputs.name
     openAiName: openAi.outputs.name
     openAiApiKey: openAi.outputs.key
+    targetPort: 8080
     env: [
       {
         name: 'AZURE_OPENAI_ENDPOINT'
@@ -155,6 +156,41 @@ module app 'core/host/container-app.bicep' = {
   }
 }
 
+// Container App - RAG
+module ragApp 'core/host/container-app.bicep' = {
+  name: 'rag-app'
+  scope: rg
+  params: {
+    name: 'ca-rag-${resourceToken}'
+    location: location
+    tags: union(tags, { 'azd-service-name': 'rag' })
+    containerAppsEnvironmentName: containerAppsEnvironment.outputs.name
+    containerRegistryName: containerRegistry.outputs.name
+    managedIdentityName: managedIdentity.outputs.name
+    openAiName: openAi.outputs.name
+    openAiApiKey: openAi.outputs.key
+    targetPort: 8081
+    env: [
+      {
+        name: 'AZURE_OPENAI_ENDPOINT'
+        value: openAi.outputs.endpoint
+      }
+      {
+        name: 'AZURE_OPENAI_DEPLOYMENT'
+        value: 'gpt-4o-mini'
+      }
+      {
+        name: 'AZURE_OPENAI_EMBEDDING_DEPLOYMENT'
+        value: 'text-embedding-3-small'
+      }
+      {
+        name: 'SPRING_PROFILES_ACTIVE'
+        value: 'dev'
+      }
+    ]
+  }
+}
+
 // Outputs
 output AZURE_LOCATION string = location
 output AZURE_TENANT_ID string = tenant().tenantId
@@ -171,3 +207,6 @@ output AZURE_OPENAI_NAME string = openAi.outputs.name
 
 output APP_URL string = app.outputs.uri
 output APP_NAME string = app.outputs.name
+
+output RAG_APP_URL string = ragApp.outputs.uri
+output RAG_APP_NAME string = ragApp.outputs.name
