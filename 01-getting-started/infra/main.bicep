@@ -132,6 +132,8 @@ module app 'core/host/container-app.bicep' = {
     containerAppsEnvironmentName: containerAppsEnvironment.outputs.name
     containerRegistryName: containerRegistry.outputs.name
     managedIdentityName: managedIdentity.outputs.name
+    openAiName: openAi.outputs.name
+    openAiApiKey: openAi.outputs.key
     env: [
       {
         name: 'AZURE_OPENAI_ENDPOINT'

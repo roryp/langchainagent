@@ -49,3 +49,4 @@ output id string = cognitiveServices.id
 output name string = cognitiveServices.name
 output endpoint string = cognitiveServices.properties.endpoint
 output deploymentNames array = [for (deploy, i) in deployments: deployment[i].name]
+output key string = cognitiveServices.listKeys().key1

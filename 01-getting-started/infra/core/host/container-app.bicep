@@ -4,6 +4,9 @@ param tags object = {}
 param containerAppsEnvironmentName string
 param containerRegistryName string
 param managedIdentityName string
+param openAiName string = ''
+@secure()
+param openAiApiKey string = ''
 param env array = []
 param targetPort int = 8080
 param externalIngress bool = true
@@ -34,6 +37,12 @@ resource containerApp 'Microsoft.App/containerApps@2024-03-01' = {
     environmentId: containerAppsEnvironment.id
     configuration: {
       activeRevisionsMode: 'Single'
+      secrets: openAiApiKey != '' ? [
+        {
+          name: 'azure-openai-api-key'
+          value: openAiApiKey
+        }
+      ] : null
       ingress: {
         external: externalIngress
         targetPort: targetPort
@@ -60,7 +69,12 @@ resource containerApp 'Microsoft.App/containerApps@2024-03-01' = {
             cpu: json('2.0')
             memory: '4Gi'
           }
-          env: env
+          env: openAiName != '' ? union(env, [
+            {
+              name: 'AZURE_OPENAI_API_KEY'
+              secretRef: 'azure-openai-api-key'
+            }
+          ]) : env
         }
       ]
       scale: {
