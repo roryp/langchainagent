@@ -6,7 +6,6 @@ import dev.langchain4j.data.message.UserMessage;
 import dev.langchain4j.memory.ChatMemory;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.model.azure.AzureOpenAiChatModel;
-import dev.langchain4j.model.output.Response;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -62,14 +61,24 @@ public class ConversationService {
         // Get all messages for context
         List<ChatMessage> messages = memory.messages();
 
-        // Generate response
-        Response<AiMessage> response = chatModel.generate(messages);
-        AiMessage aiMessage = response.content();
+        // Build context from conversation history
+        StringBuilder context = new StringBuilder();
+        for (ChatMessage msg : messages) {
+            if (msg instanceof UserMessage) {
+                context.append("User: ").append(((UserMessage) msg).singleText()).append("\n");
+            } else if (msg instanceof AiMessage) {
+                context.append("Assistant: ").append(((AiMessage) msg).text()).append("\n");
+            }
+        }
+
+        // Generate response using chat method
+        String response = chatModel.chat(context.toString());
 
         // Add AI response to memory
+        AiMessage aiMessage = AiMessage.from(response);
         memory.add(aiMessage);
 
-        return aiMessage.text();
+        return response;
     }
 
     /**

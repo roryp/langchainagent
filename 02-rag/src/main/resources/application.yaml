@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: langchain4j-rag
+  profiles:
+    active: dev
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+server:
+  port: 8081
+
+# Azure OpenAI Configuration
+azure:
+  openai:
+    endpoint: ${AZURE_OPENAI_ENDPOINT}
+    api-key: ${AZURE_OPENAI_API_KEY}
+    deployment: ${AZURE_OPENAI_DEPLOYMENT}
+    embedding-deployment: ${AZURE_OPENAI_EMBEDDING_DEPLOYMENT}
+    temperature: 0.2
+    max-tokens: 1000
+    max-retries: 3
+    log-requests: true
+
+# RAG Configuration
+rag:
+  chunk-size: 300
+  chunk-overlap: 30
+  max-results: 5
+  min-score: 0.7
+
+# Logging
+logging:
+  level:
+    dev.rory.azure.langchain4j: DEBUG
+    dev.langchain4j: INFO
+    org.springframework: INFO
