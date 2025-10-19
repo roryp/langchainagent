@@ -1,7 +1,6 @@
 # LangChain4j for Azure — From Zero to Production
 
-This repository hosts a multi‑module Java course inspired by the
-"Generative‑AI‑for‑beginners - Java" curriculum.  The goal is to teach you
+This repository hosts a multi‑module Java course to teach you
 how to build AI‑powered applications using LangChain4j and deploy them
 to Azure.  Each numbered module contains a set of labs and sample code
 illustrating the core patterns for working with large language models.
