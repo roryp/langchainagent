@@ -64,10 +64,10 @@ public class ConversationService {
         // Build context from conversation history
         StringBuilder context = new StringBuilder();
         for (ChatMessage msg : messages) {
-            if (msg instanceof UserMessage) {
-                context.append("User: ").append(((UserMessage) msg).singleText()).append("\n");
-            } else if (msg instanceof AiMessage) {
-                context.append("Assistant: ").append(((AiMessage) msg).text()).append("\n");
+            if (msg instanceof UserMessage userMessage1) {
+                context.append("User: ").append(userMessage1.singleText()).append("\n");
+            } else if (msg instanceof AiMessage aiMessage) {
+                context.append("Assistant: ").append(aiMessage.text()).append("\n");
             }
         }
 

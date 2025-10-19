@@ -34,7 +34,7 @@ public class LangChainConfig {
      * @return configured AzureOpenAiChatModel instance
      */
     @Bean
-    public AzureOpenAiChatModel chatModel() {
+    AzureOpenAiChatModel chatModel() {
         return AzureOpenAiChatModel.builder()
             .endpoint(endpoint)
             .apiKey(apiKey)
