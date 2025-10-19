@@ -61,6 +61,12 @@ Thumbs.db
 .env.*.local
 *.log
 
+# Azure
+.azure/
+**/.azure/*
+!**/.azure/{environment-name}/.env.example
+azd-*.json
+
 # Node (for any frontend tools)
 node_modules/
 npm-debug.log*

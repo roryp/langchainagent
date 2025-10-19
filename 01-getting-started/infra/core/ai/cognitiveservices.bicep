@@ -5,6 +5,7 @@ param kind string = 'OpenAI'
 param sku string = 'S0'
 param deployments array = []
 param managedIdentityPrincipalId string = ''
+param principalType string = 'ServicePrincipal'
 
 resource cognitiveServices 'Microsoft.CognitiveServices/accounts@2024-10-01' = {
   name: name
@@ -40,7 +41,7 @@ resource cognitiveServicesOpenAIUser 'Microsoft.Authorization/roleAssignments@20
   properties: {
     roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '5e0bd9bd-7b93-4f28-af87-19fc36ad61bd')
     principalId: managedIdentityPrincipalId
-    principalType: 'ServicePrincipal'
+    principalType: principalType
   }
 }
 

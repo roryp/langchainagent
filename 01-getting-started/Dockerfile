@@ -1,9 +1,38 @@
+# Multi-stage build for Java Spring Boot application
+FROM maven:3.9-eclipse-temurin-21 AS build
+
+WORKDIR /workspace
+
+# Copy parent pom first
+COPY pom.xml ./pom.xml
+
+# Copy module pom and source
+COPY 01-getting-started/pom.xml ./01-getting-started/pom.xml
+
+# Download dependencies
+WORKDIR /workspace/01-getting-started
+RUN mvn dependency:go-offline -B || true
+
+# Copy source code
+COPY 01-getting-started/src ./src
+
+# Build the application
+RUN mvn clean package -DskipTests
+
+# Runtime stage
 FROM eclipse-temurin:21-jre
 
-# Copy the packaged application into the container.  We assume
-# 'mvn package' has been run before building the image.
 WORKDIR /app
-COPY target/getting-started-*.jar app.jar
+
+# Copy the built JAR from the build stage
+COPY --from=build /workspace/01-getting-started/target/getting-started-*.jar app.jar
 
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","/app/app.jar"]
+
+# Run with optimized JVM settings for containers
+ENTRYPOINT ["java", \
+    "-XX:+UseContainerSupport", \
+    "-XX:MaxRAMPercentage=75.0", \
+    "-Djava.security.egd=file:/dev/./urandom", \
+    "-jar", \
+    "/app/app.jar"]

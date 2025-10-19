@@ -9,9 +9,6 @@ param environmentName string
 @description('Primary location for all resources')
 param location string
 
-@description('Id of the user or app to assign application roles')
-param principalId string = ''
-
 // OpenAI parameters
 @description('Location for Azure OpenAI resource')
 param openAiLocation string = 'eastus'
@@ -119,7 +116,8 @@ module openAi 'core/ai/cognitiveservices.bicep' = {
     kind: 'OpenAI'
     sku: openAiSkuName
     deployments: openAiDeployments
-    managedIdentityPrincipalId: principalId != '' ? principalId : managedIdentity.outputs.principalId
+    managedIdentityPrincipalId: managedIdentity.outputs.principalId
+    principalType: 'ServicePrincipal'
   }
 }
 
