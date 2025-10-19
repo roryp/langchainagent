@@ -84,11 +84,10 @@ Response:
   "sources": [
     {
       "filename": "document.pdf",
-      "content": "Relevant excerpt from the document...",
-      "score": 0.92
+      "excerpt": "Relevant excerpt from the document...",
+      "relevanceScore": 0.92
     }
-  ],
-  "tokenUsage": null
+  ]
 }
 ```
 
@@ -190,11 +189,10 @@ curl -X POST http://localhost:8081/api/documents/upload \
   "sources": [
     {
       "filename": "document.pdf",
-      "content": "Relevant excerpt",
-      "score": 0.95
+      "excerpt": "Relevant excerpt",
+      "relevanceScore": 0.95
     }
-  ],
-  "tokenUsage": null
+  ]
 }
 ```
 

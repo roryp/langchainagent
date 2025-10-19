@@ -5,6 +5,8 @@ import dev.langchain4j.data.document.DocumentSplitter;
 import dev.langchain4j.data.document.Metadata;
 import dev.langchain4j.data.document.splitter.DocumentSplitters;
 import dev.langchain4j.data.segment.TextSegment;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -51,11 +53,15 @@ public class DocumentService {
         String documentId = UUID.randomUUID().toString();
         
         try {
-            // Read content from input stream
-            String content = new BufferedReader(
-                new InputStreamReader(inputStream, StandardCharsets.UTF_8))
-                .lines()
-                .collect(Collectors.joining("\n"));
+            String content;
+            
+            // Parse based on file type
+            if (filename.toLowerCase().endsWith(".pdf")) {
+                content = parsePdf(inputStream);
+            } else {
+                // Default to text file parsing
+                content = parseText(inputStream);
+            }
             
             // Create document with metadata
             Metadata metadata = new Metadata();
@@ -75,6 +81,26 @@ public class DocumentService {
             log.error("Failed to process document: {}", filename, e);
             throw new RuntimeException("Document processing failed: " + e.getMessage(), e);
         }
+    }
+    
+    /**
+     * Parse PDF document.
+     */
+    private String parsePdf(InputStream inputStream) throws Exception {
+        try (PDDocument document = PDDocument.load(inputStream)) {
+            PDFTextStripper stripper = new PDFTextStripper();
+            return stripper.getText(document);
+        }
+    }
+    
+    /**
+     * Parse text document.
+     */
+    private String parseText(InputStream inputStream) {
+        return new BufferedReader(
+            new InputStreamReader(inputStream, StandardCharsets.UTF_8))
+            .lines()
+            .collect(Collectors.joining("\n"));
     }
 
     /**

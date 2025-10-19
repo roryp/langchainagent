@@ -1,5 +1,6 @@
 package dev.rory.azure.langchain4j.rag.app;
 
+import dev.rory.azure.langchain4j.rag.model.dto.ErrorResponse;
 import dev.rory.azure.langchain4j.rag.model.dto.RagRequest;
 import dev.rory.azure.langchain4j.rag.model.dto.RagResponse;
 import dev.rory.azure.langchain4j.rag.service.RagService;
@@ -31,13 +32,14 @@ public class RagController {
      * @return answer with sources
      */
     @PostMapping("/ask")
-    public ResponseEntity<RagResponse> ask(@RequestBody RagRequest request) {
+    public ResponseEntity<?> ask(@RequestBody RagRequest request) {
         log.info("Received RAG question: {}", request.question());
 
         try {
             // Validate request
             if (request.question() == null || request.question().trim().isEmpty()) {
-                return ResponseEntity.badRequest().build();
+                return ResponseEntity.badRequest()
+                    .body(new ErrorResponse("Invalid request", "Question cannot be empty"));
             }
 
             // Process RAG request
@@ -47,7 +49,8 @@ public class RagController {
 
         } catch (Exception e) {
             log.error("RAG request failed", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ErrorResponse("Request failed", e.getMessage()));
         }
     }
 

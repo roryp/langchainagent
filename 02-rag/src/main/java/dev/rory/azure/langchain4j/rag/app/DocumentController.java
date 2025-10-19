@@ -1,6 +1,7 @@
 package dev.rory.azure.langchain4j.rag.app;
 
 import dev.rory.azure.langchain4j.rag.model.dto.DocumentResponse;
+import dev.rory.azure.langchain4j.rag.model.dto.ErrorResponse;
 import dev.rory.azure.langchain4j.rag.service.DocumentService;
 import dev.rory.azure.langchain4j.rag.service.EmbeddingService;
 import org.slf4j.Logger;
@@ -39,20 +40,20 @@ public class DocumentController {
      * @return processing result
      */
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<DocumentResponse> uploadDocument(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<?> uploadDocument(@RequestParam("file") MultipartFile file) {
         log.info("Received document upload: {}", file.getOriginalFilename());
 
         try {
             // Validate file
             if (file.isEmpty()) {
                 return ResponseEntity.badRequest()
-                    .body(new DocumentResponse(null, null, "File is empty", 0));
+                    .body(new ErrorResponse("Invalid file", "File is empty"));
             }
 
             String filename = file.getOriginalFilename();
             if (filename == null) {
                 return ResponseEntity.badRequest()
-                    .body(new DocumentResponse(null, null, "Filename is missing", 0));
+                    .body(new ErrorResponse("Invalid file", "Filename is missing"));
             }
 
             // Process document
@@ -79,8 +80,7 @@ public class DocumentController {
         } catch (Exception e) {
             log.error("Failed to process document", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(new DocumentResponse(null, null, 
-                    "Processing failed: " + e.getMessage(), 0));
+                .body(new ErrorResponse("Processing failed", e.getMessage()));
         }
     }
 
