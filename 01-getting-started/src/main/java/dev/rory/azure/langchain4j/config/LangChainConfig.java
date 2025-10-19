@@ -12,13 +12,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class LangChainConfig {
 
-    @Value("${azure.openai.endpoint:#{environment.AZURE_OPENAI_ENDPOINT}}")
+    @Value("${azure.openai.endpoint:${AZURE_OPENAI_ENDPOINT:}}")
     private String endpoint;
 
-    @Value("${azure.openai.api-key:#{environment.AZURE_OPENAI_API_KEY}}")
+    @Value("${azure.openai.api-key:${AZURE_OPENAI_API_KEY:}}")
     private String apiKey;
 
-    @Value("${azure.openai.deployment:#{environment.AZURE_OPENAI_DEPLOYMENT}}")
+    @Value("${azure.openai.deployment:${AZURE_OPENAI_DEPLOYMENT:}}")
     private String deployment;
 
     @Value("${azure.openai.temperature:0.2}")
@@ -34,7 +34,11 @@ public class LangChainConfig {
      * @return configured AzureOpenAiChatModel instance
      */
     @Bean
-    AzureOpenAiChatModel chatModel() {
+    public AzureOpenAiChatModel chatModel() {
+        System.out.println("Creating AzureOpenAiChatModel with endpoint: " + endpoint);
+        System.out.println("API Key present: " + (apiKey != null && !apiKey.isEmpty()));
+        System.out.println("Deployment: " + deployment);
+        
         return AzureOpenAiChatModel.builder()
             .endpoint(endpoint)
             .apiKey(apiKey)

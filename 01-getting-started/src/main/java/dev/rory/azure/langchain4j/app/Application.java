@@ -2,6 +2,7 @@ package dev.rory.azure.langchain4j.app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * Entry point for the Getting Started module.  This simple Spring Boot
@@ -9,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * LangChain4j.
  */
 @SpringBootApplication
+@ComponentScan(basePackages = "dev.rory.azure.langchain4j")
 public class Application {
   public static void main(String[] args) {
     SpringApplication.run(Application.class, args);
