@@ -1,5 +1,7 @@
 #!/bin/bash
-# Test script for document upload endpoint
+# Test script for RAG document upload endpoint
+# Usage: ./test-upload.sh [HOST_URL]
+# Example: ./test-upload.sh https://ca-rag-ozhotol5yje76.livelyplant-8c187f15.eastus2.azurecontainerapps.io
 
 set -e
 
@@ -11,10 +13,14 @@ UPLOAD_ENDPOINT="$HOST/api/documents/upload"
 GREEN='\033[0;32m'
 RED='\033[0;31m'
 YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
-echo -e "${YELLOW}Testing Document Upload Endpoint${NC}"
-echo "Target: $UPLOAD_ENDPOINT"
+echo -e "${BLUE}================================================${NC}"
+echo -e "${BLUE}  RAG Document Upload Test Suite${NC}"
+echo -e "${BLUE}================================================${NC}"
+echo ""
+echo -e "${YELLOW}Target:${NC} $UPLOAD_ENDPOINT"
 echo ""
 
 # Create a test text file

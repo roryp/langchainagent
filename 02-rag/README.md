@@ -14,41 +14,130 @@ This module demonstrates how to build a production-ready RAG (Retrieval-Augmente
 - **Context-Aware Generation**: Generate answers grounded in retrieved context
 - **Source Attribution**: Track and cite sources in responses
 
+## Architecture
+
+This RAG system is deployed alongside the getting-started chat application, sharing Azure infrastructure:
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│  Azure Container Apps Environment                               │
+│                                                                  │
+│  ┌──────────────────────┐      ┌─────────────────────────────┐ │
+│  │  Getting Started App │      │  RAG Application (02-rag)   │ │
+│  │  (01-getting-started)│      │                             │ │
+│  │                      │      │  ┌────────────────────────┐ │ │
+│  │  • Simple Chat       │      │  │  Document Service      │ │ │
+│  │  • Conversation      │      │  │  • Upload & Parse      │ │ │
+│  │  • Streaming         │      │  │  • Text Splitting      │ │ │
+│  │                      │      │  │  • Embedding Storage   │ │ │
+│  │  Port: 8080          │      │  └────────────────────────┘ │ │
+│  └──────────────────────┘      │                             │ │
+│                                 │  ┌────────────────────────┐ │ │
+│                                 │  │  RAG Service           │ │ │
+│                                 │  │  • Semantic Search     │ │ │
+│                                 │  │  • Context Retrieval   │ │ │
+│                                 │  │  • Answer Generation   │ │ │
+│                                 │  │  • Source Attribution  │ │ │
+│                                 │  └────────────────────────┘ │ │
+│                                 │                             │ │
+│                                 │  Port: 8081                 │ │
+│                                 └─────────────────────────────┘ │
+└─────────────────────────────────────────────────────────────────┘
+                              │
+                              │ Both apps use shared resources
+                              ▼
+         ┌────────────────────────────────────────────┐
+         │  Azure OpenAI Service                      │
+         │                                            │
+         │  • Chat Model (gpt-4o-mini)               │
+         │  • Embedding Model (text-embedding-3-small)│
+         └────────────────────────────────────────────┘
+
+Deployment: Single "azd up" from 01-getting-started/ deploys both apps
+Infrastructure: 01-getting-started/infra/main.bicep defines all resources
+```
+
+### How It Works
+
+1. **Document Upload** → Text is split into chunks → Embeddings generated → Stored in vector store (in-memory)
+2. **User Query** → Query embedded → Semantic search finds relevant chunks → Context + query sent to LLM → Answer with sources returned
+3. **Shared Resources** → Both apps use the same Azure OpenAI deployments and Container Apps Environment
+
 ## Prerequisites
 
 ### Required Azure Resources
 
+This module **shares infrastructure** with the `01-getting-started` module:
+
 1. **Azure OpenAI Service** with:
-   - A chat model deployment (e.g., `gpt-4` or `gpt-35-turbo`)
-   - An embedding model deployment (e.g., `text-embedding-ada-002`)
+   - A chat model deployment (e.g., `gpt-4o-mini`)
+   - An embedding model deployment (e.g., `text-embedding-3-small`)
+2. **Azure Container Registry** for Docker images
+3. **Azure Container Apps Environment** for hosting
+
+All resources are provisioned via the Bicep files in `01-getting-started/infra/`.
 
 ### Environment Variables
 
 ```bash
 export AZURE_OPENAI_ENDPOINT="https://your-resource.openai.azure.com/"
 export AZURE_OPENAI_API_KEY="your-api-key"
-export AZURE_OPENAI_DEPLOYMENT="gpt-4"
-export AZURE_OPENAI_EMBEDDING_DEPLOYMENT="text-embedding-ada-002"
+export AZURE_OPENAI_DEPLOYMENT="gpt-4o-mini"
+export AZURE_OPENAI_EMBEDDING_DEPLOYMENT="text-embedding-3-small"
 ```
 
 ## Quick Start
 
-### 1. Build the Application
+### Option 1: Deploy to Azure (Recommended)
+
+Both the getting-started and RAG apps are deployed together:
+
+```bash
+cd 01-getting-started
+azd up
+```
+
+This deploys:
+- Getting Started app: `https://ca-<unique-id>.*.azurecontainerapps.io`
+- RAG app: `https://ca-rag-<unique-id>.*.azurecontainerapps.io`
+
+### Option 2: Run Locally
+
+#### 1. Build the Application
 
 ```bash
 cd 02-rag
-mvn clean package
+mvn clean package spring-boot:repackage -DskipTests
 ```
 
-### 2. Run the Application
+#### 2. Run the Application
 
 ```bash
-java -jar target/02-rag-1.0-SNAPSHOT.jar
+java -jar target/rag-0.1.0.jar
 ```
 
 The application will start on `http://localhost:8081`.
 
-### 3. Upload a Document
+### 3. Test the Application
+
+Use the provided test scripts:
+
+```bash
+# Test document upload (local)
+cd ../
+bash scripts/test-upload.sh http://localhost:8081
+
+# Test RAG queries (local)
+bash scripts/test-query.sh http://localhost:8081
+
+# Test on Azure (replace with your URL from azd output)
+bash scripts/test-upload.sh https://ca-rag-<unique-id>.*.azurecontainerapps.io
+bash scripts/test-query.sh https://ca-rag-<unique-id>.*.azurecontainerapps.io
+```
+
+#### Manual Testing
+
+Upload a document:
 
 ```bash
 curl -X POST http://localhost:8081/api/documents/upload \
@@ -456,7 +545,63 @@ Scores range from 0 to 1:
 4. **Rate Limiting**: Implement rate limits on upload and query endpoints
 5. **Security**: Validate file types, scan for malware
 
+## Deployment
+
+### Azure Deployment
+
+The RAG application is deployed alongside the getting-started app using a single infrastructure definition:
+
+```bash
+cd 01-getting-started
+azd up
+```
+
+This creates:
+- **Shared Infrastructure**: Azure OpenAI, Container Registry, Container Apps Environment
+- **Two Container Apps**: 
+  - `ca-<unique-id>` - Getting Started app (port 8080)
+  - `ca-rag-<unique-id>` - RAG app (port 8081)
+
+#### Get Deployment URLs
+
+```bash
+cd 01-getting-started
+azd env get-values | grep APP_URL
+```
+
+Output:
+```
+APP_URL="https://ca-ozhotol5yje76.livelyplant-8c187f15.eastus2.azurecontainerapps.io"
+RAG_APP_URL="https://ca-rag-ozhotol5yje76.livelyplant-8c187f15.eastus2.azurecontainerapps.io"
+```
+
+#### Update Deployment
+
+To deploy code changes:
+
+```bash
+cd 01-getting-started
+azd deploy
+```
+
+This rebuilds Docker images and updates both container apps.
+
 ## Testing
+
+### Automated Test Scripts
+
+Run comprehensive test suites:
+
+```bash
+# Test on Azure
+export RAG_URL="https://ca-rag-<unique-id>.*.azurecontainerapps.io"
+bash scripts/test-upload.sh $RAG_URL
+bash scripts/test-query.sh $RAG_URL
+
+# Test locally
+bash scripts/test-upload.sh http://localhost:8081
+bash scripts/test-query.sh http://localhost:8081
+```
 
 ### Unit Tests
 
@@ -465,7 +610,7 @@ Run unit tests:
 mvn test
 ```
 
-### Integration Tests
+### Manual Integration Tests
 
 Test document upload:
 ```bash

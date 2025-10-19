@@ -1,5 +1,7 @@
 #!/bin/bash
 # Test script for RAG query endpoint
+# Usage: ./test-query.sh [HOST_URL]
+# Example: ./test-query.sh https://ca-rag-ozhotol5yje76.livelyplant-8c187f15.eastus2.azurecontainerapps.io
 
 set -e
 
@@ -11,10 +13,14 @@ RAG_ENDPOINT="$HOST/api/rag/ask"
 GREEN='\033[0;32m'
 RED='\033[0;31m'
 YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
-echo -e "${YELLOW}Testing RAG Query Endpoint${NC}"
-echo "Target: $RAG_ENDPOINT"
+echo -e "${BLUE}================================================${NC}"
+echo -e "${BLUE}  RAG Query Test Suite${NC}"
+echo -e "${BLUE}================================================${NC}"
+echo ""
+echo -e "${YELLOW}Target:${NC} $RAG_ENDPOINT"
 echo ""
 
 # Test 1: Valid question
