@@ -131,9 +131,3 @@ Contributions welcome! Fork the repo, create a feature branch, test thoroughly, 
 ## License
 
 MIT License - See [LICENSE](LICENSE) file for details.
-
-## Support
-
-- 🐛 [Report bugs](https://github.com/roryp/langchainagent/issues)
-- 💡 [Request features](https://github.com/roryp/langchainagent/issues)
-- 🔧 [Troubleshooting Guide](TROUBLESHOOTING.md)
