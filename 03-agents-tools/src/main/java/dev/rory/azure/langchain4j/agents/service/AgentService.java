@@ -178,45 +178,64 @@ public class AgentService {
     }
 
     /**
-     * Process tool calls in the response.
+     * Process tool calls in the response with support for multi-step execution.
      */
     private String processToolCalls(String response, ChatMemory memory, 
                                    List<ToolExecutionInfo> toolExecutions, String sessionId) {
-        Pattern pattern = Pattern.compile("TOOL_CALL:\\s*(\\w+)\\(([^)]+)\\)");
-        Matcher matcher = pattern.matcher(response);
+        int maxIterations = 5; // Prevent infinite loops
+        int iteration = 0;
+        String currentResponse = response;
         
-        StringBuilder results = new StringBuilder();
-        
-        while (matcher.find()) {
-            String toolName = matcher.group(1);
-            String params = matcher.group(2);
+        while (responseContainsToolCall(currentResponse) && iteration < maxIterations) {
+            iteration++;
+            log.info("Tool execution iteration: {}", iteration);
             
-            log.info("Executing tool: {} with params: {}", toolName, params);
+            Pattern pattern = Pattern.compile("TOOL_CALL:\\s*(\\w+)\\(([^)]+)\\)");
+            Matcher matcher = pattern.matcher(currentResponse);
             
-            try {
-                String result = executeToolByName(toolName, params);
-                results.append("Tool ").append(toolName).append(" result: ").append(result).append("\n");
+            StringBuilder results = new StringBuilder();
+            boolean toolsExecuted = false;
+            
+            while (matcher.find()) {
+                String toolName = matcher.group(1);
+                String params = matcher.group(2);
                 
-                toolExecutions.add(new ToolExecutionInfo(
-                    toolName,
-                    List.of(params),
-                    result
-                ));
-            } catch (Exception e) {
-                log.error("Tool execution failed", e);
-                results.append("Tool error: ").append(e.getMessage()).append("\n");
+                log.info("Executing tool: {} with params: {}", toolName, params);
+                
+                try {
+                    String result = executeToolByName(toolName, params);
+                    results.append("Tool ").append(toolName).append(" result: ").append(result).append("\n");
+                    
+                    toolExecutions.add(new ToolExecutionInfo(
+                        toolName,
+                        List.of(params),
+                        result
+                    ));
+                    toolsExecuted = true;
+                } catch (Exception e) {
+                    log.error("Tool execution failed", e);
+                    results.append("Tool error: ").append(e.getMessage()).append("\n");
+                }
+            }
+            
+            // If tools were executed, get next response from model
+            if (toolsExecuted) {
+                String prompt = "Tool results:\n" + results.toString() + 
+                              "\n\nUse these results to continue. If you need more tools, call them. Otherwise, provide your final answer.";
+                memory.add(UserMessage.from(prompt));
+                currentResponse = chatModel.chat(buildContext(memory));
+                memory.add(AiMessage.from(currentResponse));
+                log.info("Model response after tools (iteration {}): {}", iteration, currentResponse);
+            } else {
+                break; // No tools found in this iteration
             }
         }
         
-        // If tools were executed, ask the model to provide final answer
-        if (!toolExecutions.isEmpty()) {
-            memory.add(UserMessage.from("Tool results:\n" + results.toString() + "\nNow provide your final answer."));
-            String finalResponse = chatModel.chat(buildContext(memory));
-            memory.add(AiMessage.from(finalResponse));
-            return finalResponse;
+        if (iteration >= maxIterations) {
+            log.warn("Max iterations reached for tool execution");
         }
         
-        return response;
+        return currentResponse;
     }
 
     /**
