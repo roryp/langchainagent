@@ -163,20 +163,6 @@ Check deployment name matches Azure Portal
 **Conversation Not Found**  
 Start new conversation with `/api/conversation/start`. Note: In-memory storage clears on restart.
 
-## Best Practices
-
-- Wrap AI calls in try-catch blocks
-- Never commit API keys (use environment variables)
-- Limit conversation window size to control context/cost
-- Monitor token usage for cost control
-- Use GPT-3.5 for simple tasks, GPT-4 for complex
-
-## Use Cases
-
-1. **Simple Q&A Bot** - Use stateless `/api/chat` for independent questions
-2. **Customer Support** - Use stateful `/api/conversation/*` to maintain context
-3. **Interactive Tutorial** - Guide users through multi-step processes with memory
-
 ## Next Steps
 
 - **Module 02: RAG** - Document search with embeddings
