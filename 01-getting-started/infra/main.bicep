@@ -121,6 +121,20 @@ module openAi 'core/ai/cognitiveservices.bicep' = {
   }
 }
 
+// Azure AI Services (Foundry) for Agent Service
+module aiServices 'core/ai/aiservices.bicep' = {
+  name: 'aiservices'
+  scope: rg
+  params: {
+    name: resourceToken
+    location: location
+    tags: tags
+    openAiName: openAi.outputs.name
+    openAiResourceGroupName: rg.name
+    openAiKey: openAi.outputs.key
+  }
+}
+
 // Container App - Getting Started
 module app 'core/host/container-app.bicep' = {
   name: 'app'
@@ -191,6 +205,53 @@ module ragApp 'core/host/container-app.bicep' = {
   }
 }
 
+// Container App - Agents & Tools (Azure AI Agent Service Client)
+module agentsApp 'core/host/container-app.bicep' = {
+  name: 'agents-app'
+  scope: rg
+  params: {
+    name: 'ca-agents-${resourceToken}'
+    location: location
+    tags: union(tags, { 'azd-service-name': 'agents' })
+    containerAppsEnvironmentName: containerAppsEnvironment.outputs.name
+    containerRegistryName: containerRegistry.outputs.name
+    managedIdentityName: managedIdentity.outputs.name
+    openAiName: openAi.outputs.name
+    openAiApiKey: openAi.outputs.key
+    targetPort: 8082
+    env: [
+      {
+        name: 'AZURE_AI_PROJECT_ENDPOINT'
+        value: aiServices.outputs.endpoint
+      }
+      {
+        name: 'AZURE_AI_PROJECT_NAME'
+        value: aiServices.outputs.projectName
+      }
+      {
+        name: 'AZURE_OPENAI_ENDPOINT'
+        value: openAi.outputs.endpoint
+      }
+      {
+        name: 'AZURE_OPENAI_API_KEY'
+        secretRef: 'azure-openai-api-key'
+      }
+      {
+        name: 'AZURE_OPENAI_DEPLOYMENT'
+        value: 'gpt-4o-mini'
+      }
+      {
+        name: 'TOOLS_BASE_URL'
+        value: 'https://ca-agents-${resourceToken}.${containerAppsEnvironment.outputs.defaultDomain}'
+      }
+      {
+        name: 'SPRING_PROFILES_ACTIVE'
+        value: 'azure'
+      }
+    ]
+  }
+}
+
 // Outputs
 output AZURE_LOCATION string = location
 output AZURE_TENANT_ID string = tenant().tenantId
@@ -210,3 +271,11 @@ output APP_NAME string = app.outputs.name
 
 output RAG_APP_URL string = ragApp.outputs.uri
 output RAG_APP_NAME string = ragApp.outputs.name
+
+output AGENTS_APP_URL string = agentsApp.outputs.uri
+output AGENTS_APP_NAME string = agentsApp.outputs.name
+
+// Azure AI Services (Foundry) for agents
+output AZURE_AI_SERVICES_ENDPOINT string = aiServices.outputs.endpoint
+output AZURE_AI_SERVICES_PROJECT_NAME string = aiServices.outputs.projectName
+output AZURE_AI_SERVICES_HUB_NAME string = aiServices.outputs.hubName
