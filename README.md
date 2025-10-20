@@ -69,6 +69,8 @@ azd auth login
 azd up
 ```
 
+> **Note**: The deployment uses multi-stage Dockerfiles that build the JARs automatically. No local build required!
+
 This provisions:
 - **Azure OpenAI** with gpt-4o-mini and text-embedding-3-small models
 - **3 Container Apps** (getting-started, RAG, agents)
@@ -140,6 +142,14 @@ See [03-agents-tools/INFRASTRUCTURE_DECISIONS.md](03-agents-tools/INFRASTRUCTURE
 - **Maven** - Build and dependency management
 
 ## Important
+
+### Build Requirements
+
+**Important:** This project uses multi-stage Docker builds. When you run `azd up` or `azd deploy`:
+- ✅ Docker builds the JARs inside containers automatically
+- ✅ The parent `pom.xml` includes three modules: `01-getting-started`, `02-rag`, and `03-agents-tools`
+- ✅ Spring Boot repackage creates executable JARs with proper manifests
+- ❌ No local Maven build required before deployment
 
 ### Security Best Practices
 
@@ -217,3 +227,4 @@ For issues, questions, or contributions:
 - 🐛 [Report bugs](https://github.com/roryp/langchainagent/issues)
 - 💡 [Request features](https://github.com/roryp/langchainagent/issues)
 - 📖 [View documentation](https://github.com/roryp/langchainagent)
+- 🔧 [Troubleshooting Guide](TROUBLESHOOTING.md) - Common issues and solutions

@@ -97,6 +97,12 @@ cd 01-getting-started
 azd up
 ```
 
+> **Note**: The RAG service uses a multi-stage Dockerfile that automatically:
+> - Builds the JAR with Maven inside Docker
+> - Runs `spring-boot:repackage` to create an executable JAR
+> - Creates a properly configured runtime container
+> - No local build required!
+
 This deploys:
 - Getting Started app: `https://ca-<unique-id>.*.azurecontainerapps.io`
 - RAG app: `https://ca-rag-<unique-id>.*.azurecontainerapps.io`
