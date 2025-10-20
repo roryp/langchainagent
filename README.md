@@ -14,8 +14,6 @@ illustrating the core patterns for working with large language models.
   by indexing your own data and serving relevant knowledge.  Compare
   Qdrant with Azure AI Search for vector storage.
 - **03‑agents‑tools** – explore agents
-- **04‑production** – wrap up the course by adding observability,
-  evaluation harnesses, content safety and real deployment patterns.
 
 ## Important
 
