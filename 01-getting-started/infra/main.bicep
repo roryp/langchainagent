@@ -121,20 +121,6 @@ module openAi 'core/ai/cognitiveservices.bicep' = {
   }
 }
 
-// Azure AI Services (Foundry) for Agent Service
-module aiServices 'core/ai/aiservices.bicep' = {
-  name: 'aiservices'
-  scope: rg
-  params: {
-    name: resourceToken
-    location: location
-    tags: tags
-    openAiName: openAi.outputs.name
-    openAiResourceGroupName: rg.name
-    openAiKey: openAi.outputs.key
-  }
-}
-
 // Container App - Getting Started
 module app 'core/host/container-app.bicep' = {
   name: 'app'
@@ -221,14 +207,6 @@ module agentsApp 'core/host/container-app.bicep' = {
     targetPort: 8082
     env: [
       {
-        name: 'AZURE_AI_PROJECT_ENDPOINT'
-        value: aiServices.outputs.endpoint
-      }
-      {
-        name: 'AZURE_AI_PROJECT_NAME'
-        value: aiServices.outputs.projectName
-      }
-      {
         name: 'AZURE_OPENAI_ENDPOINT'
         value: openAi.outputs.endpoint
       }
@@ -274,8 +252,3 @@ output RAG_APP_NAME string = ragApp.outputs.name
 
 output AGENTS_APP_URL string = agentsApp.outputs.uri
 output AGENTS_APP_NAME string = agentsApp.outputs.name
-
-// Azure AI Services (Foundry) for agents
-output AZURE_AI_SERVICES_ENDPOINT string = aiServices.outputs.endpoint
-output AZURE_AI_SERVICES_PROJECT_NAME string = aiServices.outputs.projectName
-output AZURE_AI_SERVICES_HUB_NAME string = aiServices.outputs.hubName

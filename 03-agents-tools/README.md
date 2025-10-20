@@ -147,19 +147,12 @@ resource aiProject 'Microsoft.MachineLearningServices/workspaces@2024-04-01' = {
 
 ## 🚀 Quickstart
 
-
 ### Prerequisites
 
-### Required Azure Resources
-
-1. **Azure subscription** with access to Azure AI Services (Foundry)
+1. **Azure subscription** with access to Azure OpenAI
 2. **Azure CLI** and **azd** (Azure Developer CLI) installed
 3. **Java 21** installed
 4. **Maven 3.9+** installed
-
-This module shares infrastructure with modules 01 and 02 but adds:
-- Azure AI Services (kind: AIServices) for agent hosting
-- OpenAPI specification for tool discovery
 
 ### Environment Variables
 
@@ -174,29 +167,28 @@ Required for the Java application:
 
 **Note:** These are automatically configured via Bicep deployment.
 
-
 ## Quick Start
 
 ### Deploy to Azure (Recommended)
 
-Deploy all infrastructure and services:
+Deploy infrastructure and services:
 
 ```bash
 # Navigate to getting-started directory
 cd 01-getting-started
 
-# Deploy all infrastructure including Azure AI Services
+# Deploy all infrastructure
 azd up
 ```
 
 This provisions:
-- **Azure AI Hub**: `hub-{token}` - AI Foundry workspace
-- **Azure AI Project**: `proj-{token}` - AI Foundry project with managed identity
 - **Azure OpenAI**: `aoai-{token}` - gpt-4o-mini deployment
 - **Container App (Agents)**: `https://ca-agents-{token}.*.azurecontainerapps.io`
 - **Container App (Getting Started)**: `https://ca-{token}.*.azurecontainerapps.io`
 - **Container App (RAG)**: `https://ca-rag-{token}.*.azurecontainerapps.io`
-- Container Registry, networking, identity
+- Container Registry, Log Analytics, networking, managed identity
+
+**Cost Optimization:** This module uses direct Azure OpenAI integration via LangChain4j. We intentionally do NOT provision Azure AI Foundry Hub/Project resources to reduce costs and complexity while maintaining full agent functionality.
 
 ### Test the Agent
 
