@@ -16,8 +16,8 @@ RUN mvn dependency:go-offline -B || true
 # Copy source code
 COPY 02-rag/src ./src
 
-# Build the application
-RUN mvn clean package -DskipTests
+# Build the application with Spring Boot repackage
+RUN mvn clean package spring-boot:repackage -DskipTests
 
 # Runtime stage
 FROM eclipse-temurin:21-jre
@@ -25,7 +25,7 @@ FROM eclipse-temurin:21-jre
 WORKDIR /app
 
 # Copy the built JAR from the build stage
-COPY --from=build /workspace/02-rag/target/rag-*.jar app.jar
+COPY --from=build /workspace/02-rag/target/rag-0.1.0.jar app.jar
 
 EXPOSE 8081
 
