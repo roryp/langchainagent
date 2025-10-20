@@ -71,12 +71,14 @@ Created `docs/IMPLEMENTATION_PLAN.md` with:
 - Retrieval-augmented generation
 - Source attribution
 
-### Module 03: Agents & Tools 📅
-**Status:** Planned
-- Function calling/tools
-- AI Services pattern
-- ReAct agents
-- Multi-step reasoning
+### Module 03: Agents & Tools ✅
+**Status:** Complete and deployed
+- ✅ REST-based tool calling
+- ✅ ReAct pattern implementation
+- ✅ Multi-step tool execution with iteration
+- ✅ Session-based conversation memory
+- ✅ Weather and calculator tools
+- ✅ Production deployment on Azure Container Apps
 
 ### Module 04: Production 📅
 **Status:** Planned
@@ -217,11 +219,12 @@ feat(getting-started): implement LangChain4j showcase plan
 
 ## 📊 Key Metrics
 
-- **Files Created:** 10
-- **Lines of Code:** ~1,500+
-- **API Endpoints:** 7
-- **Documentation Pages:** 3
-- **Modules Complete:** 1 of 4 (25%)
+- **Files Created:** 25+
+- **Lines of Code:** ~5,000+
+- **API Endpoints:** 15+
+- **Documentation Pages:** 6+
+- **Modules Complete:** 3 of 4 (75%)
+- **Multi-Step Tool Execution:** ✅ Working
 
 ## 🎯 Next Steps
 

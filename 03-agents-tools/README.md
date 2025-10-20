@@ -646,45 +646,40 @@ az containerapp exec --name ca-agents-XXXXX --resource-group rg-XXXXX \
 # Should use: azure.openai.endpoint, azure.openai.key, azure.openai.deployment
 ```
 
-### Multi-Step Tool Execution
-Current limitation: Agent executes first tool but may return subsequent tool calls as text. Enhancement needed:
+### Multi-Step Tool Execution ✅
+**Status**: Working! The agent now supports iterative tool execution for complex multi-step tasks.
+
+**Implementation**:
 ```java
-// Add iteration in processToolCalls()
-int maxIterations = 5;
-int iteration = 0;
-while (responseContainsToolCall(response) && iteration < maxIterations) {
-    // Execute tools
-    // Get new response
-    iteration++;
-}
-```
-
-
-## 🎓 Next Steps
-
-### 1. Enhance Multi-Step Tool Execution
-Add iteration support for complex tasks requiring multiple tools:
-```java
-// In AgentService.processToolCalls()
+// processToolCalls() with iteration support
 int maxIterations = 5;
 int iteration = 0;
 String currentResponse = response;
 
 while (responseContainsToolCall(currentResponse) && iteration < maxIterations) {
-    // Execute all tool calls in current response
-    List<ToolExecutionInfo> iterationTools = executeToolsInResponse(currentResponse);
-    toolExecutions.addAll(iterationTools);
-    
-    // Feed results back to model
-    String toolResults = formatToolResults(iterationTools);
-    memory.add(new UserMessage(toolResults));
-    currentResponse = chatModel.chat(memory.messages());
-    
     iteration++;
+    // Execute all tools in current response
+    // Feed results back to model
+    // Get new response (may contain more tool calls)
 }
 ```
 
-### 2. Add Real Tool Implementations
+**Test Results**:
+- ✅ Single-step: Weather lookup, simple calculations
+- ✅ Multi-step: Get weather in two cities, then multiply temperatures
+- ✅ Complex chains: Weather + calculation + division sequences
+- ✅ Max iterations: Prevents infinite loops with 5 iteration limit
+
+**Example**: "Get weather in Paris and London, then multiply their temperatures"
+- Tool 1: `getCurrentWeather(Paris)` → 26°C
+- Tool 2: `getCurrentWeather(London)` → 23°C  
+- Tool 3: `multiply(26, 23)` → 598
+- Result: "The result is 598" (3 tools used)
+
+
+## 🎓 Next Steps
+
+### 1. Add Real Tool Implementations
 Replace mock data with actual APIs:
 ```java
 // In WeatherTool.java
@@ -701,7 +696,7 @@ public String getCurrentWeather(String location) {
 }
 ```
 
-### 3. Implement Additional Tools
+### 2. Implement Additional Tools
 Expand agent capabilities with more tools:
 - **Database Query**: Execute SQL queries on Azure SQL
 - **Document Search**: Connect to Module 02 RAG service
@@ -709,14 +704,14 @@ Expand agent capabilities with more tools:
 - **Web Search**: Bing Search API integration
 - **Image Analysis**: Azure Computer Vision integration
 
-### 4. Production Enhancements
+### 3. Production Enhancements
 - **Authentication**: Add Azure AD authentication to endpoints
 - **Rate Limiting**: Prevent abuse with throttling
 - **Caching**: Cache tool results with Redis
 - **Monitoring**: Application Insights for observability
 - **Error Recovery**: Retry logic with exponential backoff
 
-### 5. Consider Native Function Calling
+### 4. Consider Native Function Calling
 Research LangChain4j native function calling as alternative to prompt-based approach:
 ```java
 // Alternative: Use LangChain4j @Tool annotations
@@ -746,6 +741,7 @@ AiServices.builder(CalculatorTools.class)
 This module demonstrated:
 - ✅ **LangChain4j Azure Integration** - Direct Azure OpenAI usage with chat models
 - ✅ **ReAct Pattern** - Reasoning + Acting with prompt-based tool calling
+- ✅ **Multi-Step Tool Execution** - Iterative tool calling for complex tasks
 - ✅ **Session Management** - UUID-based sessions with MessageWindowChatMemory
 - ✅ **HTTP Tool Execution** - REST endpoints for polyglot tool implementations
 - ✅ **Azure AI Foundry Infrastructure** - Hub + Project for future capabilities
