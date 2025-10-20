@@ -1,6 +1,6 @@
-# LangChain4j for Azure — From Zero to Production
+# LangChain4j for Azure
 
-Build production-ready AI applications with LangChain4j and Azure OpenAI. This repository provides three progressive modules teaching you to build chat applications, add document search (RAG), and create autonomous AI agents.
+This repository provides three progressive modules teaching you to build chat applications, add document search (RAG), and create autonomous AI agents.
 
 ## Modules
 
