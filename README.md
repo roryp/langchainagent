@@ -43,19 +43,13 @@ Enable LLMs to interact with external systems and APIs.
 - Weather API integration
 - Custom tool creation
 
-### 05 - Agents
-Build autonomous AI agents that reason and act.
-- ReAct pattern
-- Multi-step reasoning
-- Tool selection
-- Agent memory
-- Error handling
-
-### 06 - Memory (Coming Soon)
-Advanced memory patterns for context-aware conversations.
-
-### 07 - Production (Coming Soon)
-Deploy, monitor, and scale AI applications in production.
+### 05 - MCP (Model Context Protocol)
+Connect to MCP servers and use standardized tools.
+- MCP transport setup
+- MCP client configuration
+- Tool providers
+- Resource access
+- Docker integration
 
 ## Quick Start
 
@@ -86,7 +80,7 @@ azd up
 ### What Gets Deployed
 
 - **Azure OpenAI** - gpt-4o-mini + text-embedding-3-small
-- **3 Container Apps** - Introduction, RAG, Agents
+- **3 Container Apps** - Introduction, RAG, MCP
 - **Container Registry** - For Docker images
 - **Log Analytics** - For monitoring
 - **Managed Identity** - Secure authentication
@@ -105,8 +99,8 @@ curl "$APP_URL/api/chat" \
 # Test RAG
 curl "$RAG_APP_URL/api/rag/health"
 
-# Test agents
-curl "$AGENTS_APP_URL/api/agent/health"
+# Test MCP
+curl "$MCP_APP_URL/api/mcp/health"
 ```
 
 ## Architecture
@@ -117,7 +111,7 @@ curl "$AGENTS_APP_URL/api/agent/health"
 ┌──────────────────────────────────────────┐
 │  Azure Container Apps                    │
 │  ┌────────┐  ┌────────┐  ┌────────┐    │
-│  │  Chat  │  │  RAG   │  │ Agents │    │
+│  │  Chat  │  │  RAG   │  │  MCP   │    │
 │  │  :8080 │  │  :8081 │  │  :8082 │    │
 │  └────────┘  └────────┘  └────────┘    │
 └──────────────────────────────────────────┘
@@ -138,7 +132,7 @@ curl "$AGENTS_APP_URL/api/agent/health"
 | **02-rag** | 8081 | Documents, embeddings, Q&A | Intermediate |
 | **03-prompt-engineering** | 8083 | Templates, few-shot, parsing | Intermediate |
 | **04-tools** | 8082 | Tool definition, HTTP calls | Advanced |
-| **05-agents** | 8082 | ReAct, reasoning, autonomy | Advanced |
+| **05-mcp** | 8082 | MCP servers, tool providers | Advanced |
 
 ## Technologies
 
@@ -157,7 +151,7 @@ curl "$AGENTS_APP_URL/api/agent/health"
 3. **Add Intelligence**: Implement RAG in [02-rag](02-rag/README.md)
 4. **Master Prompts**: Learn techniques in [03-prompt-engineering](03-prompt-engineering/README.md)
 5. **Extend Capabilities**: Add tools in [04-tools](04-tools/README.md)
-6. **Build Agents**: Create autonomous systems in [05-agents](05-agents/README.md)
+6. **Connect to MCP**: Use Model Context Protocol in [05-mcp](05-mcp/README.md)
 
 Each module includes:
 - Detailed README with concepts and examples
