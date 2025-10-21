@@ -16,8 +16,8 @@ Transform the current LangChain4j repository into a comprehensive, beginner-frie
 Rename and reorganize existing modules into a progressive learning path:
 
 ```
-langchainagent/
- 00-course-setup/                    # NEW - Environment setup guide
+LangChain4j-for-Beginners/
+├── 00-course-setup/                    # NEW - Environment setup guide
     README.md                       # Prerequisites, Azure setup, IDE config
     .env.example                    # Environment variables template
     verify-setup.sh                 # Script to verify installation

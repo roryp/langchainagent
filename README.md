@@ -72,8 +72,8 @@ Deploy, monitor, and scale AI applications in production.
 ### Deploy to Azure
 
 ```bash
-git clone https://github.com/roryp/langchainagent.git
-cd langchainagent/01-introduction
+git clone https://github.com/roryp/LangChain4j-for-Beginners.git
+cd LangChain4j-for-Beginners/01-introduction
 
 azd auth login
 azd up
@@ -238,10 +238,10 @@ MIT License - See [LICENSE](LICENSE) file for details.
 
 ## Support
 
-- **Bug Reports**: [GitHub Issues](https://github.com/roryp/langchainagent/issues)
-- **Feature Requests**: [GitHub Issues](https://github.com/roryp/langchainagent/issues)
+- **Bug Reports**: [GitHub Issues](https://github.com/roryp/LangChain4j-for-Beginners/issues)
+- **Feature Requests**: [GitHub Issues](https://github.com/roryp/LangChain4j-for-Beginners/issues)
 - **Troubleshooting**: [TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)
-- **Discussions**: [GitHub Discussions](https://github.com/roryp/langchainagent/discussions)
+- **Discussions**: [GitHub Discussions](https://github.com/roryp/LangChain4j-for-Beginners/discussions)
 
 ## Show Your Support
 

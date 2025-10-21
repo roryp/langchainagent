@@ -242,8 +242,8 @@ If you don't have an Azure account:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/roryp/langchainagent.git
-cd langchainagent
+git clone https://github.com/roryp/LangChain4j-for-Beginners.git
+cd LangChain4j-for-Beginners
 ```
 
 ### 2. Set Environment Variables
@@ -462,7 +462,7 @@ mvn clean install -U
 
 ### Community
 - [LangChain4j Discord](https://discord.gg/langchain4j)
-- [GitHub Discussions](https://github.com/roryp/langchainagent/discussions)
+- [GitHub Discussions](https://github.com/roryp/LangChain4j-for-Beginners/discussions)
 
 ---
 
@@ -500,7 +500,7 @@ If all boxes are checked, you're ready to start!
 
 ## Need Help?
 
-- **Course Issues**: Open an issue on [GitHub](https://github.com/roryp/langchainagent/issues)
+- **Course Issues**: Open an issue on [GitHub](https://github.com/roryp/LangChain4j-for-Beginners/issues)
 - **Azure OpenAI Issues**: Check [Azure OpenAI Troubleshooting](../docs/TROUBLESHOOTING.md)
 - **General Questions**: Join our [Discord community](https://discord.gg/langchain4j)
 
