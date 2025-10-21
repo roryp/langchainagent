@@ -13,18 +13,18 @@ Build a RAG system that answers questions based on your documents using LangChai
 ## Architecture
 
 ```
-┌─────────────────────────────────┐
-│  Container App (Port 8081)      │
-│  • DocumentService             │
-│  • RagService                  │
-│  • InMemoryEmbeddingStore      │
-└─────────────────────────────────┘
+
+  Container App (Port 8081)      
+  • DocumentService             
+  • RagService                  
+  • InMemoryEmbeddingStore      
+
           ↓
-┌─────────────────────────────────┐
-│  Azure OpenAI                   │
-│  • gpt-4o-mini (chat)          │
-│  • text-embedding-3-small      │
-└─────────────────────────────────┘
+
+  Azure OpenAI                   
+  • gpt-4o-mini (chat)          
+  • text-embedding-3-small      
+
 ```
 
 **Flow**: 

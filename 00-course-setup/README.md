@@ -2,7 +2,7 @@
 
 Welcome to the **LangChain4j for Beginners** course! This module will help you set up your development environment and verify that everything is ready for the hands-on exercises.
 
-## 📋 Table of Contents
+## Table of Contents
 
 - [Prerequisites](#prerequisites)
 - [Required Software](#required-software)
@@ -14,7 +14,7 @@ Welcome to the **LangChain4j for Beginners** course! This module will help you s
 
 ---
 
-## ✅ Prerequisites
+## Prerequisites
 
 Before starting this course, you should have:
 
@@ -30,7 +30,7 @@ Before starting this course, you should have:
 
 ---
 
-## 🛠️ Required Software
+## Required Software
 
 ### 1. Java Development Kit (JDK)
 
@@ -168,7 +168,7 @@ docker --version
 
 ---
 
-## ☁️ Azure Account Setup
+## Azure Account Setup
 
 ### 1. Create Azure Account
 
@@ -237,7 +237,7 @@ If you don't have an Azure account:
 
 ---
 
-## 🔧 Environment Setup
+## Environment Setup
 
 ### 1. Clone the Repository
 
@@ -299,7 +299,7 @@ mvn clean install
 
 ---
 
-## ✅ Verification Steps
+## Verification Steps
 
 Let's verify everything is set up correctly!
 
@@ -310,7 +310,7 @@ java -version
 mvn -version
 ```
 
-✅ **Success**: Both commands show version 21+ for Java and 3.9+ for Maven
+ **Success**: Both commands show version 21+ for Java and 3.9+ for Maven
 
 ### Step 2: Verify Azure CLI
 
@@ -320,7 +320,7 @@ azd version
 az account show
 ```
 
-✅ **Success**: All commands execute without errors and show your Azure account
+ **Success**: All commands execute without errors and show your Azure account
 
 ### Step 3: Verify Build
 
@@ -328,7 +328,7 @@ az account show
 mvn clean compile
 ```
 
-✅ **Success**: Build completes with `BUILD SUCCESS`
+ **Success**: Build completes with `BUILD SUCCESS`
 
 ### Step 4: Run Quick Test
 
@@ -347,7 +347,7 @@ curl -X POST http://localhost:8080/api/chat \
   -d '{"message":"Hello! Are you working?"}'
 ```
 
-✅ **Success**: You receive an AI-generated response
+ **Success**: You receive an AI-generated response
 
 Press `Ctrl+C` to stop the application.
 
@@ -369,10 +369,10 @@ RESPONSE=$(curl -s -X POST "$AZURE_OPENAI_ENDPOINT/openai/deployments/$AZURE_OPE
   }')
 
 if echo "$RESPONSE" | grep -q "choices"; then
-  echo "✅ Azure OpenAI is working!"
+  echo " Azure OpenAI is working!"
   echo "$RESPONSE" | jq -r '.choices[0].message.content'
 else
-  echo "❌ Error connecting to Azure OpenAI"
+  echo " Error connecting to Azure OpenAI"
   echo "$RESPONSE"
   exit 1
 fi
@@ -383,11 +383,11 @@ Run it:
 bash verify-openai.sh
 ```
 
-✅ **Success**: You see "✅ Azure OpenAI is working!" and a response
+ **Success**: You see " Azure OpenAI is working!" and a response
 
 ---
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### Issue: `mvn: command not found`
 
@@ -448,7 +448,7 @@ mvn clean install -U
 
 ---
 
-## 📚 Additional Resources
+## Additional Resources
 
 ### Documentation
 - [LangChain4j Documentation](https://docs.langchain4j.dev/)
@@ -466,9 +466,9 @@ mvn clean install -U
 
 ---
 
-## 🎯 Next Steps
+## Next Steps
 
-Congratulations! 🎉 Your environment is ready.
+Congratulations!  Your environment is ready.
 
 **Proceed to:** [Module 01 - Introduction to LangChain4j](../01-introduction/README.md)
 
@@ -479,7 +479,7 @@ In the next module, you'll:
 
 ---
 
-## 📝 Checklist
+## Checklist
 
 Before moving to Module 01, ensure:
 
@@ -494,11 +494,11 @@ Before moving to Module 01, ensure:
 - [ ] Quick test application runs
 - [ ] Azure OpenAI connection verified
 
-If all boxes are checked, you're ready to start! ✅
+If all boxes are checked, you're ready to start! 
 
 ---
 
-## ❓ Need Help?
+## Need Help?
 
 - **Course Issues**: Open an issue on [GitHub](https://github.com/roryp/langchainagent/issues)
 - **Azure OpenAI Issues**: Check [Azure OpenAI Troubleshooting](../docs/TROUBLESHOOTING.md)

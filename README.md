@@ -2,7 +2,7 @@
 
 A comprehensive, hands-on course for building production-ready AI applications with LangChain4j and Azure OpenAI. Learn by building real applications from simple chat to advanced AI agents.
 
-## 📚 Course Modules
+## Course Modules
 
 ### 00 - Course Setup
 **Start Here!** Complete environment setup, Azure OpenAI configuration, and verification.
@@ -57,7 +57,7 @@ Advanced memory patterns for context-aware conversations.
 ### 07 - Production (Coming Soon)
 Deploy, monitor, and scale AI applications in production.
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -109,7 +109,7 @@ curl "$RAG_APP_URL/api/rag/health"
 curl "$AGENTS_APP_URL/api/agent/health"
 ```
 
-## 🏗️ Architecture
+## Architecture
 
 **Direct Azure OpenAI Integration** - Cost-optimized, no AI Foundry Hub needed
 
@@ -129,18 +129,18 @@ curl "$AGENTS_APP_URL/api/agent/health"
 └──────────────────────────────────────────┘
 ```
 
-## 📊 Features by Module
+## Features by Module
 
 | Module | Port | Key Features | Difficulty |
 |--------|------|-------------|------------|
-| **00-course-setup** | - | Environment setup, verification | ⭐ |
-| **01-introduction** | 8080 | Basic chat, memory, streaming | ⭐ |
-| **02-rag** | 8081 | Documents, embeddings, Q&A | ⭐⭐ |
-| **03-prompt-engineering** | 8083 | Templates, few-shot, parsing | ⭐⭐ |
-| **04-tools** | 8082 | Tool definition, HTTP calls | ⭐⭐⭐ |
-| **05-agents** | 8082 | ReAct, reasoning, autonomy | ⭐⭐⭐⭐ |
+| **00-course-setup** | - | Environment setup, verification | Beginner |
+| **01-introduction** | 8080 | Basic chat, memory, streaming | Beginner |
+| **02-rag** | 8081 | Documents, embeddings, Q&A | Intermediate |
+| **03-prompt-engineering** | 8083 | Templates, few-shot, parsing | Intermediate |
+| **04-tools** | 8082 | Tool definition, HTTP calls | Advanced |
+| **05-agents** | 8082 | ReAct, reasoning, autonomy | Advanced |
 
-## 🛠️ Technologies
+## Technologies
 
 - **LangChain4j 1.7.1** - Java framework for LLM apps
 - **Azure OpenAI** - GPT-4o-mini & text-embedding-3-small
@@ -150,7 +150,7 @@ curl "$AGENTS_APP_URL/api/agent/health"
 - **Azure Container Apps** - Serverless hosting
 - **Azure Bicep** - Infrastructure as Code
 
-## 📖 Learning Path
+## Learning Path
 
 1. **Start with Setup**: Complete [00-course-setup](00-course-setup/README.md)
 2. **Learn Basics**: Build your first app in [01-introduction](01-introduction/README.md)
@@ -160,19 +160,19 @@ curl "$AGENTS_APP_URL/api/agent/health"
 6. **Build Agents**: Create autonomous systems in [05-agents](05-agents/README.md)
 
 Each module includes:
-- 📝 Detailed README with concepts and examples
-- 💻 Working code you can run immediately
-- 🎯 Hands-on challenges to test your skills
-- 🐛 Troubleshooting tips
+- Detailed README with concepts and examples
+- Working code you can run immediately
+- Hands-on challenges to test your skills
+- Troubleshooting tips
 
-## 📚 Documentation
+## Documentation
 
 - **[GLOSSARY.md](docs/GLOSSARY.md)** - Key terms and concepts
 - **[TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)** - Common issues and solutions
 - **[TESTING-PLAN.md](TESTING-PLAN.md)** - Comprehensive testing guide
 - **[copilot-instructions.md](copilot-instructions.md)** - Project transformation plan
 
-## 🔧 Development
+## Development
 
 ### Local Development
 
@@ -211,7 +211,7 @@ azd deploy  # Fast updates for code changes
 azd monitor --logs
 ```
 
-## 🎓 Resources
+## Resources
 
 - **[LangChain4j Documentation](https://docs.langchain4j.dev/)** - Official docs
 - **[Azure OpenAI Service](https://learn.microsoft.com/azure/ai-services/openai/)** - Azure docs
@@ -219,7 +219,7 @@ azd monitor --logs
 - **[Azure Developer CLI](https://learn.microsoft.com/azure/developer/azure-developer-cli/)** - azd CLI docs
 - **[OpenAI Prompt Engineering](https://platform.openai.com/docs/guides/prompt-engineering)** - Best practices
 
-## 🤝 Contributing
+## Contributing
 
 Contributions welcome! Please:
 
@@ -232,24 +232,24 @@ Contributions welcome! Please:
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
 
-## 📄 License
+## License
 
 MIT License - See [LICENSE](LICENSE) file for details.
 
-## 💬 Support
+## Support
 
-- 🐛 **Bug Reports**: [GitHub Issues](https://github.com/roryp/langchainagent/issues)
-- 💡 **Feature Requests**: [GitHub Issues](https://github.com/roryp/langchainagent/issues)
-- 🔧 **Troubleshooting**: [TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)
-- 💬 **Discussions**: [GitHub Discussions](https://github.com/roryp/langchainagent/discussions)
+- **Bug Reports**: [GitHub Issues](https://github.com/roryp/langchainagent/issues)
+- **Feature Requests**: [GitHub Issues](https://github.com/roryp/langchainagent/issues)
+- **Troubleshooting**: [TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)
+- **Discussions**: [GitHub Discussions](https://github.com/roryp/langchainagent/discussions)
 
-## ⭐ Show Your Support
+## Show Your Support
 
 If this course helped you learn LangChain4j, please:
-- ⭐ Star this repository
-- 🐦 Share on social media
-- 📝 Write a blog post about your experience
-- 🤝 Contribute improvements
+- Star this repository
+- Share on social media
+- Write a blog post about your experience
+- Contribute improvements
 
 ---
 

@@ -2,7 +2,7 @@
 
 Learn the art and science of crafting effective prompts for large language models!
 
-## 📋 What You'll Learn
+## What You'll Learn
 
 - **Prompt Templates**: Create reusable, parameterized prompts
 - **Few-Shot Learning**: Teach models through examples
@@ -10,7 +10,7 @@ Learn the art and science of crafting effective prompts for large language model
 - **System Messages**: Set behavior and constraints
 - **Advanced Techniques**: Chain-of-thought, role-playing, and more
 
-## 🎯 Learning Objectives
+## Learning Objectives
 
 By the end of this module, you will be able to:
 - Design effective prompts for various tasks
@@ -21,7 +21,7 @@ By the end of this module, you will be able to:
 
 ---
 
-## 📚 Concepts
+## Concepts
 
 ### What is Prompt Engineering?
 
@@ -41,34 +41,34 @@ By the end of this module, you will be able to:
 
 ---
 
-## 🏗️ Project Structure
+## Project Structure
 
 ```
 03-prompt-engineering/
-├── src/main/java/com/example/langchain4j/prompts/
-│   ├── app/
-│   │   ├── Application.java           # Main Spring Boot application
-│   │   ├── PromptController.java      # REST API endpoints
-│   │   └── PromptService.java         # Prompt examples
-│   ├── config/
-│   │   └── LangChainConfig.java       # LangChain4j configuration
-│   └── model/
-│       ├── PromptRequest.java         # Request DTOs
-│       ├── PromptResponse.java        # Response DTOs
-│       └── Person.java                # Example data class
-├── src/main/resources/
-│   ├── application.yaml               # Configuration
-│   └── prompts/
-│       ├── email-template.txt         # Email generation prompt
-│       ├── code-reviewer.txt          # Code review prompt
-│       └── data-extractor.txt         # Data extraction prompt
-├── pom.xml
-└── README.md
+ src/main/java/com/example/langchain4j/prompts/
+    app/
+       Application.java           # Main Spring Boot application
+       PromptController.java      # REST API endpoints
+       PromptService.java         # Prompt examples
+    config/
+       LangChainConfig.java       # LangChain4j configuration
+    model/
+        PromptRequest.java         # Request DTOs
+        PromptResponse.java        # Response DTOs
+        Person.java                # Example data class
+ src/main/resources/
+    application.yaml               # Configuration
+    prompts/
+        email-template.txt         # Email generation prompt
+        code-reviewer.txt          # Code review prompt
+        data-extractor.txt         # Data extraction prompt
+ pom.xml
+ README.md
 ```
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -113,7 +113,7 @@ curl -X POST http://localhost:8083/api/prompts/extract \
 
 ---
 
-## 💡 Examples
+## Examples
 
 ### Example 1: Simple Template
 
@@ -315,7 +315,7 @@ public String reviewCode(String code) {
 
 ---
 
-## 🎨 Prompt Patterns
+## Prompt Patterns
 
 ### 1. **Instruction + Context + Question**
 
@@ -353,7 +353,7 @@ Do NOT assume prior physics knowledge.
 
 ---
 
-## 📊 API Reference
+## API Reference
 
 ### POST `/api/prompts/template`
 
@@ -430,9 +430,9 @@ Extract structured data.
 
 ---
 
-## 🎯 Best Practices
+## Best Practices
 
-### ✅ Do's
+### Do's
 
 1. **Be Specific**: Clear instructions produce better results
 2. **Use Examples**: Show the model what you want (few-shot)
@@ -440,7 +440,7 @@ Extract structured data.
 4. **Iterate**: Test and refine your prompts
 5. **Use Templates**: Reuse successful patterns
 
-### ❌ Don'ts
+### Don'ts
 
 1. **Don't Be Vague**: "Tell me about AI" → "Explain how neural networks work in 3 sentences"
 2. **Don't Overwhelm**: Keep prompts focused on one task
@@ -449,7 +449,7 @@ Extract structured data.
 
 ---
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### Issue: Inconsistent Outputs
 
@@ -474,7 +474,7 @@ Extract structured data.
 
 ---
 
-## 🧪 Testing
+## Testing
 
 Run unit tests:
 
@@ -497,7 +497,7 @@ curl -X POST http://localhost:8083/api/prompts/test/parse
 
 ---
 
-## 🎓 Learn More
+## Learn More
 
 - **LangChain4j Prompt Templates**: [docs.langchain4j.dev/tutorials/prompts](https://docs.langchain4j.dev/)
 - **OpenAI Prompt Engineering Guide**: [platform.openai.com/docs/guides/prompt-engineering](https://platform.openai.com/docs/guides/prompt-engineering)
@@ -505,7 +505,7 @@ curl -X POST http://localhost:8083/api/prompts/test/parse
 
 ---
 
-## 📝 Exercises
+## Exercises
 
 See [CHALLENGES.md](CHALLENGES.md) for hands-on exercises including:
 - Dynamic template creation
@@ -515,13 +515,13 @@ See [CHALLENGES.md](CHALLENGES.md) for hands-on exercises including:
 
 ---
 
-## 🔗 Related Modules
+## Related Modules
 
 - **Previous**: [02-rag](../02-rag/README.md)
 - **Next**: [04-tools](../04-tools/README.md)
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](../LICENSE) file for details.

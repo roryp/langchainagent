@@ -2,9 +2,9 @@
 
 Test your understanding of RAG concepts with these hands-on challenges!
 
-## 🎯 Challenge 1: Multi-Document Upload
+## Challenge 1: Multi-Document Upload
 
-**Difficulty**: ⭐ Easy
+**Difficulty**:  Easy
 
 **Task**: Modify the upload endpoint to accept multiple files at once.
 
@@ -22,9 +22,9 @@ Test your understanding of RAG concepts with these hands-on challenges!
 
 ---
 
-## 🎯 Challenge 2: Document Metadata
+## Challenge 2: Document Metadata
 
-**Difficulty**: ⭐⭐ Medium
+**Difficulty**:  Medium
 
 **Task**: Add metadata to each document segment (filename, upload date, document type).
 
@@ -43,9 +43,9 @@ Test your understanding of RAG concepts with these hands-on challenges!
 
 ---
 
-## 🎯 Challenge 3: Improved Chunking Strategy
+## Challenge 3: Improved Chunking Strategy
 
-**Difficulty**: ⭐⭐ Medium
+**Difficulty**:  Medium
 
 **Task**: Implement smarter document chunking that respects sentence boundaries.
 
@@ -64,9 +64,9 @@ Test your understanding of RAG concepts with these hands-on challenges!
 
 ---
 
-## 🎯 Challenge 4: Source Citation
+## Challenge 4: Source Citation
 
-**Difficulty**: ⭐⭐ Medium
+**Difficulty**:  Medium
 
 **Task**: Enhance RAG responses to show which document and page the answer came from.
 
@@ -92,9 +92,9 @@ Sources:
 
 ---
 
-## 🎯 Challenge 5: Question Rephrasing
+## Challenge 5: Question Rephrasing
 
-**Difficulty**: ⭐⭐⭐ Hard
+**Difficulty**:  Hard
 
 **Task**: Improve retrieval by rephrasing user questions before searching.
 
@@ -113,9 +113,9 @@ Sources:
 
 ---
 
-## 🎯 Challenge 6: Conversation Context in RAG
+## Challenge 6: Conversation Context in RAG
 
-**Difficulty**: ⭐⭐⭐ Hard
+**Difficulty**:  Hard
 
 **Task**: Make RAG remember previous questions in a conversation.
 
@@ -141,9 +141,9 @@ Bot: To install LangChain4j, add this Maven dependency...
 
 ---
 
-## 🎯 Challenge 7: Hybrid Search
+## Challenge 7: Hybrid Search
 
-**Difficulty**: ⭐⭐⭐ Hard
+**Difficulty**:  Hard
 
 **Task**: Combine semantic search with keyword search for better results.
 
@@ -162,9 +162,9 @@ Bot: To install LangChain4j, add this Maven dependency...
 
 ---
 
-## 🎯 Challenge 8: Re-ranking Results
+## Challenge 8: Re-ranking Results
 
-**Difficulty**: ⭐⭐⭐⭐ Expert
+**Difficulty**:  Expert
 
 **Task**: Add a re-ranking step to improve retrieval quality.
 
@@ -183,9 +183,9 @@ Bot: To install LangChain4j, add this Maven dependency...
 
 ---
 
-## 🎯 Challenge 9: Document Versioning
+## Challenge 9: Document Versioning
 
-**Difficulty**: ⭐⭐⭐⭐ Expert
+**Difficulty**:  Expert
 
 **Task**: Support multiple versions of the same document.
 
@@ -211,9 +211,9 @@ Response: Compares v1 and v2...
 
 ---
 
-## 🎯 Challenge 10: RAG with Images
+## Challenge 10: RAG with Images
 
-**Difficulty**: ⭐⭐⭐⭐⭐ Expert
+**Difficulty**:  Expert
 
 **Task**: Extend RAG to work with images in documents.
 
@@ -232,7 +232,7 @@ Response: Compares v1 and v2...
 
 ---
 
-## 📊 Challenge Tracking
+## Challenge Tracking
 
 Mark your progress:
 
@@ -249,7 +249,7 @@ Mark your progress:
 
 ---
 
-## 🏆 Achievement Levels
+## Achievement Levels
 
 - **Beginner**: Complete 1-3 challenges
 - **Intermediate**: Complete 4-6 challenges
@@ -258,7 +258,7 @@ Mark your progress:
 
 ---
 
-## 💡 Learning Resources
+## Learning Resources
 
 - [LangChain4j RAG Documentation](https://docs.langchain4j.dev/tutorials/rag)
 - [Azure OpenAI Embeddings](https://learn.microsoft.com/azure/ai-services/openai/concepts/embeddings)
@@ -266,7 +266,7 @@ Mark your progress:
 
 ---
 
-## 🤝 Share Your Solutions
+## Share Your Solutions
 
 Found an interesting solution? Share it:
 - Open a pull request with your implementation

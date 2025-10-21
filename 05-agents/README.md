@@ -13,22 +13,22 @@ Build autonomous AI agents that can use HTTP-based tools to accomplish complex t
 ## Architecture
 
 ```
-┌─────────────────────────────────┐
-│  Container App (Port 8082)      │
-│  • AgentController             │
-│  • AgentService (ReAct)        │
-│  • ToolsController             │
-└─────────────────────────────────┘
+
+  Container App (Port 8082)      
+  • AgentController             
+  • AgentService (ReAct)        
+  • ToolsController             
+
           ↓
-┌─────────────────────────────────┐
-│  Azure OpenAI (gpt-4o-mini)     │
-└─────────────────────────────────┘
+
+  Azure OpenAI (gpt-4o-mini)     
+
           ↓
-┌─────────────────────────────────┐
-│  Tools (HTTP REST)              │
-│  • Weather (mock)               │
-│  • Calculator                   │
-└─────────────────────────────────┘
+
+  Tools (HTTP REST)              
+  • Weather (mock)               
+  • Calculator                   
+
 ```
 
 **Flow**: User message → Agent analyzes → Calls tools via HTTP → Returns answer

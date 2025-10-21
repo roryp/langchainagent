@@ -1,4 +1,4 @@
-# 🎯 Project Transformation Plan: LangChain4j for Beginners
+#  Project Transformation Plan: LangChain4j for Beginners
 
 ## Overview
 
@@ -9,7 +9,7 @@ Transform the current LangChain4j repository into a comprehensive, beginner-frie
 
 ---
 
-## 📋 Phase 1: Repository Restructuring
+## Phase 1: Repository Restructuring
 
 ### 1.1 Create Beginner-Friendly Directory Structure
 
@@ -17,88 +17,88 @@ Rename and reorganize existing modules into a progressive learning path:
 
 ```
 langchainagent/
-├── 00-course-setup/                    # NEW - Environment setup guide
-│   ├── README.md                       # Prerequisites, Azure setup, IDE config
-│   ├── .env.example                    # Environment variables template
-│   └── verify-setup.sh                 # Script to verify installation
-│
-├── 01-introduction/                    # RENAME from 01-getting-started
-│   ├── README.md                       # LangChain4j fundamentals
-│   ├── src/                            # Basic chat + conversation examples
-│   └── CHALLENGES.md                   # NEW - Practice exercises
-│
-├── 02-chat-models-basics/             # ENHANCED version of current module
-│   ├── README.md                       # Chat models, messages, parameters
-│   ├── src/                            # Stateless + stateful examples
-│   └── CHALLENGES.md                   # NEW - Practice exercises
-│
-├── 03-prompts-messages/               # NEW - Extract from existing
-│   ├── README.md                       # Prompt templates, message types
-│   ├── src/                            # Template examples, system messages
-│   └── CHALLENGES.md                   # NEW - Practice exercises
-│
-├── 04-function-calling-tools/         # ENHANCED from 03-agents-tools
-│   ├── README.md                       # Function calling basics, tool binding
-│   ├── src/                            # Weather + calculator tools
-│   └── CHALLENGES.md                   # NEW - Practice exercises
-│
-├── 05-agents-react/                   # SPLIT from 03-agents-tools
-│   ├── README.md                       # ReAct pattern, agent loops
-│   ├── src/                            # Agent service implementation
-│   └── CHALLENGES.md                   # NEW - Practice exercises
-│
-├── 06-documents-embeddings/           # ENHANCED from 02-rag
-│   ├── README.md                       # Document loading, embeddings, search
-│   ├── src/                            # PDF parsing, vector stores
-│   ├── data/                           # NEW - Sample documents
-│   └── CHALLENGES.md                   # NEW - Practice exercises
-│
-├── 07-agentic-rag/                    # NEW - Advanced RAG patterns
-│   ├── README.md                       # Intelligent retrieval, agent-based RAG
-│   ├── src/                            # Agentic RAG implementation
-│   └── CHALLENGES.md                   # NEW - Practice exercises
-│
-├── infra/                             # MOVED from 01-getting-started/infra
-│   ├── main.bicep                      # Shared infrastructure
-│   ├── main.bicepparam
-│   └── core/                           # Reusable Bicep modules
-│
-├── scripts/                           # Existing test scripts
-│   ├── test-chat.sh
-│   ├── test-rag.sh
-│   ├── test-agents.sh
-│   └── verify-deployment.sh           # NEW - End-to-end testing
-│
-├── data/                              # NEW - Sample data for all modules
-│   ├── sample-documents/
-│   ├── test-queries.json
-│   └── README.md
-│
-├── .github/                           # NEW - GitHub configuration
-│   ├── workflows/
-│   │   ├── test.yml                   # CI/CD pipeline
-│   │   └── deploy.yml
-│   └── ISSUE_TEMPLATE/
-│
-├── docs/                              # NEW - Additional documentation
-│   ├── GLOSSARY.md                    # AI/LangChain4j terminology
-│   ├── ARCHITECTURE.md                # System architecture overview
-│   ├── DEPLOYMENT.md                  # Deployment guide
-│   └── TROUBLESHOOTING.md             # Comprehensive troubleshooting
-│
-├── README.md                          # REWRITE - Course-style README
-├── CONTRIBUTING.md                    # Existing
-├── LICENSE                            # Existing
-├── CODE_OF_CONDUCT.md                 # NEW
-├── SECURITY.md                        # NEW
-├── pom.xml                            # ENHANCED - Parent POM
-├── azure.yaml                         # NEW - Azure Developer CLI config
-└── .gitignore                         # Enhanced
+ 00-course-setup/                    # NEW - Environment setup guide
+    README.md                       # Prerequisites, Azure setup, IDE config
+    .env.example                    # Environment variables template
+    verify-setup.sh                 # Script to verify installation
+
+ 01-introduction/                    # RENAME from 01-getting-started
+    README.md                       # LangChain4j fundamentals
+    src/                            # Basic chat + conversation examples
+    CHALLENGES.md                   # NEW - Practice exercises
+
+ 02-chat-models-basics/             # ENHANCED version of current module
+    README.md                       # Chat models, messages, parameters
+    src/                            # Stateless + stateful examples
+    CHALLENGES.md                   # NEW - Practice exercises
+
+ 03-prompts-messages/               # NEW - Extract from existing
+    README.md                       # Prompt templates, message types
+    src/                            # Template examples, system messages
+    CHALLENGES.md                   # NEW - Practice exercises
+
+ 04-function-calling-tools/         # ENHANCED from 03-agents-tools
+    README.md                       # Function calling basics, tool binding
+    src/                            # Weather + calculator tools
+    CHALLENGES.md                   # NEW - Practice exercises
+
+ 05-agents-react/                   # SPLIT from 03-agents-tools
+    README.md                       # ReAct pattern, agent loops
+    src/                            # Agent service implementation
+    CHALLENGES.md                   # NEW - Practice exercises
+
+ 06-documents-embeddings/           # ENHANCED from 02-rag
+    README.md                       # Document loading, embeddings, search
+    src/                            # PDF parsing, vector stores
+    data/                           # NEW - Sample documents
+    CHALLENGES.md                   # NEW - Practice exercises
+
+ 07-agentic-rag/                    # NEW - Advanced RAG patterns
+    README.md                       # Intelligent retrieval, agent-based RAG
+    src/                            # Agentic RAG implementation
+    CHALLENGES.md                   # NEW - Practice exercises
+
+ infra/                             # MOVED from 01-getting-started/infra
+    main.bicep                      # Shared infrastructure
+    main.bicepparam
+    core/                           # Reusable Bicep modules
+
+ scripts/                           # Existing test scripts
+    test-chat.sh
+    test-rag.sh
+    test-agents.sh
+    verify-deployment.sh           # NEW - End-to-end testing
+
+ data/                              # NEW - Sample data for all modules
+    sample-documents/
+    test-queries.json
+    README.md
+
+ .github/                           # NEW - GitHub configuration
+    workflows/
+       test.yml                   # CI/CD pipeline
+       deploy.yml
+    ISSUE_TEMPLATE/
+
+ docs/                              # NEW - Additional documentation
+    GLOSSARY.md                    # AI/LangChain4j terminology
+    ARCHITECTURE.md                # System architecture overview
+    DEPLOYMENT.md                  # Deployment guide
+    TROUBLESHOOTING.md             # Comprehensive troubleshooting
+
+ README.md                          # REWRITE - Course-style README
+ CONTRIBUTING.md                    # Existing
+ LICENSE                            # Existing
+ CODE_OF_CONDUCT.md                 # NEW
+ SECURITY.md                        # NEW
+ pom.xml                            # ENHANCED - Parent POM
+ azure.yaml                         # NEW - Azure Developer CLI config
+ .gitignore                         # Enhanced
 ```
 
 ---
 
-## 📚 Phase 2: Content Development
+## Phase 2: Content Development
 
 ### 2.1 Module 00: Course Setup
 
@@ -278,7 +278,7 @@ langchainagent/
 
 ---
 
-## 📖 Phase 3: Documentation Enhancement
+## Phase 3: Documentation Enhancement
 
 ### 3.1 Main README Transformation
 
@@ -368,28 +368,28 @@ Security policy and reporting guidelines
    ```markdown
    # Module X: [Title]
    
-   ## 🎯 Learning Objectives
+   ## Learning Objectives
    - Bullet points of what you'll learn
    
-   ## 📖 Concepts
+   ## Concepts
    - Detailed explanations with analogies
    - Visual diagrams where helpful
    
-   ## 💻 Code Examples
+   ## Code Examples
    - Well-commented working code
    - Progressive complexity
    
-   ## 🚀 Running the Examples
+   ## Running the Examples
    - Step-by-step instructions
    
-   ## 🔑 Key Takeaways
+   ## Key Takeaways
    - Summary of important points
    
-   ## 📚 Additional Resources
+   ## Additional Resources
    - Links to documentation
    - Related reading
    
-   ## ➡️ Next Steps
+   ## Next Steps
    - Link to next module
    ```
 
@@ -398,7 +398,7 @@ Security policy and reporting guidelines
    # Module X: Practice Challenges
    
    ## Challenge 1: [Title]
-   **Difficulty:** ⭐ Beginner
+   **Difficulty:** Beginner
    **Time:** 15 minutes
    
    ### Objective
@@ -419,7 +419,7 @@ Security policy and reporting guidelines
 
 ---
 
-## 🧪 Phase 4: Testing Strategy
+## Phase 4: Testing Strategy
 
 ### 4.1 Automated Testing
 
@@ -427,11 +427,11 @@ Security policy and reporting guidelines
 
 ```bash
 scripts/
-├── test-all.sh                    # Run all tests
-├── test-module-01.sh             # Test module 01
-├── test-module-02.sh             # Test module 02
-├── ... (one per module)
-└── verify-deployment.sh          # End-to-end Azure test
+ test-all.sh                    # Run all tests
+ test-module-01.sh             # Test module 01
+ test-module-02.sh             # Test module 02
+ ... (one per module)
+ verify-deployment.sh          # End-to-end Azure test
 ```
 
 **Test Categories:**
@@ -495,7 +495,7 @@ Create `docs/TESTING.md` with:
 
 ---
 
-## 🎨 Phase 5: Polish & Enhancements
+## Phase 5: Polish & Enhancements
 
 ### 5.1 Visual Elements
 
@@ -533,7 +533,7 @@ Create `docs/TESTING.md` with:
 
 ---
 
-## 📦 Phase 6: Sample Data & Resources
+## Phase 6: Sample Data & Resources
 
 ### 6.1 Sample Documents
 
@@ -562,7 +562,7 @@ Create `data/test-queries.json`:
 
 ---
 
-## 🚀 Implementation Order
+## Implementation Order
 
 ### Week 1: Foundation
 1. Create directory structure
@@ -595,7 +595,7 @@ Create `data/test-queries.json`:
 
 ---
 
-## ✅ Success Criteria
+## Success Criteria
 
 ### Technical
 - [ ] All modules build successfully
@@ -620,7 +620,7 @@ Create `data/test-queries.json`:
 
 ---
 
-## 🔄 Migration Notes
+## Migration Notes
 
 ### Backwards Compatibility
 
@@ -637,7 +637,7 @@ Create `data/test-queries.json`:
 
 ---
 
-## 📊 Metrics & Goals
+## Metrics & Goals
 
 **Learning Metrics:**
 - Time to complete each module: 1-2 hours
@@ -652,7 +652,7 @@ Create `data/test-queries.json`:
 
 ---
 
-## 🎓 Target Learning Outcomes
+## Target Learning Outcomes
 
 By the end of this course, developers will be able to:
 
@@ -667,7 +667,7 @@ By the end of this course, developers will be able to:
 
 ---
 
-## 🔗 Related Resources
+## Related Resources
 
 Link to:
 - [Generative AI for Beginners](https://aka.ms/genai-beginners)
@@ -699,7 +699,7 @@ Link to:
 
 ---
 
-**Status:** 📋 Planning Complete - Ready for Implementation  
+**Status:** Planning Complete - Ready for Implementation  
 **Estimated Effort:** 4-5 weeks  
 **Risk Level:** Low (backwards compatible)  
 **Impact:** High (significantly improved learning experience)

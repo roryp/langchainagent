@@ -93,18 +93,18 @@ curl -X POST http://localhost:8080/api/conversation/chat \
 
 ```
 01-getting-started/
-├── src/main/java/...
-│   ├── app/
-│   │   ├── Application.java              # Spring Boot main
-│   │   ├── ChatController.java           # Stateless chat
-│   │   └── ConversationController.java   # Stateful chat
-│   ├── service/
-│   │   └── ConversationService.java      # Memory management
-│   ├── config/
-│   │   └── LangChainConfig.java          # Azure OpenAI setup
-│   └── model/                             # DTOs
-├── infra/                                 # Bicep templates
-└── pom.xml
+ src/main/java/...
+    app/
+       Application.java              # Spring Boot main
+       ChatController.java           # Stateless chat
+       ConversationController.java   # Stateful chat
+    service/
+       ConversationService.java      # Memory management
+    config/
+       LangChainConfig.java          # Azure OpenAI setup
+    model/                             # DTOs
+ infra/                                 # Bicep templates
+ pom.xml
 ```
 
 **Key Components:**

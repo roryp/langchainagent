@@ -1,34 +1,34 @@
-# 🎯 Phase 2: Complete Remaining Course Modules
+#  Phase 2: Complete Remaining Course Modules
 
 ## Overview
 
-**Current Status:** ✅ Modules 00, 01, 02, and 05 are production-ready and tested  
+**Current Status:** Modules 00, 01, 02, and 05 are production-ready and tested  
 **Remaining Work:** Complete implementation of Modules 03 and 04  
 **Goal:** Finish the comprehensive LangChain4j learning course with all 6 core modules functional
 
 ---
 
-## 📊 Module Status Summary
+## Module Status Summary
 
 | Module | Status | Description | Priority |
 |--------|--------|-------------|----------|
-| 00-course-setup | ✅ Complete | Environment setup and verification | - |
-| 01-introduction | ✅ Complete | Basic chat + conversation memory | - |
-| 02-rag | ✅ Complete | Document upload, embeddings, semantic search | - |
-| 03-prompt-engineering | ⚠️ Skeleton | Needs full implementation | **HIGH** |
-| 04-tools | ⚠️ Copy of 05 | Needs code separation and focus on tools only | **HIGH** |
-| 05-agents | ✅ Complete | ReAct pattern, multi-tool agent | - |
+| 00-course-setup |  Complete | Environment setup and verification | - |
+| 01-introduction |  Complete | Basic chat + conversation memory | - |
+| 02-rag |  Complete | Document upload, embeddings, semantic search | - |
+| 03-prompt-engineering |  Skeleton | Needs full implementation | **HIGH** |
+| 04-tools |  Copy of 05 | Needs code separation and focus on tools only | **HIGH** |
+| 05-agents |  Complete | ReAct pattern, multi-tool agent | - |
 
 ---
 
-## 🎯 Phase 2 Goals
+## Phase 2 Goals
 
 ### Primary Objectives
-1. ✅ **Module 03 (Prompt Engineering):** Implement comprehensive prompt engineering examples
-2. ✅ **Module 04 (Tools):** Separate tool-specific code from agents, focus on tool creation
-3. ✅ **Documentation:** Create CHALLENGES.md for each module
-4. ✅ **Testing:** Validate all new modules work with Azure OpenAI
-5. ✅ **Integration:** Ensure all 6 modules work together as a cohesive learning path
+1.  **Module 03 (Prompt Engineering):** Implement comprehensive prompt engineering examples
+2.  **Module 04 (Tools):** Separate tool-specific code from agents, focus on tool creation
+3.  **Documentation:** Create CHALLENGES.md for each module
+4.  **Testing:** Validate all new modules work with Azure OpenAI
+5.  **Integration:** Ensure all 6 modules work together as a cohesive learning path
 
 ### Success Criteria
 - [ ] Module 03 compiles and runs successfully
@@ -40,16 +40,16 @@
 
 ---
 
-## 📋 Module 03: Prompt Engineering - Implementation Plan
+## Module 03: Prompt Engineering - Implementation Plan
 
 ### Current State
-- ✅ Basic directory structure exists
-- ✅ README.md with comprehensive documentation
-- ✅ pom.xml configured
-- ⚠️ Only Application.java exists (empty)
-- ❌ No service, controller, or model classes
-- ❌ No prompt templates
-- ❌ No working endpoints
+- Basic directory structure exists
+- README.md with comprehensive documentation
+- pom.xml configured
+- Only Application.java exists (empty)
+- No service, controller, or model classes
+- No prompt templates
+- No working endpoints
 
 ### Required Implementation
 
@@ -273,7 +273,7 @@ logging:
 ```markdown
 # Module 03: Prompt Engineering - Challenges
 
-## Challenge 1: Dynamic Email Generator ⭐
+## Challenge 1: Dynamic Email Generator 
 **Time:** 20 minutes
 
 Create an endpoint that generates emails for different scenarios:
@@ -286,7 +286,7 @@ Create an endpoint that generates emails for different scenarios:
 - Support different tones (formal, casual, friendly)
 - Allow customizable length
 
-## Challenge 2: Sentiment Analysis with Few-Shot ⭐⭐
+## Challenge 2: Sentiment Analysis with Few-Shot 
 **Time:** 30 minutes
 
 Build a sentiment classifier that learns from examples.
@@ -297,7 +297,7 @@ Build a sentiment classifier that learns from examples.
 - Return confidence score
 - Handle edge cases (sarcasm, mixed sentiment)
 
-## Challenge 3: Resume Parser ⭐⭐⭐
+## Challenge 3: Resume Parser 
 **Time:** 45 minutes
 
 Create a structured data extractor for resumes.
@@ -308,7 +308,7 @@ Create a structured data extractor for resumes.
 - Handle missing information gracefully
 - Support multiple resume formats
 
-## Challenge 4: Math Tutor with Chain-of-Thought ⭐⭐⭐
+## Challenge 4: Math Tutor with Chain-of-Thought 
 **Time:** 45 minutes
 
 Build an AI math tutor that shows step-by-step solutions.
@@ -319,7 +319,7 @@ Build an AI math tutor that shows step-by-step solutions.
 - Explain why each step is necessary
 - Verify the final answer
 
-## Challenge 5: Multi-Role Code Assistant ⭐⭐⭐⭐
+## Challenge 5: Multi-Role Code Assistant 
 **Time:** 60 minutes
 
 Create a system that can switch between different coding roles:
@@ -385,18 +385,18 @@ curl -s -X POST "$BASE_URL/api/prompts/chain-of-thought" \
     "problem": "If a train travels 120 miles in 2 hours, what is its average speed?"
   }'
 
-echo -e "\n\n✅ All tests complete!"
+echo -e "\n\n All tests complete!"
 ```
 
 ---
 
-## 📋 Module 04: Tools - Implementation Plan
+## Module 04: Tools - Implementation Plan
 
 ### Current State
-- ⚠️ Complete copy of 05-agents (should focus only on tools)
-- ✅ Has tools implemented (Calculator, Weather)
-- ❌ Too complex for "tools introduction" module
-- ❌ Includes agent logic (should be tool-only)
+- Complete copy of 05-agents (should focus only on tools)
+- Has tools implemented (Calculator, Weather)
+- Too complex for "tools introduction" module
+- Includes agent logic (should be tool-only)
 
 ### Required Changes
 
@@ -609,7 +609,7 @@ Key changes:
 ```markdown
 # Module 04: Tools - Challenges
 
-## Challenge 1: String Tool ⭐
+## Challenge 1: String Tool 
 **Time:** 20 minutes
 
 Create a StringTool with operations:
@@ -619,7 +619,7 @@ Create a StringTool with operations:
 - countWords(string)
 - isPalindrome(string)
 
-## Challenge 2: Time Zone Tool ⭐⭐
+## Challenge 2: Time Zone Tool 
 **Time:** 30 minutes
 
 Build a TimeZoneTool that:
@@ -628,7 +628,7 @@ Build a TimeZoneTool that:
 - Calculates time difference
 - Lists available time zones
 
-## Challenge 3: Currency Converter Tool ⭐⭐
+## Challenge 3: Currency Converter Tool 
 **Time:** 30 minutes
 
 Create a CurrencyTool with:
@@ -637,7 +637,7 @@ Create a CurrencyTool with:
 - Format currency display
 - Handle 10+ common currencies
 
-## Challenge 4: Database Query Tool ⭐⭐⭐
+## Challenge 4: Database Query Tool 
 **Time:** 45 minutes
 
 Build a DatabaseTool that safely executes queries:
@@ -647,7 +647,7 @@ Build a DatabaseTool that safely executes queries:
 - Error handling
 - Query timeout protection
 
-## Challenge 5: HTTP API Tool ⭐⭐⭐⭐
+## Challenge 5: HTTP API Tool 
 **Time:** 60 minutes
 
 Create a generic HTTPTool that:
@@ -699,23 +699,23 @@ curl -s -X POST "$BASE_URL/api/tools/weather/current?location=Seattle"
 
 curl -s -X POST "$BASE_URL/api/tools/weather/forecast?location=London&days=3"
 
-echo -e "\n\n✅ All tests complete!"
+echo -e "\n\n All tests complete!"
 ```
 
 ---
 
-## ⚠️ CRITICAL RISKS & MITIGATION
+## CRITICAL RISKS & MITIGATION
 
-### Risk 1: Breaking Existing Modules ⚠️ HIGH
+### Risk 1: Breaking Existing Modules  HIGH
 **Risk:** Changes to Module 04 might affect Module 05 (they share code currently)
 
 **Mitigation:**
-- ✅ Do NOT modify Module 05 (agents) - it's working perfectly
-- ✅ Create git branches before any changes
-- ✅ Test Module 05 still works after Module 04 changes
-- ✅ Keep modules completely independent
+- Do NOT modify Module 05 (agents) - it's working perfectly
+- Create git branches before any changes
+- Test Module 05 still works after Module 04 changes
+- Keep modules completely independent
 
-### Risk 2: Port Conflicts ⚠️ MEDIUM
+### Risk 2: Port Conflicts  MEDIUM
 **Risk:** Multiple modules trying to use same ports
 
 **Current Ports:**
@@ -726,40 +726,40 @@ echo -e "\n\n✅ All tests complete!"
 - 8084: Module 04 (tools) - **CHANGE FROM 8082**
 
 **Mitigation:**
-- ✅ Update Module 04 port to 8084 immediately
-- ✅ Test each module starts without conflicts
-- ✅ Document port assignments in main README
+- Update Module 04 port to 8084 immediately
+- Test each module starts without conflicts
+- Document port assignments in main README
 
-### Risk 3: Azure Deployment Configuration ⚠️ MEDIUM
+### Risk 3: Azure Deployment Configuration  MEDIUM
 **Risk:** azure.yaml may not include new modules
 
 **Mitigation:**
-- ✅ Review azure.yaml structure
-- ✅ Add Module 03 and 04 to deployment if needed
-- ✅ Test deployment incrementally
-- ✅ Keep existing working deployments unchanged
+- Review azure.yaml structure
+- Add Module 03 and 04 to deployment if needed
+- Test deployment incrementally
+- Keep existing working deployments unchanged
 
-### Risk 4: Incomplete Implementation ⚠️ LOW
+### Risk 4: Incomplete Implementation  LOW
 **Risk:** Module 03 needs significant code from scratch
 
 **Mitigation:**
-- ✅ Start with simplest features first
-- ✅ Test each endpoint before adding next
-- ✅ Use GitHub Copilot for code generation
-- ✅ Reference working patterns from Module 01
+- Start with simplest features first
+- Test each endpoint before adding next
+- Use GitHub Copilot for code generation
+- Reference working patterns from Module 01
 
-### Risk 5: Maven Build Failures ⚠️ LOW
+### Risk 5: Maven Build Failures  LOW
 **Risk:** Dependencies might conflict between modules
 
 **Mitigation:**
-- ✅ Run `mvn clean install` from root frequently
-- ✅ Fix compilation errors immediately
-- ✅ Use consistent dependency versions
-- ✅ Parent POM already configured correctly
+- Run `mvn clean install` from root frequently
+- Fix compilation errors immediately
+- Use consistent dependency versions
+- Parent POM already configured correctly
 
 ---
 
-## 📋 Implementation Order (CRITICAL)
+## Implementation Order (CRITICAL)
 
 **DO THIS ORDER - Don't skip steps:**
 
@@ -831,7 +831,7 @@ git push origin phase2-complete
 
 ---
 
-## 🔧 Azure Deployment Considerations
+## Azure Deployment Considerations
 
 ### Current Deployment Structure
 
@@ -880,7 +880,7 @@ services:
 
 ---
 
-## 🧪 Testing Strategy
+## Testing Strategy
 
 ### Test Order
 
@@ -945,15 +945,15 @@ services:
 
 ---
 
-## 📝 Documentation Updates
+## Documentation Updates
 
 ### Main README Updates
 
 **Add to Module Table:**
 
 ```markdown
-| **03-prompt-engineering** | 8083 | Templates, few-shot, parsing | ⭐⭐ |
-| **04-tools** | 8084 | Tool creation, HTTP tools, @Tool | ⭐⭐ |
+| **03-prompt-engineering** | 8083 | Templates, few-shot, parsing |  |
+| **04-tools** | 8084 | Tool creation, HTTP tools, @Tool |  |
 ```
 
 ### Create Module-Specific Docs
@@ -980,9 +980,9 @@ services:
 
 ---
 
-## 🚀 Implementation Timeline
+## Implementation Timeline
 
-### ⚠️ CRITICAL: Risk Mitigation Before Starting
+### CRITICAL: Risk Mitigation Before Starting
 
 **Create Safety Branch:**
 ```bash
@@ -1018,7 +1018,7 @@ cd 04-tools && mvn clean package && mvn spring-boot:run
 
 ### Week 2: Module 04 - Simplification (MEDIUM RISK - Refactoring Existing Code)
 
-**⚠️ IMPORTANT: Module 04 is currently a complete copy of Module 05**
+** IMPORTANT: Module 04 is currently a complete copy of Module 05**
 
 **Days 1-2: Backup & Initial Refactoring**
 - [ ] **Test Module 04 works AS-IS before changes** (mvn spring-boot:run)
@@ -1065,7 +1065,7 @@ cd 04-tools && mvn clean package && mvn spring-boot:run
 
 ---
 
-## 🎯 Success Metrics
+## Success Metrics
 
 ### Technical Metrics
 - [ ] Build time < 10 seconds per module
@@ -1090,7 +1090,7 @@ cd 04-tools && mvn clean package && mvn spring-boot:run
 
 ---
 
-## 🔄 Optional Enhancements
+## Optional Enhancements
 
 ### Module 03 Enhancements
 1. **Prompt Library** - Reusable prompt collection
@@ -1112,7 +1112,7 @@ cd 04-tools && mvn clean package && mvn spring-boot:run
 
 ---
 
-## 📚 Learning Path Integration
+## Learning Path Integration
 
 ### Recommended Order
 1. **00-course-setup** - Get environment ready
@@ -1132,7 +1132,7 @@ cd 04-tools && mvn clean package && mvn spring-boot:run
 
 ---
 
-## 🎓 Expected Learning Outcomes
+## Expected Learning Outcomes
 
 ### After Module 03, students can:
 - Write effective prompts for different tasks
@@ -1155,7 +1155,7 @@ Students have all building blocks needed for Module 05 (Agents) - they understan
 
 ---
 
-## 📋 Pre-Implementation Checklist
+## Pre-Implementation Checklist
 
 **MUST COMPLETE BEFORE STARTING:**
 
@@ -1172,7 +1172,7 @@ Students have all building blocks needed for Module 05 (Agents) - they understan
 
 ---
 
-## 🚀 Post-Implementation Checklist
+## Post-Implementation Checklist
 
 **VALIDATE EVERYTHING:**
 
@@ -1198,7 +1198,7 @@ Students have all building blocks needed for Module 05 (Agents) - they understan
 
 ---
 
-## 📞 Support & Resources
+## Support & Resources
 
 ### LangChain4j Resources
 - [Prompt Templates](https://docs.langchain4j.dev/tutorials/prompt-templates)
@@ -1212,7 +1212,7 @@ Students have all building blocks needed for Module 05 (Agents) - they understan
 
 ---
 
-## 🎯 Next Steps
+## Next Steps
 
 1. **Review this plan** - Ensure approach is correct
 2. **Start with Module 03** - Implement one module fully before starting next
@@ -1222,7 +1222,7 @@ Students have all building blocks needed for Module 05 (Agents) - they understan
 
 ---
 
-**Status:** 📋 Ready for Implementation  
+**Status:** Ready for Implementation  
 **Priority:** HIGH  
 **Estimated Effort:** 2-3 weeks  
 **Dependencies:** Azure OpenAI credentials, working environment  
@@ -1230,44 +1230,44 @@ Students have all building blocks needed for Module 05 (Agents) - they understan
 
 ---
 
-## � Success Vision
+## Success Vision
 
 When complete, students will have:
-- ✅ **6 progressive modules** teaching LangChain4j fundamentals
-- ✅ **Working code** they can run immediately
-- ✅ **Hands-on challenges** to practice skills
-- ✅ **Comprehensive documentation** to learn concepts
-- ✅ **Production-ready patterns** for real applications
-- ✅ **Azure deployment** experience
+- **6 progressive modules** teaching LangChain4j fundamentals
+- **Working code** they can run immediately
+- **Hands-on challenges** to practice skills
+- **Comprehensive documentation** to learn concepts
+- **Production-ready patterns** for real applications
+- **Azure deployment** experience
 
 **Result:** A complete, professional LangChain4j course that takes beginners from zero to building AI applications confidently.
 
 ---
 
-## 📊 Final Validation Summary
+## Final Validation Summary
 
-### Technical Validation ✅
-- ✅ Module structure aligns with Spring Boot best practices
-- ✅ Port assignments avoid conflicts (8080, 8081, 8082, 8083, 8084)
-- ✅ Dependencies correctly specified in pom.xml files
-- ✅ No circular dependencies between modules
-- ✅ Build system can compile all modules together
-- ⚠️ Azure deployment needs configuration updates
+### Technical Validation 
+- Module structure aligns with Spring Boot best practices
+- Port assignments avoid conflicts (8080, 8081, 8082, 8083, 8084)
+- Dependencies correctly specified in pom.xml files
+- No circular dependencies between modules
+- Build system can compile all modules together
+- Azure deployment needs configuration updates
 
-### Educational Validation ✅
-- ✅ Learning progression is logical (basics → advanced)
-- ✅ Each module has clear, distinct focus
-- ✅ Challenges progressively increase in difficulty
-- ✅ Documentation explains concepts before code
-- ✅ Examples are practical and relevant
+### Educational Validation 
+- Learning progression is logical (basics → advanced)
+- Each module has clear, distinct focus
+- Challenges progressively increase in difficulty
+- Documentation explains concepts before code
+- Examples are practical and relevant
 
-### Risk Assessment ✅
-- 🟢 **LOW RISK:** Module 03 (new code, no dependencies)
-- 🟡 **MEDIUM RISK:** Module 04 (refactoring existing, port change)
-- 🟢 **LOW RISK:** Integration (parent POM already configured)
-- 🟡 **MEDIUM RISK:** Azure deployment (configuration updates needed)
+### Risk Assessment 
+- **LOW RISK:** Module 03 (new code, no dependencies)
+- **MEDIUM RISK:** Module 04 (refactoring existing, port change)
+- **LOW RISK:** Integration (parent POM already configured)
+- **MEDIUM RISK:** Azure deployment (configuration updates needed)
 
-### Plan Approval Status: **✅ APPROVED - PROCEED WITH IMPLEMENTATION**
+### Plan Approval Status: ** APPROVED - PROCEED WITH IMPLEMENTATION**
 
 **Confidence Level:** HIGH (95%)
 - Plan is technically sound
@@ -1280,21 +1280,21 @@ When complete, students will have:
 
 ---
 
-## 🚦 GO/NO-GO Decision Criteria
+## GO/NO-GO Decision Criteria
 
-### ✅ GO Conditions (All Met)
-- ✅ Phase 1 complete (modules 00, 01, 02, 05 working)
-- ✅ Git repository in clean state
-- ✅ Azure OpenAI credentials available
-- ✅ Build system working (`mvn clean install` passes)
-- ✅ Safety branches can be created
-- ✅ Implementation plan is detailed and clear
+### GO Conditions (All Met)
+- Phase 1 complete (modules 00, 01, 02, 05 working)
+- Git repository in clean state
+- Azure OpenAI credentials available
+- Build system working (`mvn clean install` passes)
+- Safety branches can be created
+- Implementation plan is detailed and clear
 
-### 🛑 NO-GO Conditions (None Present)
-- ❌ Existing modules broken
-- ❌ Git repository in dirty/conflicted state
-- ❌ Missing required credentials
-- ❌ Build system failing
-- ❌ Unclear requirements
+### NO-GO Conditions (None Present)
+- Existing modules broken
+- Git repository in dirty/conflicted state
+- Missing required credentials
+- Build system failing
+- Unclear requirements
 
-**Decision: 🟢 GO FOR IMPLEMENTATION**
+**Decision:  GO FOR IMPLEMENTATION**
