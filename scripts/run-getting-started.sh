@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-# Run the Getting Started module locally using the provided
+# Run the Introduction module locally using the provided
 # environment variables.  This script expects a `.env` file at the
 # repository root.  For convenience it sources the variables and
 # launches the Spring Boot application via the Maven wrapper.
@@ -10,7 +10,7 @@ if [ -f .env ]; then
   export $(grep -v '^#' .env | xargs) || true
 fi
 
-cd 01-getting-started
+cd 01-introduction
 
 # Ensure the Maven wrapper exists; generate it on the fly if missing.
 if [ ! -f mvnw ]; then

@@ -8,8 +8,8 @@
     <version>0.1.0</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>getting-started</artifactId>
-  <name>01-getting-started</name>
+  <artifactId>introduction</artifactId>
+  <name>01-introduction</name>
 
   <properties>
     <java.version>21</java.version>

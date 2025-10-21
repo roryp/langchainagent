@@ -1,0 +1,19 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: prompt-engineering
+
+# Azure OpenAI Configuration
+azure:
+  openai:
+    endpoint: ${AZURE_OPENAI_ENDPOINT}
+    api-key: ${AZURE_OPENAI_API_KEY}
+    deployment: ${AZURE_OPENAI_DEPLOYMENT}
+
+# Logging
+logging:
+  level:
+    root: INFO
+    com.example.langchain4j: DEBUG

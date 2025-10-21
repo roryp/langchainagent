@@ -1,19 +1,63 @@
-# LangChain4j for Azure
+# LangChain4j for Beginners — Azure OpenAI Course
 
-This repository provides three progressive modules teaching you to build chat applications, add document search (RAG), and create autonomous AI agents.
+A comprehensive, hands-on course for building production-ready AI applications with LangChain4j and Azure OpenAI. Learn by building real applications from simple chat to advanced AI agents.
 
-## Modules
+## 📚 Course Modules
 
-### 01 - Getting Started
-Simple Spring Boot chat app with conversation memory and streaming responses.
+### 00 - Course Setup
+**Start Here!** Complete environment setup, Azure OpenAI configuration, and verification.
+- Prerequisites and installation
+- Azure account setup
+- Model deployments
+- Environment variables
+- Verification tests
+
+### 01 - Introduction
+Simple Spring Boot chat application with conversation memory and streaming responses.
+- Stateless chat
+- Conversation memory
+- Message history
+- Basic prompting
 
 ### 02 - RAG (Retrieval-Augmented Generation)
-Add document search capabilities with embeddings and vector stores.
+Add document search capabilities with embeddings and semantic search.
+- Document ingestion
+- Vector embeddings
+- Semantic search
+- Context-aware Q&A
+- Source citations
 
-### 03 - Agents & Tools
-Build autonomous agents that use HTTP-based tools to accomplish complex tasks.
+### 03 - Prompt Engineering
+Master the art of crafting effective prompts for LLMs.
+- Prompt templates
+- Few-shot learning
+- Structured outputs
+- Chain-of-thought
+- Output parsers
 
-## Quick Start
+### 04 - Tools
+Enable LLMs to interact with external systems and APIs.
+- Tool definition
+- HTTP-based tools
+- Calculator tools
+- Weather API integration
+- Custom tool creation
+
+### 05 - Agents
+Build autonomous AI agents that reason and act.
+- ReAct pattern
+- Multi-step reasoning
+- Tool selection
+- Agent memory
+- Error handling
+
+### 06 - Memory (Coming Soon)
+Advanced memory patterns for context-aware conversations.
+
+### 07 - Production (Coming Soon)
+Deploy, monitor, and scale AI applications in production.
+
+## 🚀 Quick Start
 
 ### Prerequisites
 
@@ -23,11 +67,13 @@ Build autonomous agents that use HTTP-based tools to accomplish complex tasks.
 - Java 21 or higher
 - Maven 3.9+
 
+**New to this?** Start with [Module 00: Course Setup](00-course-setup/README.md) for detailed instructions.
+
 ### Deploy to Azure
 
 ```bash
 git clone https://github.com/roryp/langchainagent.git
-cd langchainagent/01-getting-started
+cd langchainagent/01-introduction
 
 azd auth login
 azd up
@@ -40,7 +86,7 @@ azd up
 ### What Gets Deployed
 
 - **Azure OpenAI** - gpt-4o-mini + text-embedding-3-small
-- **3 Container Apps** - Getting Started, RAG, Agents
+- **3 Container Apps** - Introduction, RAG, Agents
 - **Container Registry** - For Docker images
 - **Log Analytics** - For monitoring
 - **Managed Identity** - Secure authentication
@@ -63,7 +109,7 @@ curl "$RAG_APP_URL/api/rag/health"
 curl "$AGENTS_APP_URL/api/agent/health"
 ```
 
-## Architecture
+## 🏗️ Architecture
 
 **Direct Azure OpenAI Integration** - Cost-optimized, no AI Foundry Hub needed
 
@@ -83,32 +129,79 @@ curl "$AGENTS_APP_URL/api/agent/health"
 └──────────────────────────────────────────┘
 ```
 
-## Features by Module
+## 📊 Features by Module
 
-| Module | Port | Key Features |
-|--------|------|-------------|
-| **01-getting-started** | 8080 | Basic chat, conversation memory, streaming |
-| **02-rag** | 8081 | Document upload, embeddings, semantic search, Q&A |
-| **03-agents-tools** | 8082 | Function calling, tool execution, multi-step reasoning |
+| Module | Port | Key Features | Difficulty |
+|--------|------|-------------|------------|
+| **00-course-setup** | - | Environment setup, verification | ⭐ |
+| **01-introduction** | 8080 | Basic chat, memory, streaming | ⭐ |
+| **02-rag** | 8081 | Documents, embeddings, Q&A | ⭐⭐ |
+| **03-prompt-engineering** | 8083 | Templates, few-shot, parsing | ⭐⭐ |
+| **04-tools** | 8082 | Tool definition, HTTP calls | ⭐⭐⭐ |
+| **05-agents** | 8082 | ReAct, reasoning, autonomy | ⭐⭐⭐⭐ |
 
-## Technologies
+## 🛠️ Technologies
 
-- **LangChain4j** - Java framework for LLM apps
-- **Azure OpenAI** - GPT-4o-mini & embeddings
+- **LangChain4j 1.7.1** - Java framework for LLM apps
+- **Azure OpenAI** - GPT-4o-mini & text-embedding-3-small
 - **Spring Boot 3.3.4** - Application framework
+- **Java 21** - Programming language
+- **Maven 3.9+** - Build tool
 - **Azure Container Apps** - Serverless hosting
 - **Azure Bicep** - Infrastructure as Code
 
-## Development
+## 📖 Learning Path
+
+1. **Start with Setup**: Complete [00-course-setup](00-course-setup/README.md)
+2. **Learn Basics**: Build your first app in [01-introduction](01-introduction/README.md)
+3. **Add Intelligence**: Implement RAG in [02-rag](02-rag/README.md)
+4. **Master Prompts**: Learn techniques in [03-prompt-engineering](03-prompt-engineering/README.md)
+5. **Extend Capabilities**: Add tools in [04-tools](04-tools/README.md)
+6. **Build Agents**: Create autonomous systems in [05-agents](05-agents/README.md)
+
+Each module includes:
+- 📝 Detailed README with concepts and examples
+- 💻 Working code you can run immediately
+- 🎯 Hands-on challenges to test your skills
+- 🐛 Troubleshooting tips
+
+## 📚 Documentation
+
+- **[GLOSSARY.md](docs/GLOSSARY.md)** - Key terms and concepts
+- **[TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)** - Common issues and solutions
+- **[TESTING-PLAN.md](TESTING-PLAN.md)** - Comprehensive testing guide
+- **[copilot-instructions.md](copilot-instructions.md)** - Project transformation plan
+
+## 🔧 Development
 
 ### Local Development
 
 Each module can run locally. See module-specific READMEs for details.
 
+**Example (Introduction module)**:
+```bash
+cd 01-introduction
+
+# Set environment variables
+export AZURE_OPENAI_ENDPOINT="https://your-resource.openai.azure.com/"
+export AZURE_OPENAI_API_KEY="your-key"
+export AZURE_OPENAI_DEPLOYMENT="gpt-4o-mini"
+
+# Run
+mvn spring-boot:run
+```
+
+### Build All Modules
+
+```bash
+# From root directory
+mvn clean install
+```
+
 ### Update Deployment
 
 ```bash
-cd 01-getting-started
+cd 01-introduction
 azd deploy  # Fast updates for code changes
 ```
 
@@ -117,17 +210,47 @@ azd deploy  # Fast updates for code changes
 ```bash
 azd monitor --logs
 ```
-## Resources
 
-- [LangChain4j Documentation](https://docs.langchain4j.dev/)
-- [Azure OpenAI Service](https://learn.microsoft.com/azure/ai-services/openai/)
-- [Azure Container Apps](https://learn.microsoft.com/azure/container-apps/)
-- [Azure Developer CLI](https://learn.microsoft.com/azure/developer/azure-developer-cli/)
+## 🎓 Resources
 
-## Contributing
+- **[LangChain4j Documentation](https://docs.langchain4j.dev/)** - Official docs
+- **[Azure OpenAI Service](https://learn.microsoft.com/azure/ai-services/openai/)** - Azure docs
+- **[Azure Container Apps](https://learn.microsoft.com/azure/container-apps/)** - Deployment platform
+- **[Azure Developer CLI](https://learn.microsoft.com/azure/developer/azure-developer-cli/)** - azd CLI docs
+- **[OpenAI Prompt Engineering](https://platform.openai.com/docs/guides/prompt-engineering)** - Best practices
 
-Contributions welcome! Fork the repo, create a feature branch, test thoroughly, and submit a PR.
+## 🤝 Contributing
 
-## License
+Contributions welcome! Please:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Test thoroughly using [TESTING-PLAN.md](TESTING-PLAN.md)
+4. Commit your changes (`git commit -m 'Add amazing feature'`)
+5. Push to the branch (`git push origin feature/amazing-feature`)
+6. Open a Pull Request
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
+
+## 📄 License
 
 MIT License - See [LICENSE](LICENSE) file for details.
+
+## 💬 Support
+
+- 🐛 **Bug Reports**: [GitHub Issues](https://github.com/roryp/langchainagent/issues)
+- 💡 **Feature Requests**: [GitHub Issues](https://github.com/roryp/langchainagent/issues)
+- 🔧 **Troubleshooting**: [TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)
+- 💬 **Discussions**: [GitHub Discussions](https://github.com/roryp/langchainagent/discussions)
+
+## ⭐ Show Your Support
+
+If this course helped you learn LangChain4j, please:
+- ⭐ Star this repository
+- 🐦 Share on social media
+- 📝 Write a blog post about your experience
+- 🤝 Contribute improvements
+
+---
+
+**Ready to start?** Head to [00-course-setup](00-course-setup/README.md) to begin your journey!
