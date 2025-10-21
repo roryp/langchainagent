@@ -11,7 +11,7 @@ A course for AI applications with LangChain4j from simple chat to advanced AI ag
 5. [Tools](04-tools/) - Integrate external tools and APIs
 6. [MCP (Model Context Protocol)](05-mcp/) - Work with the Model Context Protocol
 
-Start with section 00-quick-start and progress through the modules.
+Start with section [Quick Start](00-quick-start/) and progress through the modules.
 
 ## License
 
