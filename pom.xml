@@ -10,6 +10,7 @@
   <packaging>pom</packaging>
 
   <modules>
+    <module>00-quick-start</module>
     <module>00-course-setup</module>
     <module>01-introduction</module>
     <module>02-rag</module>
