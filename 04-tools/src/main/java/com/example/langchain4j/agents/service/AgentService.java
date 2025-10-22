@@ -38,7 +38,7 @@ public class AgentService {
 
     public AgentService(
             @Value("${azure.openai.endpoint}") String endpoint,
-            @Value("${azure.openai.key}") String apiKey,
+            @Value("${azure.openai.api-key}") String apiKey,
             @Value("${azure.openai.deployment}") String deployment,
             @Value("${azure.ai.agent.tools.base-url}") String toolsBaseUrl) {
         
@@ -51,11 +51,12 @@ public class AgentService {
         log.info("Tools Base URL: {}", toolsBaseUrl);
         
         // Initialize Azure OpenAI chat model
-        // GPT-5 uses reasoning effort instead of temperature
+        // GPT-5 uses reasoning effort instead of temperature and maxCompletionTokens instead of maxTokens
         this.chatModel = AzureOpenAiChatModel.builder()
             .endpoint(endpoint)
             .apiKey(apiKey)
             .deploymentName(deployment)
+            .maxCompletionTokens(2000)
             .maxRetries(3)
             .logRequestsAndResponses(true)
             .build();

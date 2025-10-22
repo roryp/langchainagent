@@ -13,7 +13,7 @@ server:
 azure:
   openai:
     endpoint: ${AZURE_OPENAI_ENDPOINT:https://your-openai.openai.azure.com}
-    key: ${AZURE_OPENAI_API_KEY}
+    api-key: ${AZURE_OPENAI_API_KEY}
     deployment: ${AZURE_OPENAI_DEPLOYMENT:gpt-5}
   ai:
     agent:
