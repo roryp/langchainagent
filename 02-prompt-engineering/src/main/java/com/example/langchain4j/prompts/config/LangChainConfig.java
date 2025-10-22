@@ -1,10 +1,10 @@
 package com.example.langchain4j.prompts.config;
 
 import dev.langchain4j.model.azure.AzureOpenAiChatModel;
-import dev.langchain4j.model.chat.ChatLanguageModel;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 /**
  * Configuration for LangChain4j with GPT-5 support.
@@ -31,7 +31,8 @@ public class LangChainConfig {
     private Integer maxCompletionTokens;
 
     @Bean
-    public ChatLanguageModel chatLanguageModel() {
+    @Primary
+    public AzureOpenAiChatModel chatLanguageModel() {
         return AzureOpenAiChatModel.builder()
                 .endpoint(azureEndpoint)
                 .apiKey(azureApiKey)
@@ -46,7 +47,7 @@ public class LangChainConfig {
      * Use this for simple tasks requiring quick responses
      */
     @Bean("quickModel")
-    public ChatLanguageModel quickChatModel() {
+    public AzureOpenAiChatModel quickChatModel() {
         return AzureOpenAiChatModel.builder()
                 .endpoint(azureEndpoint)
                 .apiKey(azureApiKey)
@@ -61,7 +62,7 @@ public class LangChainConfig {
      * Use this for complex tasks requiring deep reasoning
      */
     @Bean("thoroughModel")
-    public ChatLanguageModel thoroughChatModel() {
+    public AzureOpenAiChatModel thoroughChatModel() {
         return AzureOpenAiChatModel.builder()
                 .endpoint(azureEndpoint)
                 .apiKey(azureApiKey)

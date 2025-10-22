@@ -5,9 +5,7 @@ import dev.langchain4j.data.message.SystemMessage;
 import dev.langchain4j.data.message.UserMessage;
 import dev.langchain4j.memory.ChatMemory;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
-import dev.langchain4j.model.chat.ChatLanguageModel;
-import dev.langchain4j.model.output.Response;
-import dev.langchain4j.service.AiServices;
+import dev.langchain4j.model.azure.AzureOpenAiChatModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +22,7 @@ import java.util.Map;
 public class Gpt5PromptService {
 
     @Autowired
-    private ChatLanguageModel chatModel;
+    private AzureOpenAiChatModel chatModel;
 
     private final Map<String, ChatMemory> sessionMemories = new HashMap<>();
 
@@ -46,7 +44,7 @@ public class Gpt5PromptService {
             Provide your answer:
             """.formatted(problem);
 
-        return chatModel.generate(prompt);
+        return chatModel.chat(prompt);
     }
 
     /**
@@ -68,7 +66,7 @@ public class Gpt5PromptService {
             Think step by step and provide your complete solution:
             """.formatted(problem);
 
-        return chatModel.generate(prompt);
+        return chatModel.chat(prompt);
     }
 
     /**
@@ -108,7 +106,7 @@ public class Gpt5PromptService {
             Begin execution:
             """.formatted(task);
 
-        return chatModel.generate(prompt);
+        return chatModel.chat(prompt);
     }
 
     /**
@@ -157,7 +155,7 @@ public class Gpt5PromptService {
             Generate the code:
             """.formatted(requirement);
 
-        return chatModel.generate(prompt);
+        return chatModel.chat(prompt);
     }
 
     /**
@@ -206,7 +204,7 @@ public class Gpt5PromptService {
             Provide your structured analysis:
             """.formatted(code);
 
-        return chatModel.generate(prompt);
+        return chatModel.chat(prompt);
     }
 
     /**
@@ -253,13 +251,30 @@ public class Gpt5PromptService {
         // Add user message
         chatMemory.add(UserMessage.from(userMessage));
 
-        // Generate response
-        Response<AiMessage> response = chatModel.generate(chatMemory.messages());
-
+        // Generate response using chat() for string list
+        String response = chatModel.chat(buildContextString(chatMemory));
+        
         // Store assistant's response
-        chatMemory.add(response.content());
+        chatMemory.add(AiMessage.from(response));
 
-        return response.content().text();
+        return response;
+    }
+    
+    /**
+     * Helper method to build context string from chat memory
+     */
+    private String buildContextString(ChatMemory chatMemory) {
+        StringBuilder context = new StringBuilder();
+        chatMemory.messages().forEach(msg -> {
+            if (msg instanceof SystemMessage) {
+                context.append("System: ").append(((SystemMessage)msg).text()).append("\n\n");
+            } else if (msg instanceof UserMessage) {
+                context.append("User: ").append(((UserMessage)msg).singleText()).append("\n\n");
+            } else if (msg instanceof AiMessage) {
+                context.append("Assistant: ").append(((AiMessage)msg).text()).append("\n\n");
+            }
+        });
+        return context.toString();
     }
 
     /**
@@ -288,7 +303,7 @@ public class Gpt5PromptService {
             Generate the content:
             """.formatted(topic, format, maxWords);
 
-        return chatModel.generate(prompt);
+        return chatModel.chat(prompt);
     }
 
     /**
@@ -315,7 +330,7 @@ public class Gpt5PromptService {
             Let's solve this step by step:
             """.formatted(problem);
 
-        return chatModel.generate(prompt);
+        return chatModel.chat(prompt);
     }
 
     /**
