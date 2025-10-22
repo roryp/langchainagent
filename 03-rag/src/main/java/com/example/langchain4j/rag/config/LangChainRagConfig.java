@@ -32,8 +32,8 @@ public class LangChainRagConfig {
     @Value("${azure.openai.reasoning-effort:medium}")
     private String reasoningEffort;
 
-    @Value("${azure.openai.max-tokens:2000}")
-    private Integer maxTokens;
+    @Value("${azure.openai.max-completion-tokens:2000}")
+    private Integer maxCompletionTokens;
 
     /**
      * Creates the Azure OpenAI Chat Model for answer generation.
@@ -47,7 +47,7 @@ public class LangChainRagConfig {
             .endpoint(endpoint)
             .apiKey(apiKey)
             .deploymentName(deployment)
-            .maxTokens(maxTokens)
+            .maxCompletionTokens(maxCompletionTokens)
             .maxRetries(3)
             .logRequestsAndResponses(false)
             .build();

@@ -26,7 +26,7 @@ param openAiDeployments array = [
       version: '2025-08-07'
     }
     sku: {
-      name: 'Standard'
+      name: 'GlobalStandard'
       capacity: 20
     }
   }

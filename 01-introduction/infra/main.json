@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.37.4.10188",
-      "templateHash": "5537070695631892441"
+      "templateHash": "13906060771556761135"
     }
   },
   "parameters": {
@@ -49,7 +49,7 @@
             "version": "2025-08-07"
           },
           "sku": {
-            "name": "Standard",
+            "name": "GlobalStandard",
             "capacity": 20
           }
         },

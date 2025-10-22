@@ -27,8 +27,8 @@ public class LangChainConfig {
     @Value("${azure.openai.reasoning-effort:medium}")
     private String reasoningEffort;
 
-    @Value("${azure.openai.max-tokens:2000}")
-    private Integer maxTokens;
+    @Value("${azure.openai.max-completion-tokens:2000}")
+    private Integer maxCompletionTokens;
 
     @Bean
     public ChatLanguageModel chatLanguageModel() {
@@ -36,7 +36,7 @@ public class LangChainConfig {
                 .endpoint(azureEndpoint)
                 .apiKey(azureApiKey)
                 .deploymentName(deploymentName)
-                .maxTokens(maxTokens)
+                .maxCompletionTokens(maxCompletionTokens)
                 .logRequestsAndResponses(true)
                 .build();
     }
@@ -51,7 +51,7 @@ public class LangChainConfig {
                 .endpoint(azureEndpoint)
                 .apiKey(azureApiKey)
                 .deploymentName(deploymentName)
-                .maxTokens(maxTokens)
+                .maxCompletionTokens(maxCompletionTokens)
                 .logRequestsAndResponses(true)
                 .build();
     }
@@ -66,7 +66,7 @@ public class LangChainConfig {
                 .endpoint(azureEndpoint)
                 .apiKey(azureApiKey)
                 .deploymentName(deploymentName)
-                .maxTokens(maxTokens)
+                .maxCompletionTokens(maxCompletionTokens)
                 .logRequestsAndResponses(true)
                 .build();
     }
