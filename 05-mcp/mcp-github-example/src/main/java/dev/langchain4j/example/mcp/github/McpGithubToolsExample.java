@@ -46,10 +46,20 @@ public class McpGithubToolsExample {
                 ? "docker"
                 : "docker";
 
+        // Get the project root directory (2 levels up from mcp-github-example)
+        String projectRoot = System.getProperty("user.dir");
+        if (projectRoot.endsWith("mcp-github-example")) {
+            projectRoot = new java.io.File(projectRoot).getParentFile().getParentFile().getAbsolutePath();
+        }
+        
+        // Convert Windows path to Docker-compatible format if needed
+        String dockerPath = projectRoot.replace("\\", "/");
+        String volumeMount = dockerPath + ":/app/LangChain4j-for-Beginners";
+
         McpTransport transport = new StdioMcpTransport.Builder()
                 .command(List.of(dockerCommand, "run", 
                     "-e", "GITHUB_PERSONAL_ACCESS_TOKEN=" + System.getenv("GITHUB_TOKEN"),
-                    "-v", "C:/Users/ropreddy/dev/LangChain4j-for-Beginners:/app/LangChain4j-for-Beginners",
+                    "-v", volumeMount,
                     "-i", "mcp/git"))
                 .logEvents(true)
                 .build();
