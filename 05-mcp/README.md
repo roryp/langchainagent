@@ -19,7 +19,7 @@ mvn exec:java -Dexec.mainClass=dev.langchain4j.example.mcp.McpToolsExampleOverHt
 ```
 
 ### 2. mcp-github-example
-Real-world example using GitHub MCP server to summarize repository commits.
+Real-world example using GitHub MCP server to summarize repository commits. Uses local repository mounted via Docker.
 
 **Run it:**
 ```bash
@@ -27,7 +27,7 @@ cd mcp-github-example
 
 # First, build the GitHub MCP Docker image
 git clone https://github.com/modelcontextprotocol/servers.git
-cd servers/src/github
+cd servers/src/git
 docker build -t mcp/git .
 
 # Then run the example
@@ -123,7 +123,7 @@ cd mcp-github-example
 
 # Build GitHub MCP Docker image first
 git clone https://github.com/modelcontextprotocol/servers.git
-cd servers/src/github
+cd servers/src/git
 docker build -t mcp/git .
 
 # Return to project and run
@@ -131,6 +131,8 @@ cd ../../../mcp-github-example
 export GITHUB_TOKEN=your_github_token
 mvn exec:java -Dexec.mainClass=dev.langchain4j.example.mcp.github.McpGithubToolsExample
 ```
+
+**Note:** This example automatically mounts your local repository into Docker and detects the correct npm/docker commands for your OS (Windows/Linux/Mac).
 
 ## MCP Architecture
 
