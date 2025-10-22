@@ -14,7 +14,7 @@ Basic examples showing HTTP and stdio transport mechanisms.
 **Run it:**
 ```bash
 cd mcp-example
-export OPENAI_API_KEY=your_key
+export GITHUB_TOKEN=your_github_token
 mvn exec:java -Dexec.mainClass=dev.langchain4j.example.mcp.McpToolsExampleOverHttp
 ```
 
@@ -32,7 +32,7 @@ docker build -t mcp/git .
 
 # Then run the example
 cd ../../../mcp-github-example
-export OPENAI_API_KEY=your_key
+export GITHUB_TOKEN=your_github_token
 mvn exec:java -Dexec.mainClass=dev.langchain4j.example.mcp.github.McpGithubToolsExample
 ```
 
@@ -42,8 +42,21 @@ See [mcp-github-example/Readme.md](mcp-github-example/Readme.md) for more detail
 
 - Java 21+
 - Maven 3.9+
-- Docker (for GitHub example)
-- OpenAI API key
+- npm (for stdio example)
+- Docker
+- GitHub personal access token
+
+### Getting a GitHub Token
+
+1. Go to GitHub Settings → Developer settings → Personal access tokens → Tokens (classic)
+2. Click "Generate new token (classic)"
+3. Give it a descriptive name (e.g., "LangChain4j MCP Examples")
+4. No specific scopes are required for GitHub Models API access
+5. Click "Generate token" and copy the token
+6. Set it as an environment variable:
+   ```bash
+   export GITHUB_TOKEN=your_token_here
+   ```
 
 ## How It Works
 
@@ -60,6 +73,13 @@ Your App → MCP Client → MCP Server → Tools (GitHub, Files, etc.)
 ## Key Code Example
 
 ```java
+// Setup chat model with GitHub Models
+ChatModel model = OpenAiChatModel.builder()
+    .baseUrl("https://models.inference.ai.azure.com")
+    .apiKey(System.getenv("GITHUB_TOKEN"))
+    .modelName("gpt-4o-mini")
+    .build();
+
 // Setup MCP client
 McpClient client = McpClient.builder()
     .transport(httpTransport)
@@ -84,15 +104,17 @@ AiServices.builder(Bot.class)
 ```bash
 cd mcp-example
 
-# Set your OpenAI credentials
-export OPENAI_API_KEY=your_key
+# Set your GitHub token
+export GITHUB_TOKEN=your_github_token
 
-# Run HTTP transport example
+# Run HTTP transport example (requires MCP server running on localhost:3001)
 mvn exec:java -Dexec.mainClass=dev.langchain4j.example.mcp.McpToolsExampleOverHttp
 
-# Run stdio transport example
+# Run stdio transport example (requires npm installed)
 mvn exec:java -Dexec.mainClass=dev.langchain4j.example.mcp.McpToolsExampleOverStdio
 ```
+
+**Note:** The stdio example automatically detects your OS and uses the appropriate npm command (npm.cmd on Windows, npm on Linux/Mac).
 
 ### 2. GitHub MCP Example
 
@@ -106,7 +128,7 @@ docker build -t mcp/git .
 
 # Return to project and run
 cd ../../../mcp-github-example
-export OPENAI_API_KEY=your_key
+export GITHUB_TOKEN=your_github_token
 mvn exec:java -Dexec.mainClass=dev.langchain4j.example.mcp.github.McpGithubToolsExample
 ```
 
@@ -136,6 +158,24 @@ mvn exec:java -Dexec.mainClass=dev.langchain4j.example.mcp.github.McpGithubTools
 ```
 
 ## Configuration
+
+### GitHub Models Setup
+
+All examples now use GitHub Models instead of OpenAI directly:
+
+```java
+ChatModel model = OpenAiChatModel.builder()
+    .baseUrl("https://models.inference.ai.azure.com")
+    .apiKey(System.getenv("GITHUB_TOKEN"))
+    .modelName("gpt-4o-mini")
+    .build();
+```
+
+**Benefits:**
+- Free tier available for developers
+- Uses your GitHub personal access token
+- Same OpenAI models, different endpoint
+- No separate OpenAI API key needed
 
 ### MCP Server Configuration
 
