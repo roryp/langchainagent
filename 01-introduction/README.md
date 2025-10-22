@@ -1,18 +1,18 @@
 # Module 01: Getting Started with LangChain4j
 
-Learn the basics of LangChain4j with Azure OpenAI - chat completion, conversation memory, and Azure deployment.
+Learn the basics of LangChain4j with Azure OpenAI - chat completion, conversation memory, and local development.
 
 ## Features
 
 - Basic chat completion (stateless)
 - Conversational chat with memory (stateful)
 - Spring Boot integration
-- Azure Container Apps deployment
-- Infrastructure as Code (Bicep)
+- Azure OpenAI deployment (GPT-5)
+- Run locally with azd-deployed resources
 
 ## Prerequisites
 
-- Azure subscription with Azure OpenAI access (deployed chat model)
+- Azure subscription with Azure OpenAI access
 - Java 21, Maven 3.9+, Azure CLI, azd CLI
 
 ## Quick Start
@@ -39,10 +39,10 @@ curl -X POST https://<your-app-url>/api/chat \
 ### Run Locally
 
 ```bash
-cd 01-getting-started
+cd 01-introduction
 export AZURE_OPENAI_ENDPOINT="https://aoai-xyz.openai.azure.com/"
 export AZURE_OPENAI_API_KEY="***"
-export AZURE_OPENAI_DEPLOYMENT="gpt-4o-mini"
+export AZURE_OPENAI_DEPLOYMENT="gpt-5"
 mvn spring-boot:run
 ```
 
@@ -121,33 +121,33 @@ curl -X POST http://localhost:8080/api/conversation/chat \
 |----------|-------------|
 | `AZURE_OPENAI_ENDPOINT` | Azure OpenAI endpoint URL |
 | `AZURE_OPENAI_API_KEY` | API key |
-| `AZURE_OPENAI_DEPLOYMENT` | Model deployment name (e.g., gpt-4o-mini) |
+| `AZURE_OPENAI_DEPLOYMENT` | Model deployment name (e.g., gpt-5) |
 
 **Application Properties (application.yaml):**
 ```yaml
 azure:
   openai:
-    temperature: 0.2     # Lower = focused, Higher = creative
-    max-tokens: 1000     # Max response length
+    reasoning-effort: medium  # low, medium, high (GPT-5 reasoning depth)
+    max-tokens: 1000          # Max response length
 ```
 
 ## Azure Infrastructure
 
-Deployed with `azd up`:
-- **Azure OpenAI** - gpt-4o-mini + text-embedding-3-small
-- **Container App** - Auto-scaling (1-10 replicas), 2 CPU, 4GB memory
-- **Container Registry** - Managed identity auth
-- **Log Analytics** - 30-day retention
+Deploy Azure OpenAI with `azd up`:
+- **Azure OpenAI** - gpt-5 + text-embedding-3-small
 
-**View logs:**
+**Simplified deployment - no container apps, run locally:**
 ```bash
-azd monitor --logs
+cd 01-introduction
+azd up
 ```
 
-**Update deployment:**
+**View deployed resources:**
 ```bash
-azd deploy
+azd env get-values
 ```
+
+All examples run locally using the deployed Azure OpenAI endpoint.
 
 ## Troubleshooting
 
@@ -172,4 +172,4 @@ Start new conversation with `/api/conversation/start`. Note: In-memory storage c
 
 - [LangChain4j Docs](https://docs.langchain4j.dev/)
 - [Azure OpenAI](https://learn.microsoft.com/azure/ai-services/openai/)
-- [Azure Container Apps](https://learn.microsoft.com/azure/container-apps/)
+- [Azure Developer CLI](https://learn.microsoft.com/azure/developer/azure-developer-cli/)

@@ -29,14 +29,15 @@ public class LangChainRagConfig {
     @Value("${azure.openai.embedding-deployment:#{environment.AZURE_OPENAI_EMBEDDING_DEPLOYMENT}}")
     private String embeddingDeployment;
 
-    @Value("${azure.openai.temperature:0.2}")
-    private Double temperature;
+    @Value("${azure.openai.reasoning-effort:medium}")
+    private String reasoningEffort;
 
     @Value("${azure.openai.max-tokens:2000}")
     private Integer maxTokens;
 
     /**
      * Creates the Azure OpenAI Chat Model for answer generation.
+     * GPT-5 uses reasoning effort levels instead of temperature.
      *
      * @return configured AzureOpenAiChatModel
      */
@@ -46,7 +47,6 @@ public class LangChainRagConfig {
             .endpoint(endpoint)
             .apiKey(apiKey)
             .deploymentName(deployment)
-            .temperature(temperature)
             .maxTokens(maxTokens)
             .maxRetries(3)
             .logRequestsAndResponses(false)

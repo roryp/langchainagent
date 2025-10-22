@@ -51,11 +51,11 @@ public class AgentService {
         log.info("Tools Base URL: {}", toolsBaseUrl);
         
         // Initialize Azure OpenAI chat model
+        // GPT-5 uses reasoning effort instead of temperature
         this.chatModel = AzureOpenAiChatModel.builder()
             .endpoint(endpoint)
             .apiKey(apiKey)
             .deploymentName(deployment)
-            .temperature(0.2)
             .maxRetries(3)
             .logRequestsAndResponses(true)
             .build();

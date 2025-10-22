@@ -21,8 +21,8 @@ public class LangChainConfig {
     @Value("${azure.openai.deployment:${AZURE_OPENAI_DEPLOYMENT:}}")
     private String deployment;
 
-    @Value("${azure.openai.temperature:0.2}")
-    private Double temperature;
+    @Value("${azure.openai.reasoning-effort:medium}")
+    private String reasoningEffort;
 
     @Value("${azure.openai.max-tokens:1000}")
     private Integer maxTokens;
@@ -43,7 +43,6 @@ public class LangChainConfig {
             .endpoint(endpoint)
             .apiKey(apiKey)
             .deploymentName(deployment)
-            .temperature(temperature)
             .maxTokens(maxTokens)
             .maxRetries(3)
             .logRequestsAndResponses(false)

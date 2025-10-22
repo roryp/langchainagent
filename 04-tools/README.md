@@ -10,18 +10,18 @@ Build autonomous AI agents that can use HTTP-based tools to accomplish complex t
 - **Tool Chaining** - Execute multiple tools in sequence
 - **OpenAPI Spec** - Tools defined with OpenAPI 3.0
 
-## Architecture
+## Architecture (Local Development)
 
 ```
 
-  Container App (Port 8082)      
+  Spring Boot App (Port 8082)      
   • AgentController             
   • AgentService (ReAct)        
   • ToolsController             
 
           ↓
 
-  Azure OpenAI (gpt-4o-mini)     
+  Azure OpenAI (gpt-5)     
 
           ↓
 
@@ -29,6 +29,17 @@ Build autonomous AI agents that can use HTTP-based tools to accomplish complex t
   • Weather (mock)               
   • Calculator                   
 
+```
+
+## Quick Start (Local Development)
+
+```bash
+cd 04-tools
+export AZURE_OPENAI_ENDPOINT="https://aoai-xyz.openai.azure.com/"
+export AZURE_OPENAI_API_KEY="***"
+export AZURE_OPENAI_DEPLOYMENT="gpt-5"
+export TOOLS_BASE_URL="http://localhost:8082"
+mvn spring-boot:run
 ```
 
 **Flow**: User message → Agent analyzes → Calls tools via HTTP → Returns answer
@@ -42,36 +53,21 @@ Build autonomous AI agents that can use HTTP-based tools to accomplish complex t
 **Calculator**:
 - `add`, `subtract`, `multiply`, `divide`, `power`, `sqrt`
 
-## Quick Start
+## Testing
 
 ```bash
-cd 01-getting-started
-azd up  # Deploys all services including agents (port 8082)
-```
-
-### Test
-
-```bash
-AGENTS_URL=$(azd env get-values | grep AGENTS_APP_URL | cut -d'=' -f2 | tr -d '"')
-
 # Start session
-curl -X POST "$AGENTS_URL/api/agent/start"
+curl -X POST "http://localhost:8082/api/agent/start"
 
 # Chat (agent will use tools automatically)
-curl -X POST "$AGENTS_URL/api/agent/chat" \
+curl -X POST "http://localhost:8082/api/agent/chat" \
   -H "Content-Type: application/json" \
   -d '{"message": "What is 25 + 17?", "sessionId": "test-session"}'
-```
 
-### Run Locally
-
-```bash
-cd 03-agents-tools
-export AZURE_OPENAI_ENDPOINT="https://aoai-xyz.openai.azure.com/"
-export AZURE_OPENAI_API_KEY="***"
-export AZURE_OPENAI_DEPLOYMENT="gpt-4o-mini"
-export TOOLS_BASE_URL="http://localhost:8082"
-mvn spring-boot:run
+# Test calculator directly
+curl -X POST "http://localhost:8082/api/tools/calculator/add" \
+  -H "Content-Type: application/json" \
+  -d '{"a": 25, "b": 17}'
 ```
 
 
@@ -95,18 +91,12 @@ POST /api/agent/chat
 ```
 
 **Example Response:**
-```http
-GET /api/agent/tools
+```json
+{ 
+  "answer": "150", 
+  "toolsUsed": 1 
+}
 ```
-{ "answer": "150", "toolsUsed": 1 }
-```
-| Pattern | ReAct (prompt-based) | Native function calling |
-
-### Tool Calling Implementation
-
-**System Prompt Format:**
-```
-You are a helpful AI assistant with access to the following tools:
 
 ## Implementation
 
@@ -139,18 +129,7 @@ azure:
 - `langchain4j-azure-open-ai` - Azure OpenAI integration
 - `langchain4j` - Core framework with chat memory
 
-## Testing
 
-```bash
-# Run test script
-cd scripts && ./test-agents.sh
-
-# Or test manually
-curl http://localhost:8082/api/agent/health
-curl -X POST http://localhost:8082/api/tools/calculator/add \
-  -H "Content-Type: application/json" \
-  -d '{"a": 25, "b": 17}'
-```
 
 ## Troubleshooting
 
@@ -160,8 +139,8 @@ curl -X POST http://localhost:8082/api/tools/calculator/add \
 - Check system prompt includes tool descriptions
 
 **Connection errors:**
-- Local: `TOOLS_BASE_URL=http://localhost:8082`
-- Azure: Use Container App URL from `azd env get-values`
+- Check `TOOLS_BASE_URL=http://localhost:8082` is set correctly
+- Ensure both Weather API and Agents API are running on different ports
 
 **Multi-step execution:**
 - Supports up to 5 iterations per request

@@ -8,13 +8,6 @@ info:
     url: https://github.com/roryp/LangChain4j-for-Beginners
 
 servers:
-  - url: https://ca-agents-{resourceToken}.{region}.azurecontainerapps.io
-    description: Azure Container App deployment
-    variables:
-      resourceToken:
-        default: ozhotol5yje76
-      region:
-        default: livelyplant-8c187f15.eastus2
   - url: http://localhost:8082
     description: Local development server
 

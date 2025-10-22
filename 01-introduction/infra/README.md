@@ -1,136 +1,86 @@
 # Azure Infrastructure for LangChain4j Getting Started
 
-This directory contains the Azure infrastructure as code (IaC) using Bicep and Azure Developer CLI (azd) for deploying the LangChain4j Getting Started application.
+This directory contains the Azure infrastructure as code (IaC) using Bicep and Azure Developer CLI (azd) for deploying Azure OpenAI resources.
 
 ## Prerequisites
 
 - [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli) (version 2.50.0 or later)
 - [Azure Developer CLI (azd)](https://learn.microsoft.com/azure/developer/azure-developer-cli/install-azd) (version 1.5.0 or later)
-- [Docker Desktop](https://www.docker.com/products/docker-desktop)
 - An Azure subscription with permissions to create resources
 
 ## Architecture
 
+**Simplified Local Development Setup** - Deploy Azure OpenAI only, run all apps locally.
+
 The infrastructure deploys the following Azure resources:
-
-### Core Resources
-- **Resource Group**: Container for all resources
-- **User-Assigned Managed Identity**: For secure authentication between services
-
-### Compute
-- **Azure Container Registry (ACR)**: Stores the container images
-- **Azure Container Apps Environment**: Hosts the application
-- **Container App**: Runs the Spring Boot application
 
 ### AI Services
 - **Azure OpenAI**: Cognitive Services with two model deployments:
-  - **gpt-4o-mini**: Chat completion model (20K TPM capacity)
+  - **gpt-5**: Chat completion model (20K TPM capacity)
   - **text-embedding-3-small**: Embedding model for RAG (20K TPM capacity)
 
-### Monitoring
-- **Log Analytics Workspace**: Centralized logging and monitoring
+### Local Development
+All Spring Boot applications run locally on your machine:
+- 01-introduction (port 8080)
+- 02-prompt-engineering (port 8080)
+- 03-rag (port 8081)
+- 04-tools (port 8082)
 
 ## Resources Created
 
 | Resource Type | Resource Name Pattern | Purpose |
 |--------------|----------------------|---------|
 | Resource Group | `rg-{environmentName}` | Contains all resources |
-| User-Assigned Managed Identity | `id-{resourceToken}` | Secure service-to-service authentication |
-| Log Analytics Workspace | `log-{resourceToken}` | Centralized logging |
-| Container Registry | `acr{resourceToken}` | Container image storage |
-| Container Apps Environment | `cae-{resourceToken}` | Container hosting environment |
-| Container App | `ca-{resourceToken}` | Application runtime |
 | Azure OpenAI | `aoai-{resourceToken}` | AI model hosting |
 
 *Note: `{resourceToken}` is a unique string generated from subscription ID, environment name, and location*
 
 ## Quick Start
 
-### 1. Initialize Azure Developer CLI
+### 1. Deploy Azure OpenAI
 
 ```bash
-cd 01-getting-started
-azd init
+cd 01-introduction
+azd up
 ```
 
 When prompted:
-- Use the current directory
+- Select your Azure subscription
+- Choose a location (recommended: `eastus` for GPT-5 availability)
 - Confirm the environment name (default: `langchain4j-dev`)
 
-### 2. Provision Azure Resources
+This will create:
+- Azure OpenAI resource with GPT-5 and text-embedding-3-small
+- Output connection details
 
-```bash
-azd provision
-```
-
-You'll be prompted to:
-- Select your Azure subscription
-- Choose a location (recommended: `eastus` for Azure OpenAI availability)
-- Provide a principal ID (optional, your user ID will be used by default)
-
-This will:
-- Create all Azure resources defined in `infra/main.bicep`
-- Configure role assignments and permissions
-- Output connection information
-
-### 3. Deploy the Application
-
-```bash
-# Build and push the Docker image
-azd deploy
-```
-
-This will:
-- Build the Docker image using the Dockerfile
-- Push the image to Azure Container Registry
-- Update the Container App with the new image
-- Set environment variables for Azure OpenAI connection
-
-### 4. Access the Application
-
-After deployment, get the application URL:
+### 2. Get Connection Details
 
 ```bash
 azd env get-values
 ```
 
-Look for `APP_URL` in the output. You can test the endpoints:
+This displays:
+- `AZURE_OPENAI_ENDPOINT`: Your Azure OpenAI endpoint URL
+- `AZURE_OPENAI_KEY`: API key for authentication
+- `AZURE_OPENAI_DEPLOYMENT`: Chat model name (gpt-5)
+- `AZURE_OPENAI_EMBEDDING_DEPLOYMENT`: Embedding model name
+
+### 3. Run Applications Locally
+
+Use the output values to run any example:
 
 ```bash
-# Test basic chat
-curl -X POST https://{your-app-url}/api/chat \
-  -H 'Content-Type: application/json' \
-  -d '{"message":"Hello from Azure!"}'
+# Set environment variables
+export AZURE_OPENAI_ENDPOINT="<from azd output>"
+export AZURE_OPENAI_API_KEY="<from azd output>"
+export AZURE_OPENAI_DEPLOYMENT="gpt-5"
 
-# Start a conversation
-curl -X POST https://{your-app-url}/api/conversation/start
-
-# Send a message (use the conversationId from previous response)
-curl -X POST https://{your-app-url}/api/conversation/chat \
-  -H 'Content-Type: application/json' \
-  -d '{"conversationId":"YOUR_ID","message":"Tell me about Azure OpenAI"}'
+# Run an example
+cd ../01-introduction  # or 02-prompt-engineering, 03-rag, 04-tools
+mvn spring-boot:run
 ```
 
 ## Configuration
-
-### Environment Variables
-
-The infrastructure automatically configures these environment variables in the Container App:
-
-- `AZURE_OPENAI_ENDPOINT`: Azure OpenAI service endpoint
-- `AZURE_OPENAI_DEPLOYMENT`: Chat model deployment name (gpt-4o-mini)
-- `AZURE_OPENAI_EMBEDDING_DEPLOYMENT`: Embedding model deployment name (text-embedding-3-small)
-- `SPRING_PROFILES_ACTIVE`: Set to 'azure' for Azure-specific configuration
-
-### Authentication
-
-The application uses **Managed Identity** (passwordless) authentication by default. This is more secure than using API keys.
-
-The infrastructure:
-1. Creates a User-Assigned Managed Identity
-2. Assigns the "Cognitive Services OpenAI User" role to the identity
-3. Configures the Container App to use this identity
-4. LangChain4j automatically uses Azure DefaultAzureCredential
 
 ### Customizing Model Deployments
 
@@ -139,15 +89,15 @@ To change model deployments, edit `infra/main.bicep` and modify the `openAiDeplo
 ```bicep
 param openAiDeployments array = [
   {
-    name: 'gpt-4'  // Change model name
+    name: 'gpt-5'  // Model deployment name
     model: {
       format: 'OpenAI'
-      name: 'gpt-4'
-      version: '0613'  // Change version
+      name: 'gpt-5'
+      version: '2025-08-07'  // Model version
     }
     sku: {
       name: 'Standard'
-      capacity: 30  // Change capacity (TPM in thousands)
+      capacity: 20  // TPM in thousands
     }
   }
   // Add more deployments...
@@ -156,65 +106,127 @@ param openAiDeployments array = [
 
 Available models and versions: https://learn.microsoft.com/azure/ai-services/openai/concepts/models
 
-### Scaling Configuration
+### Changing Azure Regions
 
-The Container App is configured with:
-- **Min replicas**: 1 (always running)
-- **Max replicas**: 10 (scales based on HTTP traffic)
-- **CPU**: 1.0 cores
-- **Memory**: 2 GiB
-
-To change scaling, edit `infra/core/host/container-app.bicep`:
+To deploy in a different region, edit `infra/main.bicep`:
 
 ```bicep
-scale: {
-  minReplicas: 1  // Minimum number of instances
-  maxReplicas: 10  // Maximum number of instances
-  rules: [
-    {
-      name: 'http-rule'
-      http: {
-        metadata: {
-          concurrentRequests: '10'  // Requests per instance
-        }
-      }
-    }
-  ]
-}
+param openAiLocation string = 'swedencentral'  // or other GPT-5 region
 ```
+
+Check GPT-5 availability: https://learn.microsoft.com/azure/ai-services/openai/concepts/models#model-summary-table-and-region-availability
+
+## Management Commands
+
+### Update Infrastructure
+
+If you modify `main.bicep`, redeploy with:
+
+```bash
+azd up
+```
+
+### View All Environment Variables
+
+```bash
+azd env get-values
+```
+
+### Delete All Resources
+
+```bash
+azd down
+```
+
+This removes:
+- Resource group
+- Azure OpenAI resource
+- All model deployments
+
+## Cost Optimization
+
+### Development
+- Use Standard tier (S0) for Azure OpenAI
+- Set lower capacity (10K TPM instead of 20K)
+- Delete resources when not in use: `azd down`
+
+### Cost Estimation
+- Azure OpenAI: Pay-per-token (input + output)
+- GPT-5: ~$3-5 per 1M tokens (check current pricing)
+- text-embedding-3-small: ~$0.02 per 1M tokens
+
+Pricing calculator: https://azure.microsoft.com/pricing/calculator/
+
+## Troubleshooting
+
+### Issue: GPT-5 not available in selected region
+
+**Solution:**
+- Choose a region with GPT-5 access (e.g., eastus, swedencentral)
+- Check availability: https://learn.microsoft.com/azure/ai-services/openai/concepts/models
+
+### Issue: Insufficient quota for deployment
+
+**Solution:**
+1. Request quota increase in Azure Portal
+2. Or use lower capacity in `main.bicep` (e.g., capacity: 10)
+
+### Issue: "Resource not found" when running locally
+
+**Solution:**
+1. Verify deployment: `azd env get-values`
+2. Check endpoint and key are correct
+3. Ensure resource group exists in Azure Portal
+
+### Issue: Authentication failed
+
+**Solution:**
+- Verify `AZURE_OPENAI_API_KEY` is set correctly
+- Key format should be 32-character hexadecimal string
+- Get new key from Azure Portal if needed
+
+## File Structure
+
+```
+infra/
+├── main.bicep                       # Main infrastructure definition
+├── main.json                        # Compiled ARM template (auto-generated)
+├── main.bicepparam                  # Parameter file
+├── README.md                        # This file
+└── core/
+    └── ai/
+        └── cognitiveservices.bicep  # Azure OpenAI module
+```
+
+## Security Best Practices
+
+1. **Never commit API keys** - Use environment variables
+2. **Use .env files locally** - Add `.env` to `.gitignore`
+3. **Rotate keys regularly** - Generate new keys in Azure Portal
+4. **Limit access** - Use Azure RBAC to control who can access resources
+5. **Monitor usage** - Set up cost alerts in Azure Portal
+
+## Additional Resources
+
+- [Azure OpenAI Documentation](https://learn.microsoft.com/azure/ai-services/openai/)
+- [Azure Developer CLI (azd)](https://learn.microsoft.com/azure/developer/azure-developer-cli/)
+- [Bicep Documentation](https://learn.microsoft.com/azure/azure-resource-manager/bicep/)
+- [LangChain4j Documentation](https://docs.langchain4j.dev/)
 
 ## Cost Optimization
 
 ### Development/Testing
 For dev/test environments, you can reduce costs:
 
-1. **OpenAI Capacity**: Reduce from 20K to 10K TPM
-2. **Container App**: Set `minReplicas: 0` (scale to zero when idle)
-3. **Log Analytics**: Reduce `retentionInDays` from 30 to 7
-
-Edit `infra/main.bicep` and `infra/core/host/container-app.bicep` accordingly.
+- **OpenAI Capacity**: Reduce from 20K to 10K TPM in `infra/core/ai/cognitiveservices.bicep`
 
 ### Production
 For production:
-- Increase OpenAI capacity based on usage
-- Enable zone redundancy for Container Apps Environment
-- Consider Premium SKU for Container Registry
-- Implement proper monitoring and alerts
+- Increase OpenAI capacity based on usage (50K+ TPM)
+- Enable zone redundancy for higher availability
+- Implement proper monitoring and cost alerts
 
-## Monitoring and Logging
-
-### View Container App Logs
-
-```bash
-# Using Azure CLI
-az containerapp logs show \
-  --name ca-{resourceToken} \
-  --resource-group rg-{environmentName} \
-  --follow
-
-# Using azd
-azd monitor
-```
+## Monitoring
 
 ### View Azure OpenAI Metrics
 
@@ -222,17 +234,7 @@ Go to Azure Portal → Your OpenAI resource → Metrics:
 - Token-Based Utilization
 - HTTP Request Rate
 - Time To Response
-
-### Application Insights
-
-The Container Apps Environment is configured with Log Analytics. Logs are automatically collected:
-
-```bash
-# Query logs using Azure CLI
-az monitor log-analytics query \
-  --workspace {workspace-id} \
-  --analytics-query "ContainerAppConsoleLogs_CL | where TimeGenerated > ago(1h)"
-```
+- Active Tokens
 
 ## Troubleshooting
 
@@ -241,51 +243,49 @@ az monitor log-analytics query \
 **Issue**: `azd provision` fails with quota or capacity errors
 
 **Solution**: 
-1. Try a different region (Azure OpenAI availability varies)
-2. Check your subscription quotas:
+1. Try a different region - GPT-5 is available in `eastus` or `swedencentral`
+2. Check your subscription has Azure OpenAI quota:
    ```bash
-   az vm list-usage --location eastus -o table
+   az cognitiveservices account list-skus --location eastus
    ```
 
-**Issue**: Container Registry access denied
+### Application Not Connecting
 
-**Solution**: Verify the managed identity has AcrPull role:
-```bash
-az role assignment list --assignee {managed-identity-principal-id} --all
-```
-
-### Application Not Starting
-
-**Issue**: Container app shows "ImagePullBackOff"
+**Issue**: Java application shows connection errors
 
 **Solution**:
-1. Ensure the image was pushed successfully:
+1. Verify environment variables are exported:
    ```bash
-   az acr repository list --name acr{resourceToken}
+   echo $AZURE_OPENAI_ENDPOINT
+   echo $AZURE_OPENAI_API_KEY
    ```
-2. Check Container App logs for authentication issues
+2. Check endpoint format is correct (should be `https://xxx.openai.azure.com`)
+3. Verify API key is the primary or secondary key from Azure Portal
 
 **Issue**: 401 Unauthorized from Azure OpenAI
 
 **Solution**:
-1. Verify managed identity role assignment
-2. Check that `AZURE_OPENAI_ENDPOINT` environment variable is set correctly
-3. Ensure model deployments are complete (can take a few minutes)
+1. Get a fresh API key from Azure Portal → Keys and Endpoint
+2. Re-export the `AZURE_OPENAI_API_KEY` environment variable
+3. Ensure model deployments are complete (check Azure Portal)
 
 ### Performance Issues
 
 **Issue**: Slow response times
 
 **Solution**:
-1. Check OpenAI token usage and throttling
-2. Increase Container App replicas or resources
-3. Verify network connectivity between services
+1. Check OpenAI token usage and throttling in Azure Portal metrics
+2. Increase TPM capacity if you're hitting limits
+3. Consider using a higher reasoning-effort level (low/medium/high)
 
 ## Updating Infrastructure
 
 To update the infrastructure after making changes to Bicep files:
 
 ```bash
+# Rebuild the ARM template
+az bicep build --file infra/main.bicep
+
 # Preview changes
 azd provision --preview
 
@@ -305,27 +305,12 @@ azd down
 azd down --purge
 ```
 
-**Warning**: This will permanently delete all resources and data.
-
-## Security Best Practices
-
-1. **Use Managed Identity**: Already configured by default
-2. **Network Security**: For production, enable private endpoints:
-   - Edit `infra/core/ai/cognitiveservices.bicep`
-   - Set `publicNetworkAccess: 'Disabled'`
-   - Add private endpoint configuration
-
-3. **Secrets Management**: For any additional secrets, use Azure Key Vault:
-   ```bash
-   az keyvault create --name kv-{resourceToken} --resource-group rg-{environmentName}
-   ```
-
-4. **RBAC**: Use least privilege principle for role assignments
+**Warning**: This will permanently delete all Azure resources.
 
 ## Additional Resources
 
-- [Azure Container Apps Documentation](https://learn.microsoft.com/azure/container-apps/)
 - [Azure OpenAI Service Documentation](https://learn.microsoft.com/azure/ai-services/openai/)
+- [GPT-5 Model Documentation](https://learn.microsoft.com/azure/ai-services/openai/concepts/models#gpt-5)
 - [Azure Developer CLI Documentation](https://learn.microsoft.com/azure/developer/azure-developer-cli/)
 - [Bicep Documentation](https://learn.microsoft.com/azure/azure-resource-manager/bicep/)
 - [LangChain4j Azure OpenAI Integration](https://docs.langchain4j.dev/integrations/language-models/azure-open-ai)
@@ -334,9 +319,8 @@ azd down --purge
 
 For issues:
 1. Check the [troubleshooting section](#troubleshooting) above
-2. Review Azure Container Apps logs
-3. Check Azure OpenAI service health
-4. Open an issue in the repository
+2. Review Azure OpenAI service health in Azure Portal
+3. Open an issue in the repository
 
 ## License
 

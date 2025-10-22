@@ -82,7 +82,6 @@ public class FunctionCallingExample {
                 .baseUrl("https://models.inference.ai.azure.com")
                 .apiKey(githubToken)
                 .modelName("gpt-4o-mini")
-                .temperature(0.0)  // Use 0 for deterministic tool calling
                 .build();
 
         // Create an AI service with calculator tools

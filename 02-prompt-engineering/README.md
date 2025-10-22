@@ -1,14 +1,52 @@
-# 02 - Prompt Engineering
+# 02 - Prompt Engineering with GPT-5
 
-Learn the art and science of crafting effective prompts for large language models!
+Learn the art and science of crafting effective prompts for large language models using **GPT-5 best practices** from OpenAI's official guide!
+
+## 🎯 What's New
+
+This module implements **8 GPT-5 prompting patterns** from [OpenAI's official cookbook](https://github.com/openai/openai-cookbook/blob/main/examples/gpt-5/gpt-5_prompting_guide.ipynb):
+
+1. **Low Eagerness** - Fast, focused responses (2 steps max)
+2. **High Eagerness** - Thorough, autonomous exploration  
+3. **Tool Preambles** - Progress updates for multi-step tasks
+4. **Self-Reflecting Code** - Quality-driven code generation
+5. **Structured Analysis** - Framework-based code review
+6. **Multi-Turn Chat** - Context-aware conversations
+7. **Step-by-Step Reasoning** - Explicit logic walkthrough
+8. **Constrained Output** - Format & length compliance
+
+## 🚀 Quick Start
+
+```bash
+# 1. Set environment variables for local development
+export AZURE_OPENAI_ENDPOINT="https://your-resource.openai.azure.com/"
+export AZURE_OPENAI_API_KEY="your-key"
+export AZURE_OPENAI_DEPLOYMENT="gpt-5"
+
+# 2. Build and run locally
+cd 02-prompt-engineering
+mvn spring-boot:run
+
+# 3. Test all patterns
+curl http://localhost:8080/api/prompts/focused -X POST \
+  -H "Content-Type: application/json" \
+  -d '{"prompt":"What is 15% of 200?"}'
+```
 
 ## What You'll Learn
 
+### Traditional Techniques
 - **Prompt Templates**: Create reusable, parameterized prompts
 - **Few-Shot Learning**: Teach models through examples
 - **Output Parsers**: Structure and validate LLM responses
 - **System Messages**: Set behavior and constraints
-- **Advanced Techniques**: Chain-of-thought, role-playing, and more
+
+### GPT-5 Best Practices (NEW!)
+- **Agentic Eagerness Control**: Low vs. high autonomy patterns
+- **Tool Preambles**: Progress updates for multi-step tasks
+- **Self-Reflecting Code Generation**: Internal quality rubrics
+- **Structured Extraction**: Precise, type-safe data extraction
+- **Multi-Turn Conversations**: Context-aware interactions
 
 ## Learning Objectives
 
@@ -72,7 +110,28 @@ By the end of this module, you will be able to:
 
 ### Prerequisites
 
-Complete [Module 00: Course Setup](../00-course-setup/README.md) and set environment variables.
+**Deploy GPT-5 to Azure OpenAI using the existing Bicep infrastructure:**
+
+```bash
+# Easy way - use the deploy script
+chmod +x deploy-gpt5.sh
+./deploy-gpt5.sh
+
+# Or manually from 01-introduction:
+cd ../01-introduction
+
+# Edit infra/main.bicep and change:
+# Deployment name in Azure
+# - gpt-4o-mini → gpt-5 (when available in your region)
+# - version: '2024-07-18' → version: '0125'
+
+azd up
+```
+
+The `azd` deployment automatically sets your environment variables:
+- `AZURE_OPENAI_ENDPOINT`
+- `AZURE_OPENAI_API_KEY`  
+- `AZURE_OPENAI_DEPLOYMENT`
 
 ### 1. Build the Project
 
@@ -454,7 +513,7 @@ Extract structured data.
 ### Issue: Inconsistent Outputs
 
 **Solution:**
-- Set `temperature=0` for deterministic responses
+- Use consistent reasoning-effort level (low for deterministic)
 - Use more specific instructions
 - Add output format examples
 
@@ -497,11 +556,233 @@ curl -X POST http://localhost:8083/api/prompts/test/parse
 
 ---
 
-## Learn More
+---
 
-- **LangChain4j Prompt Templates**: [docs.langchain4j.dev/tutorials/prompts](https://docs.langchain4j.dev/)
-- **OpenAI Prompt Engineering Guide**: [platform.openai.com/docs/guides/prompt-engineering](https://platform.openai.com/docs/guides/prompt-engineering)
-- **Prompt Engineering Course**: [learnprompting.org](https://learnprompting.org/)
+## 🚀 GPT-5 Prompting Patterns
+
+This module implements **8 GPT-5 patterns** from [OpenAI's official guide](https://github.com/openai/openai-cookbook/blob/main/examples/gpt-5/gpt-5_prompting_guide.ipynb):
+
+### 1. **Low Eagerness** (Fast, Focused)
+```bash
+curl -X POST http://localhost:8083/api/gpt5/focused \
+  -H 'Content-Type: application/json' \
+  -d '{"problem": "What is 15% of 200?"}'
+```
+- Max 2 reasoning steps
+- Quick, direct answers
+- Use for: calculations, lookups, simple questions
+
+### 2. **High Eagerness** (Thorough, Autonomous)
+```bash
+curl -X POST http://localhost:8083/api/gpt5/autonomous \
+  -H 'Content-Type: application/json' \
+  -d '{"problem": "Design a scalable microservices architecture"}'
+```
+- Complete exploration
+- Autonomous decision-making
+- Use for: system design, complex research, architecture
+
+### 3. **Tool Preambles** (Progress Updates)
+```bash
+curl -X POST http://localhost:8083/api/gpt5/task \
+  -H 'Content-Type: application/json' \
+  -d '{"task": "Migrate API to OAuth2"}'
+```
+- Clear upfront plan
+- Step-by-step narration
+- Distinct summary
+- Use for: multi-step workflows, user-facing tasks
+
+### 4. **Self-Reflecting Code Generation**
+```bash
+curl -X POST http://localhost:8083/api/gpt5/code \
+  -H 'Content-Type: application/json' \
+  -d '{"requirement": "Create file upload service with S3 integration"}'
+```
+- Internal quality rubrics (7 criteria)
+- Iterative improvement
+- Production-quality output
+- Use for: code generation, high-quality requirements
+
+### 5. **Structured Analysis**
+```bash
+curl -X POST http://localhost:8083/api/gpt5/analyze \
+  -H 'Content-Type: application/json' \
+  -d '{"code": "public void process(String s) { return s.toLowerCase(); }"}'
+```
+- Framework-based evaluation
+- Consistent feedback format
+- Use for: code review, quality assessment
+
+### 6. **Multi-Turn Conversations**
+```bash
+# First message
+curl -X POST http://localhost:8083/api/gpt5/chat \
+  -H 'Content-Type: application/json' \
+  -d '{"message": "What is Spring Boot?", "sessionId": "user123"}'
+
+# Follow-up (maintains context)
+curl -X POST http://localhost:8083/api/gpt5/chat \
+  -H 'Content-Type: application/json' \
+  -d '{"message": "Show me an example", "sessionId": "user123"}'
+```
+- Context preservation
+- Natural conversation flow
+- Use for: interactive assistants, complex Q&A
+
+### 7. **Step-by-Step Reasoning**
+```bash
+curl -X POST http://localhost:8083/api/gpt5/reason \
+  -H 'Content-Type: application/json' \
+  -d '{"problem": "If Alice has 3 apples and gives 1 to Bob, then buys 2 more, how many?"}'
+```
+- Explicit reasoning process
+- Clear verification
+- Use for: math problems, logic puzzles
+
+### 8. **Constrained Output**
+```bash
+curl -X POST http://localhost:8083/api/gpt5/constrained \
+  -H 'Content-Type: application/json' \
+  -d '{"topic": "machine learning", "format": "bullet points", "maxWords": 100}'
+```
+- Strict format adherence
+- Word count limits
+- Use for: summaries, specific formats
+
+### Run All Tests
+```bash
+chmod +x test-gpt5.sh
+./test-gpt5.sh
+```
+
+---
+
+## 📖 Key Concepts
+
+### XML-Based Prompt Structure
+All GPT-5 patterns use XML tags for clear organization:
+
+```xml
+<context_gathering>
+- Search depth: low/medium/high
+- Stop criteria
+- Reasoning approach
+</context_gathering>
+
+<persistence>
+- Autonomy level
+- When to ask for help
+- Error handling
+</persistence>
+
+<self_reflection>
+Quality rubric:
+1. Correctness
+2. Quality
+3. Best practices
+... iterate until all ✓
+</self_reflection>
+
+<tool_preambles>
+- Restate goal
+- Outline plan
+- Narrate steps
+- Summarize completion
+</tool_preambles>
+```
+
+### When to Use Each Pattern
+
+| Pattern | Use Case | Speed | Quality |
+|---------|----------|-------|---------|
+| Low Eagerness | Simple queries | ⚡⚡⚡ | ⭐⭐ |
+| High Eagerness | Complex tasks | ⚡ | ⭐⭐⭐ |
+| Tool Preambles | Multi-step workflows | ⚡⚡ | ⭐⭐⭐ |
+| Self-Reflection | Code generation | ⚡ | ⭐⭐⭐⭐ |
+| Structured Analysis | Code review | ⚡⚡ | ⭐⭐⭐ |
+| Multi-Turn | Conversations | ⚡⚡ | ⭐⭐⭐ |
+| Reasoning | Logic problems | ⚡ | ⭐⭐⭐ |
+| Constrained | Format-specific | ⚡⚡ | ⭐⭐ |
+
+---
+
+## 🔧 Configuration
+
+### Reasoning Effort Settings (GPT-5)
+```yaml
+# application.yaml
+azure:
+  openai:
+    reasoning-effort: medium  # Default, balanced
+    # low = faster responses (simple tasks)
+    # medium = balanced (general tasks)
+    # high = deeper reasoning (complex analysis)
+```
+
+### Multiple Model Beans
+```java
+@Autowired
+private ChatLanguageModel chatModel;  // Default (medium)
+
+@Autowired
+@Qualifier("quickModel")
+private ChatLanguageModel quickModel;  // Low reasoning effort
+
+@Autowired
+@Qualifier("thoroughModel")
+private ChatLanguageModel thoroughModel;  // High reasoning effort
+```
+
+---
+
+## 💡 Examples in Code
+
+### Quick Usage
+```java
+@Autowired
+private Gpt5PromptService gpt5Service;
+
+// Fast answer
+String result = gpt5Service.solveFocused("What is 15% of 200?");
+
+// Thorough analysis
+String design = gpt5Service.solveAutonomous(
+    "Design a caching strategy for high-traffic API"
+);
+
+// High-quality code
+String code = gpt5Service.generateCodeWithReflection(
+    "Create email validation service with proper error handling"
+);
+
+// Multi-turn conversation
+String response = gpt5Service.continueConversation(
+    "Tell me about Spring Boot", 
+    "user123"
+);
+```
+
+### Structured Extraction
+```java
+@Autowired
+private Gpt5StructuredExtractor extractor;
+
+String text = "John Doe is 35 and lives in San Francisco";
+PersonInfo person = extractor.extractPerson(text);
+
+System.out.println(person.fullName());  // "John Doe"
+System.out.println(person.age());       // 35
+System.out.println(person.location());  // "San Francisco"
+```
+
+---
+
+## 📚 Resources
+
+- **OpenAI GPT-5 Guide**: [Official Cookbook](https://github.com/openai/openai-cookbook/blob/main/examples/gpt-5/gpt-5_prompting_guide.ipynb)
+- **LangChain4j Docs**: [docs.langchain4j.dev](https://docs.langchain4j.dev/)
+- **Spring Boot**: [docs.spring.io](https://docs.spring.io/spring-boot/docs/current/reference/html/)
 
 ---
 

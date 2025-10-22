@@ -12,7 +12,7 @@ azure:
     endpoint: ${AZURE_OPENAI_ENDPOINT:}
     api-key: ${AZURE_OPENAI_API_KEY:}
     deployment: ${AZURE_OPENAI_DEPLOYMENT:}
-    temperature: 0.2
+    reasoning-effort: medium  # low, medium, high (for GPT-5)
     max-tokens: 1000
 
 # Logging configuration

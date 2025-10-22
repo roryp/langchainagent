@@ -4,25 +4,5 @@ name: langchain4j-introduction
 metadata:
   template: langchain4j-introduction@0.0.1
 
-services:
-  app:
-    project: .
-    language: java
-    host: containerapp
-    docker:
-      path: ./Dockerfile
-      context: ..
-  rag:
-    project: ../03-rag
-    language: java
-    host: containerapp
-    docker:
-      path: ../03-rag/Dockerfile
-      context: ..
-  agents:
-    project: ../04-tools
-    language: java
-    host: containerapp
-    docker:
-      path: ../04-tools/Dockerfile
-      context: ..
+# No services defined - all applications run locally
+# This configuration only deploys Azure OpenAI infrastructure

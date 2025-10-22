@@ -10,11 +10,11 @@ Build a RAG system that answers questions based on your documents using LangChai
 - Context-aware answer generation
 - Source attribution
 
-## Architecture
+## Architecture (Local Development)
 
 ```
 
-  Container App (Port 8081)      
+  Spring Boot App (Port 8081)      
   • DocumentService             
   • RagService                  
   • InMemoryEmbeddingStore      
@@ -22,7 +22,7 @@ Build a RAG system that answers questions based on your documents using LangChai
           ↓
 
   Azure OpenAI                   
-  • gpt-4o-mini (chat)          
+  • gpt-5 (chat)          
   • text-embedding-3-small      
 
 ```
@@ -31,42 +31,45 @@ Build a RAG system that answers questions based on your documents using LangChai
 1. Upload document → Split into chunks → Generate embeddings → Store
 2. Ask question → Embed query → Find relevant chunks → Generate answer with sources
 
-## Prerequisites
-
-- Azure subscription with Azure OpenAI access
-- Java 21, Maven 3.9+, Azure CLI, azd CLI
-
-## Quick Start
-
-```bash
-cd 01-getting-started
-azd up  # Deploys all services including RAG (port 8081)
-```
-
-### Test
-
-```bash
-RAG_URL=$(azd env get-values | grep RAG_APP_URL | cut -d'=' -f2 | tr -d '"')
-
-# Upload document
-curl -X POST "$RAG_URL/api/documents/upload" \
-  -F "file=@document.pdf"
-
-# Ask question
-curl -X POST "$RAG_URL/api/rag/ask" \
-  -H "Content-Type: application/json" \
-  -d '{"question": "What is the main topic?", "conversationId": "test"}'
-```
-
-### Run Locally
+## Quick Start (Local Development)
 
 ```bash
 cd 03-rag
 export AZURE_OPENAI_ENDPOINT="https://aoai-xyz.openai.azure.com/"
 export AZURE_OPENAI_API_KEY="***"
-export AZURE_OPENAI_DEPLOYMENT="gpt-4o-mini"
+export AZURE_OPENAI_DEPLOYMENT="gpt-5"
 export AZURE_OPENAI_EMBEDDING_DEPLOYMENT="text-embedding-3-small"
 mvn spring-boot:run
+```
+2. Ask question → Embed query → Find relevant chunks → Generate answer with sources
+
+## Prerequisites
+
+- Azure subscription with Azure OpenAI access
+- Java 21, Maven 3.9+, Azure CLI, azd CLI
+
+## Quick Start (Local Development)
+
+```bash
+cd 03-rag
+export AZURE_OPENAI_ENDPOINT="https://aoai-xyz.openai.azure.com/"
+export AZURE_OPENAI_API_KEY="***"
+export AZURE_OPENAI_DEPLOYMENT="gpt-5"
+export AZURE_OPENAI_EMBEDDING_DEPLOYMENT="text-embedding-3-small"
+mvn spring-boot:run
+```
+
+### Test
+
+```bash
+# Upload document
+curl -X POST "http://localhost:8081/api/documents/upload" \
+  -F "file=@document.pdf"
+
+# Ask question
+curl -X POST "http://localhost:8081/api/rag/ask" \
+  -H "Content-Type: application/json" \
+  -d '{"question": "What is the main topic?", "conversationId": "test"}'
 ```
 
 ## API Endpoints
@@ -98,8 +101,8 @@ rag:
 
 azure:
   openai:
-    temperature: 0.2     # Response randomness
-    max-tokens: 1000     # Max response length
+    reasoning-effort: medium  # Reasoning depth (low, medium, high)
+    max-tokens: 1000          # Max response length
 ```
 
 **Vector Store Options:**

@@ -1,0 +1,73 @@
+package com.example.langchain4j.prompts.config;
+
+import dev.langchain4j.model.azure.AzureOpenAiChatModel;
+import dev.langchain4j.model.chat.ChatLanguageModel;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+/**
+ * Configuration for LangChain4j with GPT-5 support.
+ * 
+ * GPT-5 uses reasoning effort levels (low, medium, high) instead of temperature.
+ * This controls the depth of reasoning the model applies to responses.
+ */
+@Configuration
+public class LangChainConfig {
+
+    @Value("${azure.openai.endpoint}")
+    private String azureEndpoint;
+
+    @Value("${azure.openai.api-key}")
+    private String azureApiKey;
+
+    @Value("${azure.openai.deployment:gpt-5}")
+    private String deploymentName;
+
+    @Value("${azure.openai.reasoning-effort:medium}")
+    private String reasoningEffort;
+
+    @Value("${azure.openai.max-tokens:2000}")
+    private Integer maxTokens;
+
+    @Bean
+    public ChatLanguageModel chatLanguageModel() {
+        return AzureOpenAiChatModel.builder()
+                .endpoint(azureEndpoint)
+                .apiKey(azureApiKey)
+                .deploymentName(deploymentName)
+                .maxTokens(maxTokens)
+                .logRequestsAndResponses(true)
+                .build();
+    }
+
+    /**
+     * Optional: Bean for low reasoning effort (faster, less thorough)
+     * Use this for simple tasks requiring quick responses
+     */
+    @Bean("quickModel")
+    public ChatLanguageModel quickChatModel() {
+        return AzureOpenAiChatModel.builder()
+                .endpoint(azureEndpoint)
+                .apiKey(azureApiKey)
+                .deploymentName(deploymentName)
+                .maxTokens(maxTokens)
+                .logRequestsAndResponses(true)
+                .build();
+    }
+
+    /**
+     * Optional: Bean for high reasoning effort (slower, more thorough)
+     * Use this for complex tasks requiring deep reasoning
+     */
+    @Bean("thoroughModel")
+    public ChatLanguageModel thoroughChatModel() {
+        return AzureOpenAiChatModel.builder()
+                .endpoint(azureEndpoint)
+                .apiKey(azureApiKey)
+                .deploymentName(deploymentName)
+                .maxTokens(maxTokens)
+                .logRequestsAndResponses(true)
+                .build();
+    }
+}
