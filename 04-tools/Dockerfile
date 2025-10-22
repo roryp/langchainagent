@@ -10,14 +10,14 @@ RUN apt-get update && apt-get install -y maven && rm -rf /var/lib/apt/lists/*
 COPY pom.xml ./pom.xml
 
 # Copy module pom and source
-COPY 03-agents-tools/pom.xml ./03-agents-tools/pom.xml
+COPY 04-tools/pom.xml ./04-tools/pom.xml
 
 # Download dependencies
-WORKDIR /workspace/03-agents-tools
+WORKDIR /workspace/04-tools
 RUN mvn dependency:go-offline -B || true
 
 # Copy source code
-COPY 03-agents-tools/src ./src
+COPY 04-tools/src ./src
 
 # Build the application
 RUN mvn clean package -DskipTests
@@ -28,7 +28,7 @@ FROM mcr.microsoft.com/openjdk/jdk:21-ubuntu
 WORKDIR /app
 
 # Copy the built JAR from the build stage
-COPY --from=build /workspace/03-agents-tools/target/agents-*.jar app.jar
+COPY --from=build /workspace/04-tools/target/agents-*.jar app.jar
 
 EXPOSE 8082
 

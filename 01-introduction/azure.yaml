@@ -20,9 +20,9 @@ services:
       path: ../03-rag/Dockerfile
       context: ..
   agents:
-    project: ../03-agents-tools
+    project: ../04-tools
     language: java
     host: containerapp
     docker:
-      path: ../03-agents-tools/Dockerfile
+      path: ../04-tools/Dockerfile
       context: ..
