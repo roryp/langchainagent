@@ -136,7 +136,6 @@ azure:
 Deploy Azure OpenAI with `azd up`:
 - **Azure OpenAI** - gpt-5 + text-embedding-3-small
 
-**Simplified deployment - no container apps, run locally:**
 ```bash
 cd 01-introduction
 azd up

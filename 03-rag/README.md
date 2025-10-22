@@ -141,21 +141,6 @@ azure:
 **Queries**: Be specific, include context  
 **Production**: Use persistent vector store (Qdrant/Azure AI Search), add monitoring, rate limiting
 
-## Testing
-
-```bash
-# Run test scripts
-bash scripts/test-upload.sh http://localhost:8081
-bash scripts/test-query.sh http://localhost:8081
-
-# Or unit tests
-mvn test
-```
-
-## Next Steps
-
-- **Module 04**: AI Agents with Tools
-
 ## Resources
 
 - [LangChain4j RAG Docs](https://docs.langchain4j.dev/tutorials/rag)
