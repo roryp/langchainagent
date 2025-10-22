@@ -13,11 +13,11 @@ services:
       path: ./Dockerfile
       context: ..
   rag:
-    project: ../02-rag
+    project: ../03-rag
     language: java
     host: containerapp
     docker:
-      path: ../02-rag/Dockerfile
+      path: ../03-rag/Dockerfile
       context: ..
   agents:
     project: ../03-agents-tools

@@ -76,8 +76,8 @@ public class RunAllExamples {
             System.out.println();
             System.out.println("Next steps:");
             System.out.println("  - Check out Module 01: Introduction with Azure OpenAI");
-            System.out.println("  - Check out Module 02: RAG (Retrieval Augmented Generation)");
-            System.out.println("  - Check out Module 03: Prompt Engineering");
+            System.out.println("  - Check out Module 02: Prompt Engineering");
+            System.out.println("  - Check out Module 03: RAG (Retrieval Augmented Generation)");
             System.out.println();
             System.out.println("Resources:");
             System.out.println("  - LangChain4j Docs: https://docs.langchain4j.dev/");

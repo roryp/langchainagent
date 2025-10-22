@@ -1,4 +1,4 @@
-# 03 - Prompt Engineering
+# 02 - Prompt Engineering
 
 Learn the art and science of crafting effective prompts for large language models!
 
@@ -44,7 +44,7 @@ By the end of this module, you will be able to:
 ## Project Structure
 
 ```
-03-prompt-engineering/
+02-prompt-engineering/
  src/main/java/com/example/langchain4j/prompts/
     app/
        Application.java           # Main Spring Boot application
@@ -77,7 +77,7 @@ Complete [Module 00: Course Setup](../00-course-setup/README.md) and set environ
 ### 1. Build the Project
 
 ```bash
-cd 03-prompt-engineering
+cd 02-prompt-engineering
 mvn clean package
 ```
 
@@ -517,8 +517,8 @@ See [CHALLENGES.md](CHALLENGES.md) for hands-on exercises including:
 
 ## Related Modules
 
-- **Previous**: [02-rag](../02-rag/README.md)
-- **Next**: [04-tools](../04-tools/README.md)
+- **Previous**: [01-introduction](../01-introduction/README.md)
+- **Next**: [03-rag](../03-rag/README.md)
 
 ---
 

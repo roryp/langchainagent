@@ -13,8 +13,8 @@
     <module>00-quick-start</module>
     <module>00-course-setup</module>
     <module>01-introduction</module>
-    <module>02-rag</module>
-    <module>03-prompt-engineering</module>
+    <module>02-prompt-engineering</module>
+    <module>03-rag</module>
     <module>04-tools</module>
     <module>05-mcp</module>
   </modules>

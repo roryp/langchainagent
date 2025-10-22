@@ -1,4 +1,4 @@
-# Module 03: AI Agents with Tools
+# Module 04: AI Agents with Tools
 
 Build autonomous AI agents that can use HTTP-based tools to accomplish complex tasks using LangChain4j and Azure OpenAI.
 

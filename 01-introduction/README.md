@@ -165,8 +165,8 @@ Start new conversation with `/api/conversation/start`. Note: In-memory storage c
 
 ## Next Steps
 
-- **Module 02: RAG** - Document search with embeddings
-- **Module 03: Agents & Tools** - Function calling and multi-step reasoning
+- **Module 02: Prompt Engineering** - Master effective prompt design
+- **Module 03: RAG** - Document search with embeddings
 
 ## Resources
 

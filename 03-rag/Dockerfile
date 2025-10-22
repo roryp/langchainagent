@@ -7,14 +7,14 @@ WORKDIR /workspace
 COPY pom.xml ./pom.xml
 
 # Copy module pom and source
-COPY 02-rag/pom.xml ./02-rag/pom.xml
+COPY 03-rag/pom.xml ./03-rag/pom.xml
 
 # Download dependencies
-WORKDIR /workspace/02-rag
+WORKDIR /workspace/03-rag
 RUN mvn dependency:go-offline -B || true
 
 # Copy source code
-COPY 02-rag/src ./src
+COPY 03-rag/src ./src
 
 # Build the application with Spring Boot repackage
 RUN mvn clean package spring-boot:repackage -DskipTests
@@ -25,7 +25,7 @@ FROM eclipse-temurin:21-jre
 WORKDIR /app
 
 # Copy the built JAR from the build stage
-COPY --from=build /workspace/02-rag/target/rag-0.1.0.jar app.jar
+COPY --from=build /workspace/03-rag/target/rag-0.1.0.jar app.jar
 
 EXPOSE 8081
 

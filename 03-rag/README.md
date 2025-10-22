@@ -1,4 +1,4 @@
-# Module 02: RAG (Retrieval-Augmented Generation)
+# Module 03: RAG (Retrieval-Augmented Generation)
 
 Build a RAG system that answers questions based on your documents using LangChain4j and Azure OpenAI.
 
@@ -61,7 +61,7 @@ curl -X POST "$RAG_URL/api/rag/ask" \
 ### Run Locally
 
 ```bash
-cd 02-rag
+cd 03-rag
 export AZURE_OPENAI_ENDPOINT="https://aoai-xyz.openai.azure.com/"
 export AZURE_OPENAI_API_KEY="***"
 export AZURE_OPENAI_DEPLOYMENT="gpt-4o-mini"
@@ -157,7 +157,7 @@ mvn test
 
 ## Next Steps
 
-- **Module 03**: AI Agents with Tools
+- **Module 04**: AI Agents with Tools
 
 ## Resources
 
