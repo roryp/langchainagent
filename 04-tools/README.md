@@ -103,7 +103,6 @@ POST /api/agent/chat
 **Key Components:**
 - `AgentService.java` - ReAct agent with tool calling via LangChain4j
 - `ToolsController.java` - REST endpoints for tools
-- `openapi.yaml` - Tool definitions
 - `MessageWindowChatMemory` - Session-based conversation history
 
 **ReAct Pattern:**
