@@ -119,10 +119,12 @@ server:
 azure:
   openai:
     endpoint: ${AZURE_OPENAI_ENDPOINT}
-    key: ${AZURE_OPENAI_API_KEY}
+    api-key: ${AZURE_OPENAI_API_KEY}
     deployment: ${AZURE_OPENAI_DEPLOYMENT}
-  tools:
-    base-url: ${TOOLS_BASE_URL}
+  ai:
+    agent:
+      tools:
+        base-url: ${TOOLS_BASE_URL}
 ```
 
 **Key Dependencies:**
@@ -130,17 +132,6 @@ azure:
 - `langchain4j` - Core framework with chat memory
 
 
-
-## Troubleshooting
-
-**Agent not calling tools:**
-- Verify `TOOLS_BASE_URL` is set correctly
-- Test tool endpoints directly with curl
-- Check system prompt includes tool descriptions
-
-**Connection errors:**
-- Check `TOOLS_BASE_URL=http://localhost:8082` is set correctly
-- Ensure both Weather API and Agents API are running on different ports
 
 **Multi-step execution:**
 - Supports up to 5 iterations per request
