@@ -513,7 +513,6 @@ Extract structured data.
 ### Issue: Inconsistent Outputs
 
 **Solution:**
-- Use consistent reasoning-effort level (low for deterministic)
 - Use more specific instructions
 - Add output format examples
 
@@ -524,34 +523,22 @@ Extract structured data.
 - Use stronger language ("You MUST...")
 - Add examples of desired behavior
 
-### Issue: Output Not Structured
-
-**Solution:**
-- Use `AiServices` with defined interfaces
-- Specify exact JSON schema
-- Add format validation in code
-
 ---
 
 ## Testing
 
-Run unit tests:
+Test prompt patterns:
 
 ```bash
-mvn test
-```
+# Focused response
+curl -X POST http://localhost:8083/api/gpt5/focused \
+  -H "Content-Type: application/json" \
+  -d '{"problem":"What is 7 times 8?"}'
 
-Test specific prompt patterns:
-
-```bash
-# Test template rendering
-curl -X POST http://localhost:8083/api/prompts/test/template
-
-# Test few-shot learning
-curl -X POST http://localhost:8083/api/prompts/test/few-shot
-
-# Test output parsing
-curl -X POST http://localhost:8083/api/prompts/test/parse
+# Autonomous problem solving  
+curl -X POST http://localhost:8083/api/gpt5/autonomous \
+  -H "Content-Type: application/json" \
+  -d '{"problem":"Design a caching strategy"}'
 ```
 
 ---

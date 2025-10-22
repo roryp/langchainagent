@@ -155,13 +155,10 @@ All examples run locally using the deployed Azure OpenAI endpoint.
 Set environment variables: `export AZURE_OPENAI_ENDPOINT=...`
 
 **"401 Unauthorized"**  
-Verify API key in Azure Portal, check for expiration
-
-**"404 Deployment Not Found"**  
-Check deployment name matches Azure Portal
+Verify API key in Azure Portal
 
 **Conversation Not Found**  
-Start new conversation with `/api/conversation/start`. Note: In-memory storage clears on restart.
+Start new conversation with `/api/conversation/start`
 
 ## Next Steps
 

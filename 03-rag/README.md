@@ -128,17 +128,11 @@ azure:
 
 **No relevant documents found:**
 - Lower `min-score` (try 0.6)
-- Increase `max-results` for more candidates
 - Verify documents uploaded successfully
-
-**Out of memory:**
-- Increase JVM heap: `java -Xmx2g -jar ...`
-- Use Qdrant or Azure AI Search (not in-memory)
 
 **Poor answer quality:**
 - Increase `max-results` for more context
-- Adjust chunk size/overlap
-- Use more capable model (GPT-4)
+- Use more capable model
 
 ## Best Practices
 
