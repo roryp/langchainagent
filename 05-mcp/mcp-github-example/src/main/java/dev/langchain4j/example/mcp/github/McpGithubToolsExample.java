@@ -27,19 +27,30 @@ public class McpGithubToolsExample {
      * You first need to build the Docker image of the GitHub MCP Server that is available at `mcp/git`.
      * See https://github.com/modelcontextprotocol/servers/tree/main/src/git to build the image.
      * <p>
+     * This example uses GitHub Models. Set GITHUB_TOKEN environment variable with your GitHub personal access token.
+     * <p>
      * The communication with the GitHub MCP server is done directly via stdin/stdout.
      */
     public static void main(String[] args) throws Exception {
 
         ChatModel model = OpenAiChatModel.builder()
-                .apiKey(System.getenv("OPENAI_API_KEY"))
+                .baseUrl("https://models.inference.ai.azure.com")
+                .apiKey(System.getenv("GITHUB_TOKEN"))
                 .modelName("gpt-4o-mini")
                 .logRequests(true)
                 .logResponses(true)
                 .build();
 
+        // Detect docker command based on operating system
+        String dockerCommand = System.getProperty("os.name").toLowerCase().contains("win")
+                ? "docker"
+                : "docker";
+
         McpTransport transport = new StdioMcpTransport.Builder()
-                .command(List.of("/usr/local/bin/docker", "run", "-e", "GITHUB_PERSONAL_ACCESS_TOKEN", "-i", "mcp/git"))
+                .command(List.of(dockerCommand, "run", 
+                    "-e", "GITHUB_PERSONAL_ACCESS_TOKEN=" + System.getenv("GITHUB_TOKEN"),
+                    "-v", "C:/Users/ropreddy/dev/LangChain4j-for-Beginners:/app/LangChain4j-for-Beginners",
+                    "-i", "mcp/git"))
                 .logEvents(true)
                 .build();
 
@@ -57,7 +68,7 @@ public class McpGithubToolsExample {
                 .build();
 
         try {
-            String response = bot.chat("Summarize the last 3 commits of the LangChain4j GitHub repository");
+            String response = bot.chat("Show me the last 3 commits from the LangChain4j-for-Beginners repository located at /app/LangChain4j-for-Beginners");
             System.out.println("RESPONSE: " + response);
         } finally {
             mcpClient.close();
