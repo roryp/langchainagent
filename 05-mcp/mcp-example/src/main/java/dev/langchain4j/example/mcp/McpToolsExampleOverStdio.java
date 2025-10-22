@@ -30,6 +30,8 @@ public class McpToolsExampleOverStdio {
      * <p>
      * The communication with the server is done directly via stdin/stdout.
      * <p>
+     * This example uses GitHub Models. Set GITHUB_TOKEN environment variable with your GitHub personal access token.
+     * <p>
      * IMPORTANT: when executing this, make sure that the working directory is
      * equal to the root directory of the project
      * (`langchain4j-examples/mcp-example`), otherwise the program won't be able to find
@@ -39,14 +41,20 @@ public class McpToolsExampleOverStdio {
     public static void main(String[] args) throws Exception {
 
         ChatModel model = OpenAiChatModel.builder()
-                .apiKey(System.getenv("OPENAI_API_KEY"))
+                .baseUrl("https://models.inference.ai.azure.com")
+                .apiKey(System.getenv("GITHUB_TOKEN"))
                 .modelName("gpt-4o-mini")
 //                .logRequests(true)
 //                .logResponses(true)
                 .build();
 
+        // Detect npm command based on operating system
+        String npmCommand = System.getProperty("os.name").toLowerCase().contains("win") 
+                ? "npm.cmd" 
+                : "npm";
+
         McpTransport transport = new StdioMcpTransport.Builder()
-                .command(List.of("/usr/bin/npm", "exec",
+                .command(List.of(npmCommand, "exec",
                         "@modelcontextprotocol/server-filesystem@0.6.2",
                         // allowed directory for the server to interact with
                         new File("src/main/resources").getAbsolutePath()

@@ -25,12 +25,15 @@ public class McpToolsExampleOverHttp {
      * <p>
      * Of course, feel free to swap out the server with any other MCP server.
      * <p>
+     * This example uses GitHub Models. Set GITHUB_TOKEN environment variable with your GitHub personal access token.
+     * <p>
      * Run the example and check the logs to verify that the model used the tool.
      */
     public static void main(String[] args) throws Exception {
 
         ChatModel model = OpenAiChatModel.builder()
-                .apiKey(System.getenv("OPENAI_API_KEY"))
+                .baseUrl("https://models.inference.ai.azure.com")
+                .apiKey(System.getenv("GITHUB_TOKEN"))
                 .modelName("gpt-4o-mini")
                 .logRequests(true)
                 .logResponses(true)
