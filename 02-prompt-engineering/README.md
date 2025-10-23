@@ -4,10 +4,10 @@ Learn the art and science of crafting effective prompts for large language model
 
 ## 🎯 What's New
 
-This module implements **8 GPT-5 prompting patterns** from [OpenAI's official cookbook](https://github.com/openai/openai-cookbook/blob/main/examples/gpt-5/gpt-5_prompting_guide.ipynb):
+This module implements **Practical prompting patterns** inspired by [OpenAI's GPT-5 prompting guide](https://github.com/openai/openai-cookbook/blob/main/examples/gpt-5/gpt-5_prompting_guide.ipynb):
 
 1. **Low Eagerness** - Fast, focused responses (2 steps max)
-2. **High Eagerness** - Thorough, autonomous exploration  
+2. **High Eagerness** - Thorough, autonomous exploration
 3. **Tool Preambles** - Progress updates for multi-step tasks
 4. **Self-Reflecting Code** - Quality-driven code generation
 5. **Structured Analysis** - Framework-based code review
@@ -547,7 +547,7 @@ curl -X POST http://localhost:8083/api/gpt5/autonomous \
 
 ## 🚀 GPT-5 Prompting Patterns
 
-This module implements **8 GPT-5 patterns** from [OpenAI's official guide](https://github.com/openai/openai-cookbook/blob/main/examples/gpt-5/gpt-5_prompting_guide.ipynb):
+This module implements **8 practical prompting patterns** inspired by concepts from [OpenAI's GPT-5 prompting guide](https://github.com/openai/openai-cookbook/blob/main/examples/gpt-5/gpt-5_prompting_guide.ipynb):
 
 ### 1. **Low Eagerness** (Fast, Focused)
 ```bash
