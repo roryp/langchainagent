@@ -5,7 +5,7 @@ Build autonomous AI agents that can use HTTP-based tools to accomplish complex t
 ## Features
 
 - **ReAct Pattern** - Reasoning and Acting with multi-step tool execution
-- **HTTP-Based Tools** - Weather lookup and calculator operations
+- **HTTP-Based Tools** - Weather lookup and temperature conversions
 - **Session Management** - Conversation memory per session
 - **Tool Chaining** - Execute multiple tools in sequence
 - **OpenAPI Spec** - Tools defined with OpenAPI 3.0
@@ -27,7 +27,7 @@ Build autonomous AI agents that can use HTTP-based tools to accomplish complex t
 
   Tools (HTTP REST)              
   • Weather (mock)               
-  • Calculator                   
+  • Temperature Conversion                   
 
 ```
 
@@ -69,16 +69,16 @@ The app includes a modern web UI at `http://localhost:8084` with:
 - `getCurrentWeather(location)` - Get current conditions
 - `getWeatherForecast(location, days)` - Get forecast
 
-**Calculator**:
-- `add`, `subtract`, `multiply`, `divide`, `power`, `sqrt`
+**Temperature Conversion**:
+- `celsiusToFahrenheit`, `fahrenheitToCelsius`, `celsiusToKelvin`, `kelvinToCelsius`, `fahrenheitToKelvin`, `kelvinToFahrenheit`
 
 ## Testing
 
 ### Web UI (Easiest)
 Open http://localhost:8084 and try:
-- "What is 25 + 17?"
+- "Convert 100°F to Celsius"
 - "What's the weather in Seattle?"
-- "Calculate the square root of 144"
+- "What is 25°C in Fahrenheit?"
 
 ### API Endpoints
 
@@ -89,12 +89,12 @@ curl -X POST "http://localhost:8084/api/agent/start"
 # Chat (agent will use tools automatically)
 curl -X POST "http://localhost:8084/api/agent/chat" \
   -H "Content-Type: application/json" \
-  -d '{"message": "What is 25 + 17?", "sessionId": "test-session"}'
+  -d '{"message": "Convert 100°F to Celsius", "sessionId": "test-session"}'
 
-# Test calculator directly
-curl -X POST "http://localhost:8084/api/tools/calculator/add" \
+# Test temperature conversion directly
+curl -X POST "http://localhost:8084/api/tools/temperature/fahrenheit-to-celsius" \
   -H "Content-Type: application/json" \
-  -d '{"a": 25, "b": 17}'
+  -d '{"fahrenheit": 100}'
 ```
 
 
@@ -106,13 +106,13 @@ curl -X POST "http://localhost:8084/api/tools/calculator/add" \
 | POST | `/api/agent/chat` | Chat with agent (auto tool execution) |
 | GET | `/api/agent/tools` | List available tools |
 | POST | `/api/tools/weather/current` | Get current weather (mock) |
-| POST | `/api/tools/calculator/*` | Calculator operations |
+| POST | `/api/tools/temperature/*` | Temperature conversions |
 
 **Example Chat Request:**
 ```json
 POST /api/agent/chat
 {
-  "message": "What is 100 + 50?",
+  "message": "Convert 100°F to Celsius",
   "sessionId": "uuid"
 }
 ```
@@ -120,7 +120,7 @@ POST /api/agent/chat
 **Example Response:**
 ```json
 { 
-  "answer": "150", 
+  "answer": "37.78°C", 
   "toolsUsed": 1 
 }
 ```
