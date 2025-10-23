@@ -59,7 +59,7 @@ export GITHUB_TOKEN="your_token_here"
 ```bash
 cd 00-quick-start
 mvn clean compile
-mvn exec:java -Dexec.mainClass="com.example.langchain4j.quickstart.SimpleChatExample"
+mvn exec:java -Dexec.mainClass="com.example.langchain4j.quickstart.BasicChatDemo"
 ```
 
 ## Examples
@@ -81,7 +81,7 @@ System.out.println(response);
 
 Run:
 ```bash
-mvn exec:java -Dexec.mainClass="com.example.langchain4j.quickstart.SimpleChatExample"
+mvn exec:java -Dexec.mainClass="com.example.langchain4j.quickstart.BasicChatDemo"
 ```
 
 ### 2. Streaming Chat
@@ -115,7 +115,7 @@ model.chat("Write a haiku about Java", new StreamingChatResponseHandler() {
 
 Run:
 ```bash
-mvn exec:java -Dexec.mainClass="com.example.langchain4j.quickstart.StreamingChatExample"
+mvn exec:java -Dexec.mainClass="com.example.langchain4j.quickstart.StreamingResponseDemo"
 ```
 
 ### 3. Function Calling
@@ -148,7 +148,7 @@ String answer = assistant.chat("What is 25 + 17?");
 
 Run:
 ```bash
-mvn exec:java -Dexec.mainClass="com.example.langchain4j.quickstart.FunctionCallingExample"
+mvn exec:java -Dexec.mainClass="com.example.langchain4j.quickstart.ToolIntegrationDemo"
 ```
 
 ### 4. Embeddings
@@ -168,14 +168,14 @@ float[] vector = embedding.vector(); // 1536 dimensions
 
 Run:
 ```bash
-mvn exec:java -Dexec.mainClass="com.example.langchain4j.quickstart.EmbeddingExample"
+mvn exec:java -Dexec.mainClass="com.example.langchain4j.quickstart.VectorEmbeddingDemo"
 ```
 
 ## Run All Examples
 
 ```bash
 mvn clean compile
-mvn exec:java -Dexec.mainClass="com.example.langchain4j.quickstart.RunAllExamples"
+mvn exec:java -Dexec.mainClass="com.example.langchain4j.quickstart.ComprehensiveDemoRunner"
 ```
 
 ## Project Structure
@@ -185,11 +185,11 @@ mvn exec:java -Dexec.mainClass="com.example.langchain4j.quickstart.RunAllExample
 ├── pom.xml
 ├── README.md
 └── src/main/java/com/example/langchain4j/quickstart/
-    ├── SimpleChatExample.java
-    ├── StreamingChatExample.java
-    ├── FunctionCallingExample.java
-    ├── EmbeddingExample.java
-    └── RunAllExamples.java
+    ├── BasicChatDemo.java
+    ├── StreamingResponseDemo.java
+    ├── ToolIntegrationDemo.java
+    ├── VectorEmbeddingDemo.java
+    └── ComprehensiveDemoRunner.java
 ```
 
 ## Key Concepts

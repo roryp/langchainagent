@@ -20,7 +20,7 @@ import java.util.concurrent.CompletableFuture;
  * 
  * Uses GitHub Models with OpenAI-compatible streaming API.
  */
-public class StreamingChatExample {
+public class StreamingResponseDemo {
 
     public static void main(String[] args) {
         // Verify GitHub token is available

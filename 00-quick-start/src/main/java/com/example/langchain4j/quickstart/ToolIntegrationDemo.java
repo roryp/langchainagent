@@ -18,7 +18,7 @@ import dev.langchain4j.service.AiServices;
  * We'll use a calculator as an example, but this pattern applies to
  * any functionality: databases, APIs, file operations, etc.
  */
-public class FunctionCallingExample {
+public class ToolIntegrationDemo {
 
     /**
      * MathToolkit - A collection of mathematical operations

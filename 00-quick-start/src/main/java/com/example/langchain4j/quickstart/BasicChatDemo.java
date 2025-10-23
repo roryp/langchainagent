@@ -14,7 +14,7 @@ import dev.langchain4j.model.openai.OpenAiChatModel;
  * - Synchronous chat completion
  * - Environment-based authentication
  */
-public class SimpleChatExample {
+public class BasicChatDemo {
 
     public static void main(String[] args) {
         // Validate that we have the necessary GitHub authentication token

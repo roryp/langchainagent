@@ -13,7 +13,7 @@ package com.example.langchain4j.quickstart;
  * - AI function calling (tools)
  * - Text embeddings and semantic similarity
  */
-public class RunAllExamples {
+public class ComprehensiveDemoRunner {
 
     public static void main(String[] args) {
         displayMainHeader();
@@ -40,7 +40,7 @@ public class RunAllExamples {
             System.out.println();
             System.out.println(">> Executing Demo 1 of 4...");
             System.out.println();
-            SimpleChatExample.main(args);
+            BasicChatDemo.main(args);
             
             pauseForUser();
 
@@ -48,7 +48,7 @@ public class RunAllExamples {
             System.out.println();
             System.out.println(">> Executing Demo 2 of 4...");
             System.out.println();
-            StreamingChatExample.main(args);
+            StreamingResponseDemo.main(args);
             
             pauseForUser();
 
@@ -56,7 +56,7 @@ public class RunAllExamples {
             System.out.println();
             System.out.println(">> Executing Demo 3 of 4...");
             System.out.println();
-            FunctionCallingExample.main(args);
+            ToolIntegrationDemo.main(args);
             
             pauseForUser();
 
@@ -64,7 +64,7 @@ public class RunAllExamples {
             System.out.println();
             System.out.println(">> Executing Demo 4 of 4...");
             System.out.println();
-            EmbeddingExample.main(args);
+            VectorEmbeddingDemo.main(args);
 
             // Completion summary
             displayCompletionSummary();

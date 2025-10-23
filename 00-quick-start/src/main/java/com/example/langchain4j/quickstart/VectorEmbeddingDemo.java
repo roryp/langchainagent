@@ -17,7 +17,7 @@ import dev.langchain4j.model.output.Response;
  * This example shows how to generate embeddings and measure semantic similarity.
  * GitHub Models provides OpenAI-compatible embedding endpoints.
  */
-public class EmbeddingExample {
+public class VectorEmbeddingDemo {
 
     public static void main(String[] args) {
         // Validate GitHub authentication
