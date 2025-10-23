@@ -17,32 +17,39 @@ Learn the basics of LangChain4j with Azure OpenAI - chat completion, conversatio
 
 ## Quick Start
 
-### Deploy to Azure
+### Deploy Azure OpenAI Infrastructure
 
 ```bash
-cd 01-getting-started
+cd 01-introduction
 azd up  # Select subscription and location (eastus2 recommended)
 ```
 
-**Get your URL:**
+This will:
+1. Deploy Azure OpenAI resource with GPT-5 and text-embedding-3-small models
+2. Automatically generate `.env` file in project root with credentials
+3. Set up all required environment variables
+
+**Verify `.env` was created:**
 ```bash
-azd env get-values | grep APP_URL
+cat ../.env  # Should show AZURE_OPENAI_ENDPOINT, API_KEY, etc.
 ```
 
-**Test:**
+**Or manually generate `.env` from azd:**
 ```bash
-curl -X POST https://<your-app-url>/api/chat \
-  -H 'Content-Type: application/json' \
-  -d '{"message":"Hello!"}'
+cd ..
+bash .azd-env.sh
 ```
 
 ### Run Locally
 
 ```bash
 cd 01-introduction
-export AZURE_OPENAI_ENDPOINT="https://aoai-xyz.openai.azure.com/"
-export AZURE_OPENAI_API_KEY="***"
-export AZURE_OPENAI_DEPLOYMENT="gpt-5"
+./start.sh  # Automatically sources .env from parent directory
+```
+
+**Or run manually:**
+```bash
+source ../.env
 mvn spring-boot:run
 ```
 

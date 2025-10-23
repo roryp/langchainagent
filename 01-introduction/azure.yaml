@@ -6,3 +6,13 @@ metadata:
 
 # No services defined - all applications run locally
 # This configuration only deploys Azure OpenAI infrastructure
+
+hooks:
+  postprovision:
+    shell: sh
+    run: |
+      echo "Generating .env file from azd environment..."
+      cd ..
+      bash .azd-env.sh
+    continueOnError: false
+    interactive: false

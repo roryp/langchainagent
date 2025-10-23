@@ -13,22 +13,27 @@ Build a RAG system that answers questions based on your documents using LangChai
 
 ## Quick Start
 
-### 1. Set Environment Variables
+### 1. Prerequisites
+
+**Deploy Azure OpenAI (if not already done):**
 
 ```bash
-cd 03-rag
-source ../.env  # or manually export variables
+cd ../01-introduction
+azd up  # This automatically creates ../.env with credentials
 ```
 
-Required variables (from `.env` in project root):
-- `AZURE_OPENAI_ENDPOINT`
-- `AZURE_OPENAI_API_KEY`
-- `AZURE_OPENAI_DEPLOYMENT` (e.g., gpt-5)
-- `AZURE_OPENAI_EMBEDDING_DEPLOYMENT` (e.g., text-embedding-3-small)
+The `.env` file will be automatically generated in the project root with all required Azure OpenAI credentials.
 
 ### 2. Run Application
 
 ```bash
+cd 03-rag
+./start.sh  # Automatically sources .env from parent directory
+```
+
+**Or run manually:**
+```bash
+source ../.env
 mvn spring-boot:run
 ```
 
