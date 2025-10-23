@@ -249,13 +249,23 @@ Add these to your `pom.xml`:
 - Check token hasn't expired
 - Verify token permissions (Models should be Read-only)
 
-## Why GitHub Models?
-
-These examples use GitHub Models API instead of direct OpenAI access:
-
-- **No cost**: Free tier for development
-- **Simple auth**: Uses your existing GitHub token
-- **Same models**: Access to gpt-4o-mini and other OpenAI models
-- **Quick setup**: No separate API key registration
-
 The base URL `https://models.inference.ai.azure.com` routes to Azure's OpenAI deployment, providing the same model behavior with GitHub authentication.
+
+## Congratulations!
+
+You've completed the LangChain4j for Beginners course! You've learned:
+
+- LangChain4j fundamentals and chat models
+- Prompt engineering techniques
+- RAG (Retrieval-Augmented Generation) implementation
+- AI tools and function calling
+- Model Context Protocol (MCP) integration
+
+### What's Next?
+
+- Review the [main course overview](../README.md) to revisit any topics
+- Explore the [official LangChain4j documentation](https://docs.langchain4j.dev/)
+- Build your own AI applications using what you've learned
+- Share your projects and contribute to the community
+
+Thank you for completing this course!
