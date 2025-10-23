@@ -53,11 +53,11 @@ public class Gpt5PromptService {
      */
     public String solveAutonomous(String problem) {
         String prompt = """
-            Solve this problem thoroughly. Document any assumptions you make.
+            Analyze this problem thoroughly and provide a comprehensive solution.
+            Consider multiple approaches, trade-offs, and important details.
+            Show your analysis and reasoning in your response.
             
             Problem: %s
-            
-            Provide your complete solution:
             """.formatted(problem);
 
         return chatModel.chat(prompt);
@@ -306,22 +306,17 @@ public class Gpt5PromptService {
      */
     public String solveWithReasoning(String problem) {
         String prompt = """
-            <reasoning_approach>
-            Solve this problem by thinking step by step.
+            Solve this problem by explaining your reasoning step by step in your response.
             
-            Process:
-            1. Understand: Restate the problem in your own words
-            2. Analyze: Break down the components
-            3. Plan: Outline your solution approach
-            4. Execute: Work through each step
-            5. Verify: Check your answer makes sense
+            Show me:
+            1. How you understand the problem
+            2. Your approach to solving it
+            3. Each step of your work
+            4. Verification that your answer is correct
             
-            Show your reasoning clearly at each step.
-            </reasoning_approach>
+            Important: Write out your step-by-step thinking in your answer, not just the final result.
             
             Problem: %s
-            
-            Let's solve this step by step:
             """.formatted(problem);
 
         return chatModel.chat(prompt);
