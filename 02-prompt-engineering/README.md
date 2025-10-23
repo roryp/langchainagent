@@ -1,10 +1,10 @@
 # 02 - Prompt Engineering with GPT-5
 
-Learn the art and science of crafting effective prompts for large language models using **GPT-5 best practices** from OpenAI's official guide!
+Learn the art and science of crafting effective prompts for large language models using **GPT-5 practices** from OpenAI's official guide!
 
-## What's New
+## Overview
 
-This module implements **Practical prompting patterns** inspired by [OpenAI's GPT-5 prompting guide](https://github.com/openai/openai-cookbook/blob/main/examples/gpt-5/gpt-5_prompting_guide.ipynb):
+This module implements **8 practical prompting patterns** inspired by [OpenAI's GPT-5 prompting guide](https://github.com/openai/openai-cookbook/blob/main/examples/gpt-5/gpt-5_prompting_guide.ipynb):
 
 1. **Low Eagerness** - Fast, focused responses (2 steps max)
 2. **High Eagerness** - Thorough, autonomous exploration
@@ -41,7 +41,7 @@ curl http://localhost:8083/api/gpt5/focused -X POST \
 - **Output Parsers**: Structure and validate LLM responses
 - **System Messages**: Set behavior and constraints
 
-### GPT-5 Best Practices
+### GPT-5 Practices
 - **Agentic Eagerness Control**: Low vs. high autonomy patterns
 - **Tool Preambles**: Progress updates for multi-step tasks
 - **Self-Reflecting Code Generation**: Internal quality rubrics
@@ -55,7 +55,7 @@ By the end of this module, you will be able to:
 - Use templates to create dynamic, reusable prompts
 - Extract structured data from LLM responses
 - Apply few-shot learning techniques
-- Understand prompt engineering best practices
+- Understand prompt engineering practices
 
 ---
 
@@ -63,7 +63,7 @@ By the end of this module, you will be able to:
 
 ### What is Prompt Engineering?
 
-**Prompt Engineering** is the practice of designing and refining input text (prompts) to get desired outputs from language models. Good prompts can dramatically improve:
+**Prompt Engineering** is the practice of designing and refining input text (prompts) to get desired outputs from language models. Good prompts can significantly improve:
 - Response quality
 - Consistency
 - Task-specific performance
@@ -178,7 +178,7 @@ Answer: Alice has 4 apples.
 
 ### Role-Based Prompts
 
-Assign specific roles to the AI for better results:
+Assign specific roles to the AI for improved results:
 
 **Example:**
 ```bash
@@ -187,7 +187,7 @@ curl -X POST http://localhost:8083/api/gpt5/analyze \
   -d '{"code": "public void process(String s) { return s.toLowerCase(); }"}'
 ```
 
-The system uses a code reviewer role to provide structured feedback on best practices, bugs, performance, and security
+The system uses a code reviewer role to provide structured feedback on practices, bugs, performance, and security
 
 ---
 
@@ -229,11 +229,11 @@ Do NOT assume prior physics knowledge.
 
 ---
 
-## Best Practices
+## Recommended Practices
 
 ### Do's
 
-1. **Be Specific**: Clear instructions produce better results
+1. **Be Specific**: Clear instructions produce improved results
 2. **Use Examples**: Show the model what you want (few-shot)
 3. **Set Constraints**: Specify format, length, tone
 4. **Iterate**: Test and refine your prompts
@@ -381,7 +381,7 @@ All GPT-5 patterns use XML tags for clear organization:
 Quality rubric:
 1. Correctness
 2. Quality
-3. Best practices
+3. Practices
 ... iterate until all ✓
 </self_reflection>
 

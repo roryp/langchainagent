@@ -111,7 +111,7 @@ azure:
 1. Embed query → Search vector store → Retrieve top 5 chunks (min score 0.7)
 2. Build context from chunks → Send to LLM → Return answer with sources
 
-**Relevance Scores:** 0.9-1.0 (excellent) | 0.8-0.9 (very good) | 0.7-0.8 (good) | <0.7 (filtered)
+**Relevance Scores:** 0.9-1.0 (high) | 0.8-0.9 (very good) | 0.7-0.8 (good) | <0.7 (filtered)
 
 ## Troubleshooting
 
@@ -123,7 +123,7 @@ azure:
 - Increase `max-results` for more context
 - Use more capable model
 
-## Best Practices
+## Recommended Practices
 
 **Documents**: Clean text, clear structure, <5MB per file  
 **Chunking**: Always use overlap, balance size vs precision  

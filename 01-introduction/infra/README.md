@@ -198,7 +198,7 @@ infra/
         └── cognitiveservices.bicep  # Azure OpenAI module
 ```
 
-## Security Best Practices
+## Security Recommendations
 
 1. **Never commit API keys** - Use environment variables
 2. **Use .env files locally** - Add `.env` to `.gitignore`

@@ -13,9 +13,9 @@ This quickstart demonstrates LangChain4j with GitHub Models:
 
 ## Why GitHub Models?
 
-- Free (no credit card required)
-- Easy setup (just need a GitHub account)
-- Quick start (perfect for learning)
+- Free tier available (no credit card required)
+- Straightforward setup (GitHub account only)
+- No additional configuration (suitable for learning)
 - OpenAI-compatible API
 
 ## Prerequisites
