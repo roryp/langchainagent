@@ -9,7 +9,7 @@ This quickstart demonstrates LangChain4j with GitHub Models:
 - Simple chat completion
 - Streaming responses
 - Function calling (AI calling your Java methods)
-- Text embeddings
+- Simple RAG (Retrieval-Augmented Generation) demo
 
 ## Why GitHub Models?
 
@@ -52,14 +52,6 @@ $env:GITHUB_TOKEN="your_token_here"
 macOS/Linux:
 ```bash
 export GITHUB_TOKEN="your_token_here"
-```
-
-### 3. Run Examples
-
-```bash
-cd 00-quick-start
-mvn clean compile
-mvn exec:java -Dexec.mainClass="com.example.langchain4j.quickstart.ComprehensiveDemoRunner"
 ```
 
 ## Examples
@@ -151,31 +143,41 @@ Run:
 mvn exec:java -Dexec.mainClass="com.example.langchain4j.quickstart.ToolIntegrationDemo"
 ```
 
-### 4. Embeddings
+### 4. Simple RAG Demo
 
-Convert text to vectors for semantic search:
+Ask questions about a document using Retrieval-Augmented Generation:
 
 ```java
-OpenAiEmbeddingModel model = OpenAiEmbeddingModel.builder()
+// Load document content
+String doc = Files.readString(Paths.get("document.txt"));
+
+// Build the model
+OpenAiChatModel chatModel = OpenAiChatModel.builder()
     .baseUrl("https://models.inference.ai.azure.com")
     .apiKey(System.getenv("GITHUB_TOKEN"))
-    .modelName("text-embedding-3-small")
+    .modelName("gpt-4o-mini")
     .build();
 
-Embedding embedding = model.embed("Your text here").content();
-float[] vector = embedding.vector(); // 1536 dimensions
+// Create prompt with context
+String prompt = String.format("""
+    You are a helpful assistant. Use only the CONTEXT to answer.
+    
+    CONTEXT:
+    \"\"\"
+    %s
+    \"\"\"
+    
+    QUESTION:
+    %s
+    """, doc, question);
+
+// Get answer based on document context
+String response = chatModel.chat(prompt);
 ```
 
 Run:
 ```bash
-mvn exec:java -Dexec.mainClass="com.example.langchain4j.quickstart.VectorEmbeddingDemo"
-```
-
-## Run All Examples
-
-```bash
-mvn clean compile
-mvn exec:java -Dexec.mainClass="com.example.langchain4j.quickstart.ComprehensiveDemoRunner"
+mvn exec:java -Dexec.mainClass="com.example.langchain4j.quickstart.SimpleReaderDemo"
 ```
 
 ## Project Structure
@@ -184,12 +186,12 @@ mvn exec:java -Dexec.mainClass="com.example.langchain4j.quickstart.Comprehensive
 00-quick-start/
 ├── pom.xml
 ├── README.md
+├── document.txt
 └── src/main/java/com/example/langchain4j/quickstart/
     ├── BasicChatDemo.java
     ├── StreamingResponseDemo.java
     ├── ToolIntegrationDemo.java
-    ├── VectorEmbeddingDemo.java
-    └── ComprehensiveDemoRunner.java
+    └── SimpleReaderDemo.java
 ```
 
 ## Key Concepts
@@ -203,10 +205,10 @@ mvn exec:java -Dexec.mainClass="com.example.langchain4j.quickstart.Comprehensive
 - AI decides which tool to use
 - Automatic parameter extraction
 
-**Embeddings**
-- Convert text to numerical vectors
-- Enables semantic search
-- Foundation for RAG
+**RAG (Retrieval-Augmented Generation)**
+- Provide context to the AI from your documents
+- AI answers based on specific information, not just training data
+- Prevents hallucination by grounding responses in facts
 
 **Memory**
 - MessageWindowChatMemory: Remember last N messages
