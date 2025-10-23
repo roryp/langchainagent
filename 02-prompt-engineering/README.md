@@ -2,7 +2,7 @@
 
 Learn the art and science of crafting effective prompts for large language models using **GPT-5 best practices** from OpenAI's official guide!
 
-## 🎯 What's New
+## What's New
 
 This module implements **Practical prompting patterns** inspired by [OpenAI's GPT-5 prompting guide](https://github.com/openai/openai-cookbook/blob/main/examples/gpt-5/gpt-5_prompting_guide.ipynb):
 
@@ -15,7 +15,7 @@ This module implements **Practical prompting patterns** inspired by [OpenAI's GP
 7. **Step-by-Step Reasoning** - Explicit logic walkthrough
 8. **Constrained Output** - Format & length compliance
 
-## 🚀 Quick Start
+## Quick Start
 
 ```bash
 # 1. Set environment variables for local development
@@ -28,9 +28,9 @@ cd 02-prompt-engineering
 mvn spring-boot:run
 
 # 3. Test all patterns
-curl http://localhost:8080/api/prompts/focused -X POST \
+curl http://localhost:8083/api/gpt5/focused -X POST \
   -H "Content-Type: application/json" \
-  -d '{"prompt":"What is 15% of 200?"}'
+  -d '{"problem":"What is 15% of 200?"}'
 ```
 
 ## What You'll Learn
@@ -41,7 +41,7 @@ curl http://localhost:8080/api/prompts/focused -X POST \
 - **Output Parsers**: Structure and validate LLM responses
 - **System Messages**: Set behavior and constraints
 
-### GPT-5 Best Practices (NEW!)
+### GPT-5 Best Practices
 - **Agentic Eagerness Control**: Low vs. high autonomy patterns
 - **Tool Preambles**: Progress updates for multi-step tasks
 - **Self-Reflecting Code Generation**: Internal quality rubrics
@@ -85,21 +85,15 @@ By the end of this module, you will be able to:
 02-prompt-engineering/
  src/main/java/com/example/langchain4j/prompts/
     app/
-       Application.java           # Main Spring Boot application
-       PromptController.java      # REST API endpoints
-       PromptService.java         # Prompt examples
+       Application.java                # Main Spring Boot application
+    controller/
+       Gpt5PromptController.java       # REST API endpoints
+    service/
+       Gpt5PromptService.java          # GPT-5 prompt implementations
     config/
-       LangChainConfig.java       # LangChain4j configuration
-    model/
-        PromptRequest.java         # Request DTOs
-        PromptResponse.java        # Response DTOs
-        Person.java                # Example data class
+       LangChainConfig.java            # LangChain4j configuration
  src/main/resources/
-    application.yaml               # Configuration
-    prompts/
-        email-template.txt         # Email generation prompt
-        code-reviewer.txt          # Code review prompt
-        data-extractor.txt         # Data extraction prompt
+    application.yaml                   # Configuration
  pom.xml
  README.md
 ```
@@ -110,28 +104,18 @@ By the end of this module, you will be able to:
 
 ### Prerequisites
 
-**Deploy GPT-5 to Azure OpenAI using the existing Bicep infrastructure:**
+**Deploy Azure OpenAI resources:**
 
 ```bash
-# Easy way - use the deploy script
-chmod +x deploy-gpt5.sh
-./deploy-gpt5.sh
-
-# Or manually from 01-introduction:
+# Deploy from 01-introduction module:
 cd ../01-introduction
-
-# Edit infra/main.bicep and change:
-# Deployment name in Azure
-# - gpt-4o-mini → gpt-5 (when available in your region)
-# - version: '2024-07-18' → version: '0125'
-
 azd up
-```
 
-The `azd` deployment automatically sets your environment variables:
-- `AZURE_OPENAI_ENDPOINT`
-- `AZURE_OPENAI_API_KEY`  
-- `AZURE_OPENAI_DEPLOYMENT`
+# Export the environment variables
+export AZURE_OPENAI_ENDPOINT="$(azd env get-values | grep AZURE_OPENAI_ENDPOINT | cut -d'=' -f2 | tr -d '"')"
+export AZURE_OPENAI_API_KEY="$(azd env get-values | grep AZURE_OPENAI_KEY | cut -d'=' -f2 | tr -d '"')"
+export AZURE_OPENAI_DEPLOYMENT="gpt-5"
+```
 
 ### 1. Build the Project
 
@@ -151,194 +135,40 @@ The server starts at `http://localhost:8083`
 ### 3. Test Endpoints
 
 ```bash
-# Basic prompt template
-curl -X POST http://localhost:8083/api/prompts/template \
+# Focused response (low eagerness)
+curl -X POST http://localhost:8083/api/gpt5/focused \
   -H 'Content-Type: application/json' \
-  -d '{
-    "name": "Alice",
-    "topic": "machine learning"
-  }'
+  -d '{"problem": "What is 15% of 200?"}'
 
-# Few-shot learning
-curl -X POST http://localhost:8083/api/prompts/few-shot \
+# Autonomous problem solving (high eagerness)
+curl -X POST http://localhost:8083/api/gpt5/autonomous \
   -H 'Content-Type: application/json' \
-  -d '{"text": "The quick brown fox"}'
+  -d '{"problem": "Design a caching strategy"}'
 
-# Structured output
-curl -X POST http://localhost:8083/api/prompts/extract \
+# Code generation with reflection
+curl -X POST http://localhost:8083/api/gpt5/code \
   -H 'Content-Type: application/json' \
-  -d '{"text": "John Doe is 30 years old and lives in Seattle"}'
+  -d '{"requirement": "Create email validation service"}'
 ```
 
 ---
 
-## Examples
+## Prompt Engineering Concepts
 
-### Example 1: Simple Template
+### Chain-of-Thought Prompting
 
-**Code:**
-```java
-@Service
-public class PromptService {
-    
-    @Autowired
-    private ChatLanguageModel chatModel;
-    
-    public String generateEmail(String recipient, String topic) {
-        PromptTemplate template = PromptTemplate.from(
-            "Write a professional email to {{recipient}} about {{topic}}. " +
-            "Keep it concise and friendly."
-        );
-        
-        Prompt prompt = template.apply(Map.of(
-            "recipient", recipient,
-            "topic", topic
-        ));
-        
-        return chatModel.generate(prompt.text());
-    }
-}
-```
+Encourage step-by-step reasoning by asking the model to show its work:
 
-**Usage:**
+**Example:**
 ```bash
-curl -X POST http://localhost:8083/api/prompts/email \
-  -H 'Content-Type: application/json' \
-  -d '{
-    "recipient": "Bob",
-    "topic": "project deadline"
-  }'
-```
-
-**Response:**
-```
-Subject: Project Deadline Update
-
-Hi Bob,
-
-I wanted to reach out regarding our project deadline. Could we schedule 
-a quick call to discuss the timeline and ensure we're aligned?
-
-Looking forward to hearing from you!
-
-Best regards
-```
-
----
-
-### Example 2: Few-Shot Learning
-
-Teach the model through examples:
-
-**Code:**
-```java
-public String classifyWithFewShot(String text) {
-    String prompt = """
-        Classify the sentiment as POSITIVE, NEGATIVE, or NEUTRAL.
-        
-        Examples:
-        Input: "I love this product!"
-        Output: POSITIVE
-        
-        Input: "This is the worst experience ever."
-        Output: NEGATIVE
-        
-        Input: "The package arrived on time."
-        Output: NEUTRAL
-        
-        Input: "%s"
-        Output:
-        """.formatted(text);
-    
-    return chatModel.generate(prompt);
-}
-```
-
-**Usage:**
-```bash
-curl -X POST http://localhost:8083/api/prompts/sentiment \
-  -H 'Content-Type: application/json' \
-  -d '{"text": "This exceeded all my expectations!"}'
-```
-
-**Response:**
-```json
-{
-  "sentiment": "POSITIVE",
-  "confidence": "high"
-}
-```
-
----
-
-### Example 3: Structured Output with AiServices
-
-Extract structured data from text:
-
-**Code:**
-```java
-public interface PersonExtractor {
-    
-    @SystemMessage("Extract person information from the text. " +
-                   "If information is missing, use null.")
-    Person extractPerson(String text);
-}
-
-@Data
-public class Person {
-    private String name;
-    private Integer age;
-    private String city;
-}
-
-// Usage
-PersonExtractor extractor = AiServices.create(PersonExtractor.class, chatModel);
-Person person = extractor.extractPerson(
-    "John Doe is 30 years old and lives in Seattle"
-);
-```
-
-**Response:**
-```json
-{
-  "name": "John Doe",
-  "age": 30,
-  "city": "Seattle"
-}
-```
-
----
-
-### Example 4: Chain-of-Thought Prompting
-
-Encourage step-by-step reasoning:
-
-**Code:**
-```java
-public String solveWithReasoning(String problem) {
-    String prompt = """
-        Solve this problem step by step. Show your reasoning.
-        
-        Problem: %s
-        
-        Let's think through this:
-        Step 1:
-        """.formatted(problem);
-    
-    return chatModel.generate(prompt);
-}
-```
-
-**Usage:**
-```bash
-curl -X POST http://localhost:8083/api/prompts/reason \
+curl -X POST http://localhost:8083/api/gpt5/reason \
   -H 'Content-Type: application/json' \
   -d '{"problem": "If Alice has 3 apples and gives 1 to Bob, then buys 2 more, how many does she have?"}'
 ```
 
 **Response:**
 ```
-Let's think through this:
+Let's think through this step by step:
 Step 1: Alice starts with 3 apples
 Step 2: She gives 1 to Bob, leaving her with 3 - 1 = 2 apples
 Step 3: She buys 2 more apples, so 2 + 2 = 4 apples
@@ -346,31 +176,18 @@ Step 3: She buys 2 more apples, so 2 + 2 = 4 apples
 Answer: Alice has 4 apples.
 ```
 
----
+### Role-Based Prompts
 
-### Example 5: Role-Based Prompts
+Assign specific roles to the AI for better results:
 
-Assign specific roles to the AI:
-
-**Code:**
-```java
-public String reviewCode(String code) {
-    String systemMessage = """
-        You are an expert code reviewer. Review the code for:
-        - Best practices
-        - Potential bugs
-        - Performance issues
-        - Security concerns
-        
-        Be constructive and specific.
-        """;
-    
-    return chatModel.generate(
-        SystemMessage.from(systemMessage),
-        UserMessage.from("Review this code:\n\n" + code)
-    );
-}
+**Example:**
+```bash
+curl -X POST http://localhost:8083/api/gpt5/analyze \
+  -H 'Content-Type: application/json' \
+  -d '{"code": "public void process(String s) { return s.toLowerCase(); }"}'
 ```
+
+The system uses a code reviewer role to provide structured feedback on best practices, bugs, performance, and security
 
 ---
 
@@ -412,83 +229,6 @@ Do NOT assume prior physics knowledge.
 
 ---
 
-## API Reference
-
-### POST `/api/prompts/template`
-
-Generate text using a template.
-
-**Request:**
-```json
-{
-  "template": "Write a {{style}} poem about {{topic}}",
-  "variables": {
-    "style": "haiku",
-    "topic": "spring"
-  }
-}
-```
-
-**Response:**
-```json
-{
-  "result": "Cherry blossoms fall\nPetals dance in gentle breeze\nSpring awakens life"
-}
-```
-
----
-
-### POST `/api/prompts/few-shot`
-
-Classify or generate with examples.
-
-**Request:**
-```json
-{
-  "examples": [
-    {"input": "apple", "output": "fruit"},
-    {"input": "carrot", "output": "vegetable"}
-  ],
-  "input": "banana"
-}
-```
-
-**Response:**
-```json
-{
-  "output": "fruit"
-}
-```
-
----
-
-### POST `/api/prompts/extract`
-
-Extract structured data.
-
-**Request:**
-```json
-{
-  "text": "The meeting is on March 15, 2024 at 2:00 PM in Room 305",
-  "schema": {
-    "date": "string",
-    "time": "string",
-    "location": "string"
-  }
-}
-```
-
-**Response:**
-```json
-{
-  "date": "March 15, 2024",
-  "time": "2:00 PM",
-  "location": "Room 305"
-}
-```
-
----
-
 ## Best Practices
 
 ### Do's
@@ -525,27 +265,7 @@ Extract structured data.
 
 ---
 
-## Testing
-
-Test prompt patterns:
-
-```bash
-# Focused response
-curl -X POST http://localhost:8083/api/gpt5/focused \
-  -H "Content-Type: application/json" \
-  -d '{"problem":"What is 7 times 8?"}'
-
-# Autonomous problem solving  
-curl -X POST http://localhost:8083/api/gpt5/autonomous \
-  -H "Content-Type: application/json" \
-  -d '{"problem":"Design a caching strategy"}'
-```
-
----
-
----
-
-## 🚀 GPT-5 Prompting Patterns
+## GPT-5 Prompting Patterns
 
 This module implements **8 practical prompting patterns** inspired by concepts from [OpenAI's GPT-5 prompting guide](https://github.com/openai/openai-cookbook/blob/main/examples/gpt-5/gpt-5_prompting_guide.ipynb):
 
@@ -637,15 +357,9 @@ curl -X POST http://localhost:8083/api/gpt5/constrained \
 - Word count limits
 - Use for: summaries, specific formats
 
-### Run All Tests
-```bash
-chmod +x test-gpt5.sh
-./test-gpt5.sh
-```
-
 ---
 
-## 📖 Key Concepts
+## Key Concepts
 
 ### XML-Based Prompt Structure
 All GPT-5 patterns use XML tags for clear organization:
@@ -683,18 +397,18 @@ Quality rubric:
 
 | Pattern | Use Case | Speed | Quality |
 |---------|----------|-------|---------|
-| Low Eagerness | Simple queries | ⚡⚡⚡ | ⭐⭐ |
-| High Eagerness | Complex tasks | ⚡ | ⭐⭐⭐ |
-| Tool Preambles | Multi-step workflows | ⚡⚡ | ⭐⭐⭐ |
-| Self-Reflection | Code generation | ⚡ | ⭐⭐⭐⭐ |
-| Structured Analysis | Code review | ⚡⚡ | ⭐⭐⭐ |
-| Multi-Turn | Conversations | ⚡⚡ | ⭐⭐⭐ |
-| Reasoning | Logic problems | ⚡ | ⭐⭐⭐ |
-| Constrained | Format-specific | ⚡⚡ | ⭐⭐ |
+| Low Eagerness | Simple queries | Fast | Medium |
+| High Eagerness | Complex tasks | Slow | High |
+| Tool Preambles | Multi-step workflows | Medium | High |
+| Self-Reflection | Code generation | Slow | Very High |
+| Structured Analysis | Code review | Medium | High |
+| Multi-Turn | Conversations | Medium | High |
+| Reasoning | Logic problems | Slow | High |
+| Constrained | Format-specific | Medium | Medium |
 
 ---
 
-## 🔧 Configuration
+## Configuration
 
 ### Reasoning Effort Settings (GPT-5)
 ```yaml
@@ -723,7 +437,7 @@ private ChatLanguageModel thoroughModel;  // High reasoning effort
 
 ---
 
-## 💡 Examples in Code
+## Examples in Code
 
 ### Quick Usage
 ```java
@@ -765,21 +479,11 @@ System.out.println(person.location());  // "San Francisco"
 
 ---
 
-## 📚 Resources
+## Resources
 
 - **OpenAI GPT-5 Guide**: [Official Cookbook](https://github.com/openai/openai-cookbook/blob/main/examples/gpt-5/gpt-5_prompting_guide.ipynb)
 - **LangChain4j Docs**: [docs.langchain4j.dev](https://docs.langchain4j.dev/)
 - **Spring Boot**: [docs.spring.io](https://docs.spring.io/spring-boot/docs/current/reference/html/)
-
----
-
-## Exercises
-
-See [CHALLENGES.md](CHALLENGES.md) for hands-on exercises including:
-- Dynamic template creation
-- Multi-turn conversations with prompts
-- Custom output parsers
-- Prompt optimization techniques
 
 ---
 

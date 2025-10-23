@@ -31,18 +31,6 @@ Build a RAG system that answers questions based on your documents using LangChai
 1. Upload document → Split into chunks → Generate embeddings → Store
 2. Ask question → Embed query → Find relevant chunks → Generate answer with sources
 
-## Quick Start (Local Development)
-
-```bash
-cd 03-rag
-export AZURE_OPENAI_ENDPOINT="https://aoai-xyz.openai.azure.com/"
-export AZURE_OPENAI_API_KEY="***"
-export AZURE_OPENAI_DEPLOYMENT="gpt-5"
-export AZURE_OPENAI_EMBEDDING_DEPLOYMENT="text-embedding-3-small"
-mvn spring-boot:run
-```
-2. Ask question → Embed query → Find relevant chunks → Generate answer with sources
-
 ## Prerequisites
 
 - Azure subscription with Azure OpenAI access
