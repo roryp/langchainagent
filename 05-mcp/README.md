@@ -37,7 +37,7 @@ Three working examples in a single project demonstrating MCP integration:
 - GitHub personal access token (for GitHub Models API)
 
 **Token Setup:**
-Navigate to GitHub Settings → Developer settings → Personal access tokens → Generate new token (classic). No special scopes needed for model access.
+Refer to the [Quick Start guide](../00-quick-start/README.md#1-get-your-github-token) for GitHub token creation instructions.
 
 ```bash
 export GITHUB_TOKEN=your_token_value
@@ -247,7 +247,7 @@ Add these to your `pom.xml`:
 **GitHub Models API issues**
 - Confirm GITHUB_TOKEN environment variable is set
 - Check token hasn't expired
-- Verify no rate limits: https://github.com/settings/tokens
+- Verify token permissions (Models should be Read-only)
 
 ## Why GitHub Models?
 

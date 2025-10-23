@@ -28,11 +28,19 @@ This quickstart demonstrates LangChain4j with GitHub Models:
 
 ### 1. Get Your GitHub Token
 
-1. Go to: https://github.com/settings/tokens
-2. Click "Generate new token (classic)"
-3. Give it a name (e.g., "LangChain4j Demo")
-4. No scopes needed - generate with default settings
-5. Copy the token
+1. Navigate to GitHub Settings and select Settings from your profile menu.
+2. In the left sidebar, click Developer settings (usually at the bottom).
+3. Under Personal access tokens, click Fine-grained tokens (or follow this [direct link](https://github.com/settings/tokens?type=beta)).
+4. Click Generate new token.
+5. Under "Token name", provide a descriptive name (e.g., "LangChain4j Demo").
+6. Set an expiration date (recommended: 7 days for security best practices).
+7. Under "Resource owner", select your user account.
+8. Under "Repository access", select the repositories you want to use with GitHub Models (or "All repositories" if needed).
+9. Under "Account permissions", find Models and set it to Read-only.
+10. Click Generate token.
+11. Copy and save your token now – you won't see it again!
+
+**Security Tip:** Use the minimum required scope and shortest practical expiration time for your access tokens.
 
 ### 2. Set Environment Variable
 
@@ -217,8 +225,8 @@ $env:GITHUB_TOKEN="your_token_here"    # Windows PowerShell
 **"401 Unauthorized"**
 
 - Verify token is correct
-- Generate new token at https://github.com/settings/tokens
-- No special scopes needed
+- Refer to token setup instructions above
+- Ensure Models permission is set to Read-only
 
 **Build Errors**
 
