@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
- * Calculator tool for mathematical operations.
+ * Temperature conversion tool.
  * Demonstrates tool parameter handling with LangChain4j.
  */
 @Component
@@ -16,72 +16,68 @@ public class CalculatorTool {
     private static final Logger log = LoggerFactory.getLogger(CalculatorTool.class);
 
     /**
-     * Calculate the sum of two numbers.
+     * Convert temperature from Celsius to Fahrenheit.
      */
-    @Tool("Calculate the sum of two numbers")
-    public double add(
-            @P("First number") double a, 
-            @P("Second number") double b) {
-        log.info("Calculating {} + {}", a, b);
-        return a + b;
+    @Tool("Convert temperature from Celsius to Fahrenheit")
+    public String celsiusToFahrenheit(@P("Temperature in Celsius") double celsius) {
+        log.info("Converting {}°C to Fahrenheit", celsius);
+        double fahrenheit = (celsius * 9.0 / 5.0) + 32.0;
+        return String.format("%.1f°C = %.1f°F", celsius, fahrenheit);
     }
 
     /**
-     * Calculate the difference between two numbers.
+     * Convert temperature from Fahrenheit to Celsius.
      */
-    @Tool("Calculate the difference between two numbers")
-    public double subtract(
-            @P("First number (minuend)") double a, 
-            @P("Second number (subtrahend)") double b) {
-        log.info("Calculating {} - {}", a, b);
-        return a - b;
+    @Tool("Convert temperature from Fahrenheit to Celsius")
+    public String fahrenheitToCelsius(@P("Temperature in Fahrenheit") double fahrenheit) {
+        log.info("Converting {}°F to Celsius", fahrenheit);
+        double celsius = (fahrenheit - 32.0) * 5.0 / 9.0;
+        return String.format("%.1f°F = %.1f°C", fahrenheit, celsius);
     }
 
     /**
-     * Calculate the product of two numbers.
+     * Convert temperature from Celsius to Kelvin.
      */
-    @Tool("Calculate the product of two numbers")
-    public double multiply(
-            @P("First number") double a, 
-            @P("Second number") double b) {
-        log.info("Calculating {} * {}", a, b);
-        return a * b;
+    @Tool("Convert temperature from Celsius to Kelvin")
+    public String celsiusToKelvin(@P("Temperature in Celsius") double celsius) {
+        log.info("Converting {}°C to Kelvin", celsius);
+        double kelvin = celsius + 273.15;
+        return String.format("%.1f°C = %.2f K", celsius, kelvin);
     }
 
     /**
-     * Calculate the division of two numbers.
+     * Convert temperature from Kelvin to Celsius.
      */
-    @Tool("Calculate the division of two numbers")
-    public double divide(
-            @P("Dividend") double a, 
-            @P("Divisor") double b) {
-        log.info("Calculating {} / {}", a, b);
-        if (b == 0) {
-            throw new IllegalArgumentException("Cannot divide by zero");
+    @Tool("Convert temperature from Kelvin to Celsius")
+    public String kelvinToCelsius(@P("Temperature in Kelvin") double kelvin) {
+        log.info("Converting {} K to Celsius", kelvin);
+        if (kelvin < 0) {
+            throw new IllegalArgumentException("Temperature cannot be below absolute zero (0 K)");
         }
-        return a / b;
+        double celsius = kelvin - 273.15;
+        return String.format("%.2f K = %.1f°C", kelvin, celsius);
     }
 
     /**
-     * Calculate the power of a number.
+     * Convert temperature from Fahrenheit to Kelvin.
      */
-    @Tool("Calculate the power of a number")
-    public double power(
-            @P("Base number") double base, 
-            @P("Exponent") double exponent) {
-        log.info("Calculating {} ^ {}", base, exponent);
-        return Math.pow(base, exponent);
+    @Tool("Convert temperature from Fahrenheit to Kelvin")
+    public String fahrenheitToKelvin(@P("Temperature in Fahrenheit") double fahrenheit) {
+        log.info("Converting {}°F to Kelvin", fahrenheit);
+        double kelvin = (fahrenheit - 32.0) * 5.0 / 9.0 + 273.15;
+        return String.format("%.1f°F = %.2f K", fahrenheit, kelvin);
     }
 
     /**
-     * Calculate the square root of a number.
+     * Convert temperature from Kelvin to Fahrenheit.
      */
-    @Tool("Calculate the square root of a number")
-    public double squareRoot(@P("Number") double number) {
-        log.info("Calculating square root of {}", number);
-        if (number < 0) {
-            throw new IllegalArgumentException("Cannot calculate square root of negative number");
+    @Tool("Convert temperature from Kelvin to Fahrenheit")
+    public String kelvinToFahrenheit(@P("Temperature in Kelvin") double kelvin) {
+        log.info("Converting {} K to Fahrenheit", kelvin);
+        if (kelvin < 0) {
+            throw new IllegalArgumentException("Temperature cannot be below absolute zero (0 K)");
         }
-        return Math.sqrt(number);
+        double fahrenheit = (kelvin - 273.15) * 9.0 / 5.0 + 32.0;
+        return String.format("%.2f K = %.1f°F", kelvin, fahrenheit);
     }
 }

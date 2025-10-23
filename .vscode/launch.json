@@ -38,6 +38,16 @@
             "projectName": "prompt-engineering",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-AgentsApplication<tools>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.example.langchain4j.agents.AgentsApplication",
+            "projectName": "tools",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }

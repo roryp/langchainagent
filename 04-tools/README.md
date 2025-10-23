@@ -14,7 +14,7 @@ Build autonomous AI agents that can use HTTP-based tools to accomplish complex t
 
 ```
 
-  Spring Boot App (Port 8082)      
+  Spring Boot App (Port 8084)      
   • AgentController             
   • AgentService (ReAct)        
   • ToolsController             
@@ -33,16 +33,35 @@ Build autonomous AI agents that can use HTTP-based tools to accomplish complex t
 
 ## Quick Start (Local Development)
 
+### Option 1: Using the Web UI (Recommended)
+
+```bash
+cd 04-tools
+./start.sh
+```
+
+Then open your browser to: **http://localhost:8084**
+
+### Option 2: Manual Setup
+
 ```bash
 cd 04-tools
 export AZURE_OPENAI_ENDPOINT="https://aoai-xyz.openai.azure.com/"
 export AZURE_OPENAI_API_KEY="***"
 export AZURE_OPENAI_DEPLOYMENT="gpt-5"
-export TOOLS_BASE_URL="http://localhost:8082"
+export TOOLS_BASE_URL="http://localhost:8084"
 mvn spring-boot:run
 ```
 
 **Flow**: User message → Agent analyzes → Calls tools via HTTP → Returns answer
+
+## Web Interface
+
+The app includes a modern web UI at `http://localhost:8084` with:
+- **Quick Examples** - Pre-built queries to test different tools
+- **Interactive Chat** - Natural language interface to the agent
+- **Real-time Tool Execution** - See which tools are being called
+- **Session Management** - Persistent conversation history
 
 ## Available Tools
 
@@ -55,17 +74,25 @@ mvn spring-boot:run
 
 ## Testing
 
+### Web UI (Easiest)
+Open http://localhost:8084 and try:
+- "What is 25 + 17?"
+- "What's the weather in Seattle?"
+- "Calculate the square root of 144"
+
+### API Endpoints
+
 ```bash
 # Start session
-curl -X POST "http://localhost:8082/api/agent/start"
+curl -X POST "http://localhost:8084/api/agent/start"
 
 # Chat (agent will use tools automatically)
-curl -X POST "http://localhost:8082/api/agent/chat" \
+curl -X POST "http://localhost:8084/api/agent/chat" \
   -H "Content-Type: application/json" \
   -d '{"message": "What is 25 + 17?", "sessionId": "test-session"}'
 
 # Test calculator directly
-curl -X POST "http://localhost:8082/api/tools/calculator/add" \
+curl -X POST "http://localhost:8084/api/tools/calculator/add" \
   -H "Content-Type: application/json" \
   -d '{"a": 25, "b": 17}'
 ```
@@ -114,7 +141,7 @@ POST /api/agent/chat
 **Configuration (application.yaml):**
 ```yaml
 server:
-  port: 8082
+  port: 8084
 azure:
   openai:
     endpoint: ${AZURE_OPENAI_ENDPOINT}

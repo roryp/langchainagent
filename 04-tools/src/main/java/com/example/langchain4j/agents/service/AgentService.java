@@ -141,12 +141,17 @@ public class AgentService {
         return """
             You are a helpful AI assistant with access to the following tools:
             
+            Weather Tools:
             1. getCurrentWeather(location: string) - Get current weather for a location
-            2. getWeatherForecast(location: string, days: int) - Get weather forecast
-            3. add(a: number, b: number) - Add two numbers
-            4. subtract(a: number, b: number) - Subtract two numbers
-            5. multiply(a: number, b: number) - Multiply two numbers
-            6. divide(a: number, b: number) - Divide two numbers
+            2. getWeatherForecast(location: string, days: int) - Get weather forecast (1-7 days)
+            
+            Temperature Conversion Tools:
+            3. celsiusToFahrenheit(celsius: number) - Convert Celsius to Fahrenheit
+            4. fahrenheitToCelsius(fahrenheit: number) - Convert Fahrenheit to Celsius
+            5. celsiusToKelvin(celsius: number) - Convert Celsius to Kelvin
+            6. kelvinToCelsius(kelvin: number) - Convert Kelvin to Celsius
+            7. fahrenheitToKelvin(fahrenheit: number) - Convert Fahrenheit to Kelvin
+            8. kelvinToFahrenheit(kelvin: number) - Convert Kelvin to Fahrenheit
             
             When you need to use a tool, respond with:
             TOOL_CALL: <tool_name>(<param1>=<value1>, <param2>=<value2>)
@@ -257,32 +262,64 @@ public class AgentService {
                 requestBody.put("days", Integer.parseInt(paramMap.get("days")));
                 yield "/api/tools/weather/forecast";
             }
-            case "add" -> {
-                requestBody.put("a", Double.parseDouble(paramMap.get("a")));
-                requestBody.put("b", Double.parseDouble(paramMap.get("b")));
-                yield "/api/tools/calculator/add";
+            case "celsiusToFahrenheit" -> {
+                requestBody.put("celsius", Double.parseDouble(paramMap.get("celsius")));
+                yield "/api/tools/temperature/celsius-to-fahrenheit";
             }
-            case "subtract" -> {
-                requestBody.put("a", Double.parseDouble(paramMap.get("a")));
-                requestBody.put("b", Double.parseDouble(paramMap.get("b")));
-                yield "/api/tools/calculator/subtract";
+            case "fahrenheitToCelsius" -> {
+                requestBody.put("fahrenheit", Double.parseDouble(paramMap.get("fahrenheit")));
+                yield "/api/tools/temperature/fahrenheit-to-celsius";
             }
-            case "multiply" -> {
-                requestBody.put("a", Double.parseDouble(paramMap.get("a")));
-                requestBody.put("b", Double.parseDouble(paramMap.get("b")));
-                yield "/api/tools/calculator/multiply";
+            case "celsiusToKelvin" -> {
+                requestBody.put("celsius", Double.parseDouble(paramMap.get("celsius")));
+                yield "/api/tools/temperature/celsius-to-kelvin";
             }
-            case "divide" -> {
-                requestBody.put("a", Double.parseDouble(paramMap.get("a")));
-                requestBody.put("b", Double.parseDouble(paramMap.get("b")));
-                yield "/api/tools/calculator/divide";
+            case "kelvinToCelsius" -> {
+                requestBody.put("kelvin", Double.parseDouble(paramMap.get("kelvin")));
+                yield "/api/tools/temperature/kelvin-to-celsius";
+            }
+            case "fahrenheitToKelvin" -> {
+                requestBody.put("fahrenheit", Double.parseDouble(paramMap.get("fahrenheit")));
+                yield "/api/tools/temperature/fahrenheit-to-kelvin";
+            }
+            case "kelvinToFahrenheit" -> {
+                requestBody.put("kelvin", Double.parseDouble(paramMap.get("kelvin")));
+                yield "/api/tools/temperature/kelvin-to-fahrenheit";
             }
             default -> throw new IllegalArgumentException("Unknown tool: " + toolName);
         };
         
         String url = toolsBaseUrl + path;
         log.info("Calling tool endpoint: {} with body: {}", url, requestBody);
-        return restTemplate.postForObject(url, requestBody, String.class);
+        
+        @SuppressWarnings("unchecked")
+        Map<String, Object> response = restTemplate.postForObject(url, requestBody, Map.class);
+        
+        if (response == null) {
+            return "No response from tool";
+        }
+        
+        // Extract the relevant data from response
+        if (response.containsKey("error")) {
+            return "Error: " + response.get("error");
+        }
+        
+        // For weather tools, return the description or forecast
+        if (response.containsKey("description")) {
+            return (String) response.get("description");
+        }
+        
+        if (response.containsKey("forecast")) {
+            return (String) response.get("forecast");
+        }
+        
+        // For calculator tools, return the result
+        if (response.containsKey("result")) {
+            return String.valueOf(response.get("result"));
+        }
+        
+        // Fallback: return the whole response as string
+        return response.toString();
     }
 
     /**
@@ -319,10 +356,12 @@ public class AgentService {
         return List.of(
             "getCurrentWeather - Get current weather for a location",
             "getWeatherForecast - Get weather forecast",
-            "add - Add two numbers",
-            "subtract - Subtract two numbers",
-            "multiply - Multiply two numbers",
-            "divide - Divide two numbers"
+            "celsiusToFahrenheit - Convert Celsius to Fahrenheit",
+            "fahrenheitToCelsius - Convert Fahrenheit to Celsius",
+            "celsiusToKelvin - Convert Celsius to Kelvin",
+            "kelvinToCelsius - Convert Kelvin to Celsius",
+            "fahrenheitToKelvin - Convert Fahrenheit to Kelvin",
+            "kelvinToFahrenheit - Convert Kelvin to Fahrenheit"
         );
     }
 

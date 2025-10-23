@@ -70,109 +70,101 @@ public class ToolsController {
         }
     }
 
-    // ========== Calculator Tool Endpoints ==========
+    // ========== Temperature Conversion Tool Endpoints ==========
 
-    @PostMapping("/calculator/add")
-    public ResponseEntity<Map<String, Object>> add(@RequestBody Map<String, Object> request) {
-        double a = ((Number) request.get("a")).doubleValue();
-        double b = ((Number) request.get("b")).doubleValue();
-        log.info("Tool call: add({}, {})", a, b);
-
-        try {
-            double result = calculatorTool.add(a, b);
-            return ResponseEntity.ok(Map.of(
-                "result", result,
-                "operation", "addition"
-            ));
-        } catch (Exception e) {
-            log.error("Error in addition", e);
-            return ResponseEntity.internalServerError()
-                .body(Map.of("error", e.getMessage()));
-        }
-    }
-
-    @PostMapping("/calculator/subtract")
-    public ResponseEntity<Map<String, Object>> subtract(@RequestBody Map<String, Object> request) {
-        double a = ((Number) request.get("a")).doubleValue();
-        double b = ((Number) request.get("b")).doubleValue();
-        log.info("Tool call: subtract({}, {})", a, b);
+    @PostMapping("/temperature/celsius-to-fahrenheit")
+    public ResponseEntity<Map<String, Object>> celsiusToFahrenheit(@RequestBody Map<String, Object> request) {
+        double celsius = ((Number) request.get("celsius")).doubleValue();
+        log.info("Tool call: celsiusToFahrenheit({})", celsius);
 
         try {
-            double result = calculatorTool.subtract(a, b);
+            String result = calculatorTool.celsiusToFahrenheit(celsius);
             return ResponseEntity.ok(Map.of("result", result));
         } catch (Exception e) {
-            log.error("Error in subtraction", e);
+            log.error("Error in temperature conversion", e);
             return ResponseEntity.internalServerError()
                 .body(Map.of("error", e.getMessage()));
         }
     }
 
-    @PostMapping("/calculator/multiply")
-    public ResponseEntity<Map<String, Object>> multiply(@RequestBody Map<String, Object> request) {
-        double a = ((Number) request.get("a")).doubleValue();
-        double b = ((Number) request.get("b")).doubleValue();
-        log.info("Tool call: multiply({}, {})", a, b);
+    @PostMapping("/temperature/fahrenheit-to-celsius")
+    public ResponseEntity<Map<String, Object>> fahrenheitToCelsius(@RequestBody Map<String, Object> request) {
+        double fahrenheit = ((Number) request.get("fahrenheit")).doubleValue();
+        log.info("Tool call: fahrenheitToCelsius({})", fahrenheit);
 
         try {
-            double result = calculatorTool.multiply(a, b);
+            String result = calculatorTool.fahrenheitToCelsius(fahrenheit);
             return ResponseEntity.ok(Map.of("result", result));
         } catch (Exception e) {
-            log.error("Error in multiplication", e);
+            log.error("Error in temperature conversion", e);
             return ResponseEntity.internalServerError()
                 .body(Map.of("error", e.getMessage()));
         }
     }
 
-    @PostMapping("/calculator/divide")
-    public ResponseEntity<Map<String, Object>> divide(@RequestBody Map<String, Object> request) {
-        double a = ((Number) request.get("a")).doubleValue();
-        double b = ((Number) request.get("b")).doubleValue();
-        log.info("Tool call: divide({}, {})", a, b);
+    @PostMapping("/temperature/celsius-to-kelvin")
+    public ResponseEntity<Map<String, Object>> celsiusToKelvin(@RequestBody Map<String, Object> request) {
+        double celsius = ((Number) request.get("celsius")).doubleValue();
+        log.info("Tool call: celsiusToKelvin({})", celsius);
 
         try {
-            double result = calculatorTool.divide(a, b);
+            String result = calculatorTool.celsiusToKelvin(celsius);
+            return ResponseEntity.ok(Map.of("result", result));
+        } catch (Exception e) {
+            log.error("Error in temperature conversion", e);
+            return ResponseEntity.internalServerError()
+                .body(Map.of("error", e.getMessage()));
+        }
+    }
+
+    @PostMapping("/temperature/kelvin-to-celsius")
+    public ResponseEntity<Map<String, Object>> kelvinToCelsius(@RequestBody Map<String, Object> request) {
+        double kelvin = ((Number) request.get("kelvin")).doubleValue();
+        log.info("Tool call: kelvinToCelsius({})", kelvin);
+
+        try {
+            String result = calculatorTool.kelvinToCelsius(kelvin);
             return ResponseEntity.ok(Map.of("result", result));
         } catch (IllegalArgumentException e) {
-            log.warn("Division by zero attempted");
+            log.warn("Invalid temperature value");
             return ResponseEntity.badRequest()
-                .body(Map.of("error", "Division by zero"));
+                .body(Map.of("error", e.getMessage()));
         } catch (Exception e) {
-            log.error("Error in division", e);
+            log.error("Error in temperature conversion", e);
             return ResponseEntity.internalServerError()
                 .body(Map.of("error", e.getMessage()));
         }
     }
 
-    @PostMapping("/calculator/power")
-    public ResponseEntity<Map<String, Object>> power(@RequestBody Map<String, Object> request) {
-        double base = ((Number) request.get("base")).doubleValue();
-        double exponent = ((Number) request.get("exponent")).doubleValue();
-        log.info("Tool call: power({}, {})", base, exponent);
+    @PostMapping("/temperature/fahrenheit-to-kelvin")
+    public ResponseEntity<Map<String, Object>> fahrenheitToKelvin(@RequestBody Map<String, Object> request) {
+        double fahrenheit = ((Number) request.get("fahrenheit")).doubleValue();
+        log.info("Tool call: fahrenheitToKelvin({})", fahrenheit);
 
         try {
-            double result = calculatorTool.power(base, exponent);
+            String result = calculatorTool.fahrenheitToKelvin(fahrenheit);
             return ResponseEntity.ok(Map.of("result", result));
         } catch (Exception e) {
-            log.error("Error calculating power", e);
+            log.error("Error in temperature conversion", e);
             return ResponseEntity.internalServerError()
                 .body(Map.of("error", e.getMessage()));
         }
     }
 
-    @PostMapping("/calculator/sqrt")
-    public ResponseEntity<Map<String, Object>> squareRoot(@RequestBody Map<String, Object> request) {
-        double number = ((Number) request.get("number")).doubleValue();
-        log.info("Tool call: sqrt({})", number);
+    @PostMapping("/temperature/kelvin-to-fahrenheit")
+    public ResponseEntity<Map<String, Object>> kelvinToFahrenheit(@RequestBody Map<String, Object> request) {
+        double kelvin = ((Number) request.get("kelvin")).doubleValue();
+        log.info("Tool call: kelvinToFahrenheit({})", kelvin);
 
         try {
-            double result = calculatorTool.squareRoot(number);
+            String result = calculatorTool.kelvinToFahrenheit(kelvin);
             return ResponseEntity.ok(Map.of("result", result));
         } catch (IllegalArgumentException e) {
-            log.warn("Square root of negative number attempted");
+            log.warn("Invalid temperature value");
             return ResponseEntity.badRequest()
-                .body(Map.of("error", "Cannot calculate square root of negative number"));
+                .body(Map.of("error", e.getMessage()));
         } catch (Exception e) {
-            log.error("Error calculating square root", e);
+            log.error("Error in temperature conversion", e);
             return ResponseEntity.internalServerError()
                 .body(Map.of("error", e.getMessage()));
         }
