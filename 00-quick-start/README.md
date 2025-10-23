@@ -7,7 +7,7 @@ Get started with LangChain4j using GitHub Models - no Azure subscription require
 This quickstart demonstrates LangChain4j with GitHub Models:
 
 - Simple chat completion
-- Streaming responses
+- Prompt engineering patterns
 - Function calling (AI calling your Java methods)
 - Simple RAG (Retrieval-Augmented Generation) demo
 
@@ -76,38 +76,51 @@ Run:
 mvn exec:java -Dexec.mainClass="com.example.langchain4j.quickstart.BasicChatDemo"
 ```
 
-### 2. Streaming Chat
+### 2. Prompt Engineering Patterns
 
-Get responses word-by-word:
+Learn fundamental prompting techniques that improve AI responses:
 
 ```java
-OpenAiStreamingChatModel model = OpenAiStreamingChatModel.builder()
+OpenAiChatModel model = OpenAiChatModel.builder()
     .baseUrl("https://models.inference.ai.azure.com")
     .apiKey(System.getenv("GITHUB_TOKEN"))
     .modelName("gpt-4o-mini")
+    .temperature(0.7)
     .build();
 
-model.chat("Write a haiku about Java", new StreamingChatResponseHandler() {
-    @Override
-    public void onPartialResponse(String token) {
-        System.out.print(token);
-    }
+// Pattern 1: Zero-shot - Direct instruction
+String response = model.chat("Classify this sentiment: 'I loved it!'");
+
+// Pattern 2: Few-shot - Learn from examples
+String fewShotPrompt = """
+    Classify sentiment as positive, negative, or neutral.
     
-    @Override
-    public void onCompleteResponse(ChatResponse response) {
-        System.out.println("\nComplete!");
-    }
+    Examples:
+    Text: "Amazing product!" → Positive
+    Text: "It's okay." → Neutral
+    Text: "Waste of money." → Negative
     
-    @Override
-    public void onError(Throwable error) {
-        System.err.println("Error: " + error);
-    }
-}).join();
+    Now classify: "Best purchase ever!"
+    """;
+
+// Pattern 3: Chain of thought - Show reasoning
+String cotPrompt = """
+    Problem: A store has 15 apples. They sell 8 and receive 12 more.
+    How many do they have now?
+    
+    Let's solve this step-by-step:
+    """;
+
+// Pattern 4: Role-based - Set persona/context
+String rolePrompt = """
+    You are an experienced software architect reviewing code.
+    Provide a brief code review for this function: ...
+    """;
 ```
 
 Run:
 ```bash
-mvn exec:java -Dexec.mainClass="com.example.langchain4j.quickstart.StreamingResponseDemo"
+mvn exec:java -Dexec.mainClass="com.example.langchain4j.quickstart.PromptEngineeringDemo"
 ```
 
 ### 3. Function Calling
@@ -189,7 +202,7 @@ mvn exec:java -Dexec.mainClass="com.example.langchain4j.quickstart.SimpleReaderD
 ├── document.txt
 └── src/main/java/com/example/langchain4j/quickstart/
     ├── BasicChatDemo.java
-    ├── StreamingResponseDemo.java
+    ├── PromptEngineeringDemo.java
     ├── ToolIntegrationDemo.java
     └── SimpleReaderDemo.java
 ```
@@ -197,8 +210,15 @@ mvn exec:java -Dexec.mainClass="com.example.langchain4j.quickstart.SimpleReaderD
 ## Key Concepts
 
 **Chat Models**
-- Non-streaming: Get complete response at once
-- Streaming: Get response word-by-word
+- Simple, synchronous chat completion
+- Ideal for quick Q&A and demonstrations
+- Uses gpt-4o-mini for fast responses with good rate limits
+
+**Prompt Engineering**
+- Zero-shot: Direct instructions without examples
+- Few-shot: Learn from provided examples
+- Chain of thought: Request step-by-step reasoning
+- Role-based: Set context and persona for specialized responses
 
 **Tools/Function Calling**
 - AI can call your Java methods
@@ -213,6 +233,28 @@ mvn exec:java -Dexec.mainClass="com.example.langchain4j.quickstart.SimpleReaderD
 **Memory**
 - MessageWindowChatMemory: Remember last N messages
 - Enables multi-turn conversations
+
+## Prompt Engineering Patterns Explained
+
+This quickstart demonstrates 4 fundamental patterns that improve AI responses:
+
+1. **Zero-Shot Prompting** - Give direct instructions without examples
+   - Best for: Simple, well-defined tasks
+   - Example: "Classify this sentiment: 'I loved it!'"
+
+2. **Few-Shot Prompting** - Provide examples to guide behavior
+   - Best for: Tasks requiring specific format or style
+   - Example: Show 3 sentiment classifications, then ask for a new one
+
+3. **Chain of Thought** - Ask the model to explain its reasoning
+   - Best for: Complex problems requiring logic
+   - Example: Math problems, multi-step reasoning
+
+4. **Role-Based Prompting** - Set context and persona
+   - Best for: Specialized tasks requiring domain expertise
+   - Example: "You are a software architect reviewing code..."
+
+These patterns are simpler than the advanced techniques in module 02, making them ideal for beginners.
 
 ## Troubleshooting
 
