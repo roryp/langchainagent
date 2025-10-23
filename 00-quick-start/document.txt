@@ -1,0 +1,29 @@
+LangChain4j - Java Framework for AI Applications
+
+LangChain4j is a comprehensive Java library designed to simplify the development of AI-powered applications. It provides a unified interface for working with various Large Language Model (LLM) providers, making it easy to integrate AI capabilities into Java applications.
+
+Key Features:
+- Multi-Provider Support: Works with OpenAI, Azure OpenAI, Hugging Face, and many other AI providers
+- Chat Models: Support for both synchronous and streaming chat completions
+- Embeddings: Convert text to vector representations for semantic search
+- Function Calling: Enable AI models to call Java methods and tools
+- Memory Management: Built-in conversation history and context management
+- RAG Support: Retrieval-Augmented Generation with vector stores
+- Document Processing: Load and process various document formats
+
+Architecture:
+LangChain4j follows a modular architecture with separate modules for different providers and capabilities. The core library provides abstractions and interfaces, while provider-specific modules implement these interfaces for different AI services.
+
+Use Cases:
+- Chatbots and conversational interfaces
+- Document question-answering systems
+- Code generation and analysis
+- Content summarization
+- Semantic search applications
+- AI-powered data extraction
+
+Getting Started:
+To use LangChain4j, add the core dependency and a provider-specific module to your Maven or Gradle project. Then configure the model with your API credentials and start building AI-powered features.
+
+GitHub Models Integration:
+LangChain4j works seamlessly with GitHub Models through its OpenAI-compatible interface. This provides free access to state-of-the-art models for learning and development purposes without requiring an Azure subscription.

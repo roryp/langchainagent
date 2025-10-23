@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "SimpleReaderDemo",
+            "request": "launch",
+            "mainClass": "com.example.langchain4j.quickstart.SimpleReaderDemo",
+            "projectName": "langchain4j-quickstart"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-Application<introduction>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
