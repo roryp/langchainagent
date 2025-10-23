@@ -783,10 +783,9 @@ See [CHALLENGES.md](CHALLENGES.md) for hands-on exercises including:
 
 ---
 
-## Related Modules
+## Next Steps
 
-- **Previous**: [01-introduction](../01-introduction/README.md)
-- **Next**: [03-rag](../03-rag/README.md)
+**Next Module:** [03-rag - RAG (Retrieval-Augmented Generation)](../03-rag/README.md)
 
 ---
 

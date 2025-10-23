@@ -138,6 +138,8 @@ azure:
 
 ## Next Steps
 
+**Next Module:** [05-mcp - Model Context Protocol (MCP)](../05-mcp/README.md)
+
 1. **Real APIs**: Replace mock weather with OpenWeatherMap
 2. **More Tools**: Add database, search, email capabilities
 3. **Production**: Add auth, rate limiting, monitoring

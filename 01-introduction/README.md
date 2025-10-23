@@ -161,8 +161,7 @@ Start new conversation with `/api/conversation/start`
 
 ## Next Steps
 
-- **Module 02: Prompt Engineering** - Master effective prompt design
-- **Module 03: RAG** - Document search with embeddings
+**Next Module:** [02-prompt-engineering - Prompt Engineering with GPT-5](../02-prompt-engineering/README.md)
 
 ## Resources
 

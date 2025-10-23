@@ -47,6 +47,7 @@ mvn spring-boot:run
 
 - Azure subscription with Azure OpenAI access
 - Java 21, Maven 3.9+, Azure CLI, azd CLI
+- Azure OpenAI resources deployed (use `azd up` from `01-introduction` module)
 
 ## Quick Start (Local Development)
 
@@ -140,6 +141,10 @@ azure:
 **Chunking**: Always use overlap, balance size vs precision  
 **Queries**: Be specific, include context  
 **Production**: Use persistent vector store (Qdrant/Azure AI Search), add monitoring, rate limiting
+
+## Next Steps
+
+**Next Module:** [04-tools - AI Agents with Tools](../04-tools/README.md)
 
 ## Resources
 

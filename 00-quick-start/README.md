@@ -228,4 +228,4 @@ mvn clean install
 
 ## Next Steps
 
-1. [Module 01: Introduction](../01-introduction/) - Azure OpenAI integration
+**Next Module:** [01-introduction - Getting Started with LangChain4j](../01-introduction/README.md)
