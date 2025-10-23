@@ -55,7 +55,11 @@ start_app() {
         return 0
     fi
     
-    # Start application in background
+    # Start application in background with environment variables
+    AZURE_OPENAI_ENDPOINT="$AZURE_OPENAI_ENDPOINT" \
+    AZURE_OPENAI_API_KEY="$AZURE_OPENAI_API_KEY" \
+    AZURE_OPENAI_DEPLOYMENT="$AZURE_OPENAI_DEPLOYMENT" \
+    AZURE_OPENAI_EMBEDDING_DEPLOYMENT="$AZURE_OPENAI_EMBEDDING_DEPLOYMENT" \
     nohup java -jar "$jar_file" > "$module.log" 2>&1 &
     local pid=$!
     echo "Started $module with PID $pid"

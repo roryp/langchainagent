@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
+import java.time.Duration;
+
 /**
  * Configuration for LangChain4j with GPT-5 support.
  * 
@@ -38,6 +40,7 @@ public class LangChainConfig {
                 .apiKey(azureApiKey)
                 .deploymentName(deploymentName)
                 .maxCompletionTokens(maxCompletionTokens)
+                .timeout(Duration.ofMinutes(5))  // GPT-5 reasoning can take time
                 .logRequestsAndResponses(true)
                 .build();
     }
@@ -53,6 +56,7 @@ public class LangChainConfig {
                 .apiKey(azureApiKey)
                 .deploymentName(deploymentName)
                 .maxCompletionTokens(maxCompletionTokens)
+                .timeout(Duration.ofMinutes(5))
                 .logRequestsAndResponses(true)
                 .build();
     }
@@ -68,6 +72,7 @@ public class LangChainConfig {
                 .apiKey(azureApiKey)
                 .deploymentName(deploymentName)
                 .maxCompletionTokens(maxCompletionTokens)
+                .timeout(Duration.ofMinutes(5))
                 .logRequestsAndResponses(true)
                 .build();
     }

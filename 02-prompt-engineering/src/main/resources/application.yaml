@@ -13,7 +13,7 @@ azure:
     api-key: ${AZURE_OPENAI_API_KEY:}
     deployment: ${AZURE_OPENAI_DEPLOYMENT:}
     reasoning-effort: medium  # low, medium, high (for GPT-5)
-    max-tokens: 2000
+    max-completion-tokens: 16000  # High limit for GPT-5: includes reasoning tokens + output tokens
 
 # Logging
 logging:
