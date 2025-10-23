@@ -53,17 +53,11 @@ public class Gpt5PromptService {
      */
     public String solveAutonomous(String problem) {
         String prompt = """
-            <persistence>
-            - You are an agent - keep going until the problem is completely resolved
-            - Only stop when you are sure the problem is solved
-            - Never stop when you encounter uncertainty - research or deduce the answer
-            - Do not ask to confirm assumptions - decide what's most reasonable and proceed
-            - Document your assumptions for reference
-            </persistence>
+            Solve this problem thoroughly. Document any assumptions you make.
             
             Problem: %s
             
-            Think step by step and provide your complete solution:
+            Provide your complete solution:
             """.formatted(problem);
 
         return chatModel.chat(prompt);
