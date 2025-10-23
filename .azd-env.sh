@@ -25,11 +25,17 @@ if [ -f "$ENV_FILE" ]; then
     set -e
 fi
 
+# Change to 01-introduction directory to access the azd environment
+cd "$SCRIPT_DIR/01-introduction"
+
 # Try to get from azd, fallback to existing values, then to defaults
 AZD_ENDPOINT=$(azd env get-value AZURE_OPENAI_ENDPOINT 2>/dev/null | head -n 1 || true)
 AZD_API_KEY=$(azd env get-value AZURE_OPENAI_KEY 2>/dev/null | head -n 1 || true)
 AZD_DEPLOYMENT=$(azd env get-value AZURE_OPENAI_DEPLOYMENT 2>/dev/null | head -n 1 || true)
 AZD_EMBEDDING=$(azd env get-value AZURE_OPENAI_EMBEDDING_DEPLOYMENT 2>/dev/null | head -n 1 || true)
+
+# Return to script directory
+cd "$SCRIPT_DIR"
 
 # Use azd values if available, otherwise use existing or defaults
 AZURE_OPENAI_ENDPOINT="${AZD_ENDPOINT:-${AZURE_OPENAI_ENDPOINT}}"
