@@ -17,16 +17,16 @@ import org.springframework.context.annotation.Profile;
 @Configuration
 public class LangChainRagConfig {
 
-    @Value("${azure.openai.endpoint:#{environment.AZURE_OPENAI_ENDPOINT}}")
+    @Value("${azure.openai.endpoint}")
     private String endpoint;
 
-    @Value("${azure.openai.api-key:#{environment.AZURE_OPENAI_API_KEY}}")
+    @Value("${azure.openai.api-key}")
     private String apiKey;
 
-    @Value("${azure.openai.deployment:#{environment.AZURE_OPENAI_DEPLOYMENT}}")
+    @Value("${azure.openai.deployment}")
     private String deployment;
 
-    @Value("${azure.openai.embedding-deployment:#{environment.AZURE_OPENAI_EMBEDDING_DEPLOYMENT}}")
+    @Value("${azure.openai.embedding-deployment}")
     private String embeddingDeployment;
 
     @Value("${azure.openai.reasoning-effort:medium}")

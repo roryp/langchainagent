@@ -12,12 +12,13 @@ server:
   port: 8081
 
 # Azure OpenAI Configuration
+# These values can be overridden by environment variables
 azure:
   openai:
-    endpoint: ${AZURE_OPENAI_ENDPOINT}
-    api-key: ${AZURE_OPENAI_API_KEY}
-    deployment: ${AZURE_OPENAI_DEPLOYMENT}
-    embedding-deployment: ${AZURE_OPENAI_EMBEDDING_DEPLOYMENT}
+    endpoint: ${AZURE_OPENAI_ENDPOINT:}
+    api-key: ${AZURE_OPENAI_API_KEY:}
+    deployment: ${AZURE_OPENAI_DEPLOYMENT:}
+    embedding-deployment: ${AZURE_OPENAI_EMBEDDING_DEPLOYMENT:}
     reasoning-effort: medium  # low, medium, high (for GPT-5)
     max-tokens: 1000
     max-retries: 3

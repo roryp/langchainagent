@@ -79,11 +79,15 @@ start_app "01-introduction" 8080 "target/introduction-0.1.0.jar"
 # Start module 02-prompt-engineering (port 8083)
 start_app "02-prompt-engineering" 8083 "target/prompt-engineering-0.1.0.jar"
 
+# Start module 03-rag (port 8081)
+start_app "03-rag" 8081 "target/rag-0.1.0.jar"
+
 echo ""
 echo "============================================"
 echo "All applications started!"
 echo "01-introduction:      http://localhost:8080"
 echo "02-prompt-engineering: http://localhost:8083"
+echo "03-rag:               http://localhost:8081"
 echo "============================================"
 echo ""
 echo "To stop all applications, run: ./stop-all.sh"

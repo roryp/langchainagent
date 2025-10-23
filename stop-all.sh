@@ -36,9 +36,13 @@ stop_on_port 8080 "01-introduction"
 # Stop module 02-prompt-engineering (port 8083)
 stop_on_port 8083 "02-prompt-engineering"
 
+# Stop module 03-rag (port 8081)
+stop_on_port 8081 "03-rag"
+
 # Also try to find and kill any Java processes running our JARs
 pkill -f "introduction-0.1.0.jar" 2>/dev/null
 pkill -f "prompt-engineering-0.1.0.jar" 2>/dev/null
+pkill -f "rag-0.1.0.jar" 2>/dev/null
 
 echo ""
 echo "All applications stopped."
