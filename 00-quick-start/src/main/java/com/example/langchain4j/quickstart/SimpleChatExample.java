@@ -32,7 +32,7 @@ public class SimpleChatExample {
         OpenAiChatModel model = OpenAiChatModel.builder()
                 .baseUrl("https://models.inference.ai.azure.com")
                 .apiKey(githubToken)
-                .modelName("gpt-4o-mini")  // Using gpt-4o-mini (nano variant not available yet)
+                .modelName("gpt-4o-mini")  // Using gpt-4o-mini
                 .logRequests(true)  // Show API calls in console
                 .logResponses(true)
                 .build();
