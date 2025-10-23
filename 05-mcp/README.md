@@ -10,17 +10,17 @@ The Model Context Protocol provides a standardized way for LLM applications to i
 
 Three working examples in a single project demonstrating MCP integration:
 
-**Example 1: HTTP Transport (McpToolsExampleOverHttp)**
+**Example 1: HTTP Transport (HttpTransportDemo)**
 - HTTP/SSE transport connecting to a remote MCP server
 - Demonstrates network-based tool integration
 - Calls remote calculator tools
 
-**Example 2: Stdio Transport (McpToolsExampleOverStdio)**
+**Example 2: Stdio Transport (StdioTransportDemo)**
 - Stdio transport spawning a local filesystem server
 - Cross-platform subprocess management
 - File reading operations
 
-**Example 3: Git Repository Analysis (McpGithubToolsExample)**
+**Example 3: Git Repository Analysis (GitRepositoryAnalyzer)**
 - Docker-based MCP git server integration
 - Local repository mounting and analysis
 - Commit history queries via AI assistant
@@ -62,7 +62,7 @@ In a separate terminal, run the client:
 ```bash
 cd 05-mcp
 export GITHUB_TOKEN=your_token
-mvn exec:java -Dexec.mainClass=dev.langchain4j.example.mcp.McpToolsExampleOverHttp
+mvn exec:java -Dexec.mainClass=dev.langchain4j.example.mcp.HttpTransportDemo
 ```
 
 ### Example 2: Stdio Transport
@@ -72,7 +72,7 @@ This example launches the MCP server automatically:
 ```bash
 cd 05-mcp
 export GITHUB_TOKEN=your_token
-mvn exec:java -Dexec.mainClass=dev.langchain4j.example.mcp.McpToolsExampleOverStdio
+mvn exec:java -Dexec.mainClass=dev.langchain4j.example.mcp.StdioTransportDemo
 ```
 
 The code detects your OS and uses the correct npm command automatically.
@@ -92,7 +92,7 @@ Run the example:
 ```bash
 cd 05-mcp
 export GITHUB_TOKEN=your_token
-mvn exec:java -Dexec.mainClass=dev.langchain4j.example.mcp.McpGithubToolsExample
+mvn exec:java -Dexec.mainClass=dev.langchain4j.example.mcp.GitRepositoryAnalyzer
 ```
 
 This mounts your local repository and analyzes recent commits.
@@ -186,9 +186,9 @@ String response = assistant.chat("Your query here");
 05-mcp/
 ├── pom.xml
 ├── src/main/java/dev/langchain4j/example/mcp/
-│   ├── McpToolsExampleOverHttp.java    # HTTP/SSE transport
-│   ├── McpToolsExampleOverStdio.java   # Stdio transport
-│   ├── McpGithubToolsExample.java      # Git analysis
+│   ├── HttpTransportDemo.java          # HTTP/SSE transport
+│   ├── StdioTransportDemo.java         # Stdio transport
+│   ├── GitRepositoryAnalyzer.java      # Git analysis
 │   └── Bot.java                        # Chat interface
 └── src/main/resources/
     └── file.txt                        # Sample file for stdio example

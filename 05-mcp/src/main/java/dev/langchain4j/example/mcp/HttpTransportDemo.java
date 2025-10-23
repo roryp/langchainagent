@@ -26,7 +26,7 @@ import java.util.List;
  * 3. npm install
  * 4. node dist/sse.js
  */
-public class McpToolsExampleOverHttp {
+public class HttpTransportDemo {
 
     private static final String SSE_ENDPOINT = "http://localhost:3001/sse";
     private static final String GITHUB_MODELS_URL = "https://models.inference.ai.azure.com";

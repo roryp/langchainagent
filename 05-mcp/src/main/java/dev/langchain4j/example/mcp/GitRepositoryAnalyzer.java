@@ -14,29 +14,34 @@ import java.io.File;
 import java.util.List;
 
 /**
- * Demonstrates MCP integration via stdio transport for filesystem operations.
+ * Demonstrates GitHub repository analysis using MCP git server.
  * 
  * Prerequisites:
- * - npm installed
+ * - Docker installed and running
+ * - mcp/git Docker image built
  * - GITHUB_TOKEN environment variable set
- * - Working directory set to mcp-example root
+ * 
+ * Build Docker image:
+ * 1. Clone https://github.com/modelcontextprotocol/servers
+ * 2. cd servers/src/git
+ * 3. docker build -t mcp/git .
  */
-public class McpToolsExampleOverStdio {
+public class GitRepositoryAnalyzer {
 
-    private static final String TARGET_FILE = "src/main/resources/file.txt";
     private static final String GITHUB_MODELS_URL = "https://models.inference.ai.azure.com";
     private static final String MODEL_NAME = "gpt-4o-mini";
+    private static final String REPO_MOUNT_PATH = "/app/LangChain4j-for-Beginners";
 
     public static void main(String[] args) throws Exception {
 
         // Configure chat model
         ChatModel chatModel = buildChatModel();
 
-        // Setup stdio transport with filesystem server
-        McpTransport stdioTransport = buildStdioTransport();
+        // Setup Docker-based MCP transport
+        McpTransport dockerTransport = buildDockerTransport();
 
         // Initialize MCP client
-        McpClient client = buildMcpClient(stdioTransport);
+        McpClient client = buildMcpClient(dockerTransport);
 
         // Create tool provider
         ToolProvider tools = McpToolProvider.builder()
@@ -50,13 +55,13 @@ public class McpToolsExampleOverStdio {
                 .build();
 
         try {
-            File targetFile = new File(TARGET_FILE);
             String query = String.format(
-                "Read and summarize the content from: %s", 
-                targetFile.getAbsolutePath()
+                "Analyze the last 3 commits from the repository at %s and provide a brief summary",
+                REPO_MOUNT_PATH
             );
-            String result = assistant.chat(query);
-            System.out.println("Assistant response: " + result);
+            String analysis = assistant.chat(query);
+            System.out.println("Repository Analysis:");
+            System.out.println(analysis);
         } finally {
             client.close();
         }
@@ -67,25 +72,32 @@ public class McpToolsExampleOverStdio {
                 .baseUrl(GITHUB_MODELS_URL)
                 .apiKey(System.getenv("GITHUB_TOKEN"))
                 .modelName(MODEL_NAME)
+                .logRequests(true)
+                .logResponses(true)
                 .build();
     }
 
-    private static McpTransport buildStdioTransport() {
-        // Determine npm command based on OS
-        boolean isWindows = System.getProperty("os.name")
-                .toLowerCase()
-                .contains("win");
-        String npmCmd = isWindows ? "npm.cmd" : "npm";
-
-        // Get absolute path to resources directory
-        String resourcesDir = new File("src/main/resources")
-                .getAbsolutePath();
+    private static McpTransport buildDockerTransport() {
+        // Determine project root directory (go up from 05-mcp to root)
+        String workingDir = System.getProperty("user.dir");
+        String projectRoot = workingDir;
+        
+        if (workingDir.endsWith("05-mcp")) {
+            projectRoot = new File(workingDir)
+                    .getParentFile()
+                    .getAbsolutePath();
+        }
+        
+        // Normalize path for Docker
+        String dockerPath = projectRoot.replace("\\", "/");
+        String volumeMapping = dockerPath + ":" + REPO_MOUNT_PATH;
 
         return new StdioMcpTransport.Builder()
                 .command(List.of(
-                    npmCmd, "exec",
-                    "@modelcontextprotocol/server-filesystem@0.6.2",
-                    resourcesDir
+                    "docker", "run",
+                    "-e", "GITHUB_PERSONAL_ACCESS_TOKEN=" + System.getenv("GITHUB_TOKEN"),
+                    "-v", volumeMapping,
+                    "-i", "mcp/git"
                 ))
                 .logEvents(true)
                 .build();
