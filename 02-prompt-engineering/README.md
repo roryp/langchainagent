@@ -507,9 +507,3 @@ System.out.println(person.location());  // "San Francisco"
 ## Next Steps
 
 **Next Module:** [03-rag - RAG (Retrieval-Augmented Generation)](../03-rag/README.md)
-
----
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](../LICENSE) file for details.

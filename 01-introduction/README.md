@@ -169,9 +169,3 @@ Start new conversation with `/api/conversation/start`
 ## Next Steps
 
 **Next Module:** [02-prompt-engineering - Prompt Engineering with GPT-5](../02-prompt-engineering/README.md)
-
-## Resources
-
-- [LangChain4j Docs](https://docs.langchain4j.dev/)
-- [Azure OpenAI](https://learn.microsoft.com/azure/ai-services/openai/)
-- [Azure Developer CLI](https://learn.microsoft.com/azure/developer/azure-developer-cli/)

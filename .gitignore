@@ -79,3 +79,4 @@ dist/
 *.class
 hs_err_pid*
 replay_pid*
+CONSOLIDATION_ANALYSIS.md

@@ -169,14 +169,3 @@ azure:
 ## Next Steps
 
 **Next Module:** [05-mcp - Model Context Protocol (MCP)](../05-mcp/README.md)
-
-1. **Real APIs**: Replace mock weather with OpenWeatherMap
-2. **More Tools**: Add database, search, email capabilities
-3. **Production**: Add auth, rate limiting, monitoring
-4. **Native Function Calling**: Explore LangChain4j `@Tool` annotations
-
-## Resources
-
-- [LangChain4j Docs](https://docs.langchain4j.dev/)
-- [Azure OpenAI](https://learn.microsoft.com/azure/ai-services/openai/)
-- [ReAct Pattern](https://arxiv.org/abs/2210.03629)

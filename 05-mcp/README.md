@@ -265,7 +265,5 @@ You've completed the LangChain4j for Beginners course! You've learned:
 
 - Review the [main course overview](../README.md) to revisit any topics
 - Explore the [official LangChain4j documentation](https://docs.langchain4j.dev/)
-- Build your own AI applications using what you've learned
-- Share your projects and contribute to the community
 
 Thank you for completing this course!
