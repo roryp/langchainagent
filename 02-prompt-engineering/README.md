@@ -4,16 +4,33 @@ This module covers effective prompt design for large language models using GPT-5
 
 ## Overview
 
-This module implements **8 practical prompting patterns** inspired by [OpenAI's GPT-5 prompting guide](https://github.com/openai/openai-cookbook/blob/main/examples/gpt-5/gpt-5_prompting_guide.ipynb):
+This module implements **8 practical prompting patterns** for GPT-5:
 
-1. **Low Eagerness** - Fast, focused responses (2 steps max)
-2. **High Eagerness** - Thorough, autonomous exploration
-3. **Tool Preambles** - Progress updates for multi-step tasks
-4. **Self-Reflecting Code** - Quality-driven code generation
-5. **Structured Analysis** - Framework-based code review
-6. **Multi-Turn Chat** - Context-aware conversations
-7. **Step-by-Step Reasoning** - Explicit logic walkthrough
-8. **Constrained Output** - Format & length compliance
+### The 8 Patterns
+
+1. **Low Eagerness (Quick & Focused)** - Get fast, direct answers for simple questions. Max 2 reasoning steps.
+   - *Use for:* Math, lookups, simple facts
+
+2. **High Eagerness (Deep & Thorough)** - Get comprehensive analysis with detailed reasoning shown in the response.
+   - *Use for:* System design, complex problems, architecture decisions
+
+3. **Task Execution (Step-by-Step Progress)** - Get a plan upfront, then narrated steps, then a summary.
+   - *Use for:* Multi-step workflows, migrations, implementations
+
+4. **Self-Reflecting Code** - Generate production-quality code with internal quality checks.
+   - *Use for:* Building new features, creating services, writing APIs
+
+5. **Structured Analysis** - Get consistent code review feedback (correctness, practices, performance, security).
+   - *Use for:* Code reviews, quality assessments
+
+6. **Multi-Turn Chat** - Have conversations that remember context across multiple messages.
+   - *Use for:* Interactive help, Q&A sessions, clarifications
+
+7. **Step-by-Step Reasoning** - See explicit visible reasoning for each step of problem-solving.
+   - *Use for:* Math problems, logic puzzles, teaching moments
+
+8. **Constrained Output** - Get responses that strictly follow format and length requirements.
+   - *Use for:* Summaries, specific formats, word-count limits
 
 ## Quick Start
 
