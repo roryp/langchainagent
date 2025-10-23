@@ -172,9 +172,9 @@ function displayAnswer(result) {
         sourcesSection.style.display = 'block';
         sourcesList.innerHTML = result.sources.map((source, index) => `
             <div class="source-item">
-                <p><strong>Source ${index + 1}:</strong></p>
-                <p class="source-content">"${source.content}"</p>
-                <p class="source-meta">Score: ${(source.score * 100).toFixed(1)}%</p>
+                <p><strong>Source ${index + 1}: ${source.filename}</strong></p>
+                <p class="source-content">"${source.excerpt}"</p>
+                <p class="source-meta">Relevance: ${(source.relevanceScore * 100).toFixed(1)}%</p>
             </div>
         `).join('');
     } else {

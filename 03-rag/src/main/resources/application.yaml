@@ -34,6 +34,6 @@ rag:
 # Logging
 logging:
   level:
-    dev.rory.azure.langchain4j: DEBUG
+    com.example.langchain4j: DEBUG
     dev.langchain4j: INFO
     org.springframework: INFO

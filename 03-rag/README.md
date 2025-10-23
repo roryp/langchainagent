@@ -4,137 +4,110 @@ Build a RAG system that answers questions based on your documents using LangChai
 
 ## Features
 
-- Document ingestion (PDF, TXT)
-- Vector embeddings via Azure OpenAI
-- Semantic search with relevance scoring
-- Context-aware answer generation
-- Source attribution
+- **Document Upload**: Web UI for easy document ingestion (TXT, PDF)
+- **Smart Chunking**: Recursive text splitting with overlap (300 tokens)
+- **Vector Embeddings**: Azure OpenAI text-embedding-3-small
+- **Semantic Search**: Find relevant content with similarity scoring
+- **Source Attribution**: Answers include source references with relevance scores
+- **In-Memory Store**: Fast vector storage (resets on restart)
 
-## Architecture (Local Development)
+## Quick Start
 
-```
-
-  Spring Boot App (Port 8081)      
-  • DocumentService             
-  • RagService                  
-  • InMemoryEmbeddingStore      
-
-          ↓
-
-  Azure OpenAI                   
-  • gpt-5 (chat)          
-  • text-embedding-3-small      
-
-```
-
-**Flow**: 
-1. Upload document → Split into chunks → Generate embeddings → Store
-2. Ask question → Embed query → Find relevant chunks → Generate answer with sources
-
-## Prerequisites
-
-- Azure subscription with Azure OpenAI access
-- Java 21, Maven 3.9+, Azure CLI, azd CLI
-- Azure OpenAI resources deployed (use `azd up` from `01-introduction` module)
-
-## Quick Start (Local Development)
+### 1. Set Environment Variables
 
 ```bash
 cd 03-rag
-export AZURE_OPENAI_ENDPOINT="https://aoai-xyz.openai.azure.com/"
-export AZURE_OPENAI_API_KEY="***"
-export AZURE_OPENAI_DEPLOYMENT="gpt-5"
-export AZURE_OPENAI_EMBEDDING_DEPLOYMENT="text-embedding-3-small"
+source ../.env  # or manually export variables
+```
+
+Required variables (from `.env` in project root):
+- `AZURE_OPENAI_ENDPOINT`
+- `AZURE_OPENAI_API_KEY`
+- `AZURE_OPENAI_DEPLOYMENT` (e.g., gpt-5)
+- `AZURE_OPENAI_EMBEDDING_DEPLOYMENT` (e.g., text-embedding-3-small)
+
+### 2. Run Application
+
+```bash
 mvn spring-boot:run
 ```
 
-### Test
+### 3. Open Web UI
+
+Navigate to: **http://localhost:8081**
+
+**Step 1**: Upload a document (TXT works best, PDF supported)  
+**Step 2**: Ask questions about the document  
+**Step 3**: Get AI-generated answers with source references
+
+## Document Format Tips
+
+✅ **Best Results**: Clean TXT files with clear structure  
+✅ **Good**: Well-formatted PDFs with selectable text  
+❌ **Poor**: Scanned PDFs, images, tables without structure
+
+**File Size**: Keep under 5MB for best performance
+
+## API Endpoints
+
+Test via command line:
 
 ```bash
 # Upload document
 curl -X POST "http://localhost:8081/api/documents/upload" \
-  -F "file=@document.pdf"
+  -F "file=@document.txt"
 
 # Ask question
 curl -X POST "http://localhost:8081/api/rag/ask" \
   -H "Content-Type: application/json" \
-  -d '{"question": "What is the main topic?", "conversationId": "test"}'
-```
-
-## API Endpoints
-
-| Method | Path | Description |
-|--------|------|-------------|
-| POST | `/api/documents/upload` | Upload PDF/TXT (multipart/form-data) |
-| POST | `/api/rag/ask` | Ask question based on documents |
-| GET | `/api/documents/health` | Health check |
-| GET | `/api/rag/health` | Health check |
-
-**Example Response:**
-```json
-{
-  "answer": "Generated answer...",
-  "sources": [{"filename": "doc.pdf", "relevanceScore": 0.92}]
-}
+  -d '{
+    "question": "What is the main topic?",
+    "conversationId": null,
+    "maxResults": 5
+  }'
 ```
 
 ## Configuration
 
-**Key Settings (application.yaml):**
+Key settings in `application.yaml`:
+
 ```yaml
 rag:
-  chunk-size: 300        # Token chunk size
-  chunk-overlap: 30      # Overlap between chunks
-  max-results: 5         # Max segments retrieved
-  min-score: 0.7         # Min relevance score
-
-azure:
-  openai:
-    reasoning-effort: medium  # Reasoning depth (low, medium, high)
-    max-tokens: 1000          # Max response length
+  chunk-size: 300        # Tokens per chunk
+  chunk-overlap: 30      # Overlap for context continuity
+  max-results: 5         # Chunks to retrieve
+  min-score: 0.5         # Minimum similarity score (0.5 = balanced)
 ```
 
-**Vector Store Options:**
-- **Development**: InMemoryEmbeddingStore (default, not persistent)
-- **Production**: Qdrant or Azure AI Search (add dependencies to pom.xml)
+**Similarity Scores:**
+- **0.7-1.0**: Highly relevant (excellent match)
+- **0.5-0.7**: Relevant (good match)
+- **<0.5**: Filtered out (low relevance)
 
-## Implementation
+## Architecture
 
-**Key Components:**
-- `DocumentService` - Parse PDFs/TXT, split into chunks, generate embeddings
-- `RagService` - Semantic search and answer generation
-- `ApachePdfBoxDocumentParser` - PDF text extraction
-- `DocumentSplitters.recursive()` - Text chunking (300 tokens, 30 overlap)
-- `InMemoryEmbeddingStore` - Vector storage (dev only)
+**Storage:** InMemoryEmbeddingStore (⚠️ data lost on restart)  
+**Production:** Use persistent store (Qdrant, Azure AI Search)
 
-**Query Flow:**
-1. Embed query → Search vector store → Retrieve top 5 chunks (min score 0.7)
-2. Build context from chunks → Send to LLM → Return answer with sources
-
-**Relevance Scores:** 0.9-1.0 (high) | 0.8-0.9 (very good) | 0.7-0.8 (good) | <0.7 (filtered)
+**Components:**
+- `DocumentService` - PDF/TXT parsing and chunking
+- `EmbeddingService` - Generate and store embeddings
+- `RagService` - Semantic search + answer generation
 
 ## Troubleshooting
 
-**No relevant documents found:**
-- Lower `min-score` (try 0.6)
-- Verify documents uploaded successfully
+**"No relevant documents found"**
+- Re-upload document after restart (in-memory store is empty)
+- Try simpler, more direct questions
+- Lower `min-score` in application.yaml
 
-**Poor answer quality:**
-- Increase `max-results` for more context
-- Use more capable model
+**Source shows "undefined"**
+- Clear browser cache and refresh
 
-## Recommended Practices
-
-**Documents**: Clean text, clear structure, <5MB per file  
-**Chunking**: Always use overlap, balance size vs precision  
-**Queries**: Be specific, include context  
-**Production**: Use persistent vector store (Qdrant/Azure AI Search), add monitoring, rate limiting
+**Upload fails**
+- Check file size (<10MB limit)
+- Verify file format (TXT or PDF with selectable text)
 
 ## Next Steps
 
-**Next Module:** [04-tools - AI Agents with Tools](../04-tools/README.md)
-
-## Resources
-
-- [LangChain4j RAG Docs](https://docs.langchain4j.dev/tutorials/rag)
-- [Azure OpenAI Embeddings](https://learn.microsoft.com/azure/ai-services/openai/concepts/embeddings)
+**Module 04:** [AI Agents with Tools](../04-tools/README.md)
