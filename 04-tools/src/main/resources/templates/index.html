@@ -10,9 +10,9 @@
     <div class="container">
         <div class="header">
             <h1>🤖 AI Agent with Tools</h1>
-            <p>Ask the AI agent to perform calculations or check the weather</p>
+            <p>Ask the AI agent to convert temperatures, check the weather, or chain multiple tools together</p>
             <div class="stats">
-                <div class="stat">🧮 Calculator</div>
+                <div class="stat">🌡️ Temperature Conversion</div>
                 <div class="stat">🌤️ Weather</div>
                 <div class="stat">💬 Natural Language</div>
             </div>
@@ -74,7 +74,7 @@
                 <h2>Chat with AI Agent</h2>
             </div>
             <div class="section-body">
-                <p class="help-text">Ask the agent anything that requires calculations or weather information</p>
+                <p class="help-text">Ask the agent anything that requires temperature conversions or weather information</p>
                 
                 <div class="chat-container" id="chatContainer">
                     <div class="welcome-message">
@@ -83,11 +83,12 @@
                             <strong>AI Agent Ready!</strong><br>
                             I can help you with:
                             <ul>
-                                <li>Mathematical calculations (add, subtract, multiply, divide, power, square root)</li>
+                                <li>Temperature conversions (Celsius ↔ Fahrenheit ↔ Kelvin)</li>
                                 <li>Current weather information for any city</li>
                                 <li>Weather forecasts (up to 7 days)</li>
+                                <li>Chaining tools together (e.g., "What's the weather in Seattle and convert it to Fahrenheit")</li>
                             </ul>
-                            Try asking me something like "What's the weather in Paris?" or "What is 125 + 375?"
+                            Try asking me something like "Convert 100°F to Celsius" or "What's the weather in Paris and convert it to Fahrenheit?"
                         </div>
                     </div>
                 </div>
@@ -95,7 +96,7 @@
                 <div class="input-container">
                     <textarea 
                         id="messageInput" 
-                        placeholder="Ask me to calculate something or check the weather..."
+                        placeholder="Ask me to convert temperatures or check the weather..."
                         rows="2"
                     ></textarea>
                     

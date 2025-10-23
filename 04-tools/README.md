@@ -1,13 +1,13 @@
 # Module 04: AI Agents with Tools
 
-Build autonomous AI agents that can use HTTP-based tools to accomplish complex tasks using LangChain4j and Azure OpenAI.
+Build autonomous AI agents that can use HTTP-based tools and chain them together using LangChain4j and Azure OpenAI.
 
 ## Features
 
 - **ReAct Pattern** - Reasoning and Acting with multi-step tool execution
-- **HTTP-Based Tools** - Weather lookup and temperature conversions
+- **HTTP-Based Tools** - Weather lookup and temperature conversions (C ↔ F ↔ K)
+- **Tool Chaining** - Chain multiple tools (e.g., get weather + convert temperature)
 - **Session Management** - Conversation memory per session
-- **Tool Chaining** - Execute multiple tools in sequence
 - **OpenAPI Spec** - Tools defined with OpenAPI 3.0
 
 ## Architecture (Local Development)
@@ -70,15 +70,18 @@ The app includes a modern web UI at `http://localhost:8084` with:
 - `getWeatherForecast(location, days)` - Get forecast
 
 **Temperature Conversion**:
-- `celsiusToFahrenheit`, `fahrenheitToCelsius`, `celsiusToKelvin`, `kelvinToCelsius`, `fahrenheitToKelvin`, `kelvinToFahrenheit`
+- Convert between Celsius, Fahrenheit, and Kelvin (6 conversion methods)
+
+**Tool Chaining**:
+- Combine tools in natural language (e.g., "What's the weather in Tokyo and convert it to Fahrenheit?")
 
 ## Testing
 
 ### Web UI (Easiest)
 Open http://localhost:8084 and try:
 - "Convert 100°F to Celsius"
-- "What's the weather in Seattle?"
-- "What is 25°C in Fahrenheit?"
+- "What's the weather in Seattle and convert it to Fahrenheit?"
+- "What is 25°C in Kelvin?"
 
 ### API Endpoints
 

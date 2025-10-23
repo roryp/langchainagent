@@ -17,38 +17,36 @@ if ! command -v azd &> /dev/null; then
     exit 1
 fi
 
-# Get environment variables from azd
-AZURE_ENV_NAME=$(azd env get-value AZURE_ENV_NAME 2>/dev/null || echo "")
-AZURE_LOCATION=$(azd env get-value AZURE_LOCATION 2>/dev/null || echo "")
-AZURE_OPENAI_ENDPOINT=$(azd env get-value AZURE_OPENAI_ENDPOINT 2>/dev/null || echo "")
-AZURE_OPENAI_API_KEY=$(azd env get-value AZURE_OPENAI_KEY 2>/dev/null || echo "")
-AZURE_OPENAI_DEPLOYMENT=$(azd env get-value AZURE_OPENAI_DEPLOYMENT 2>/dev/null || echo "")
-AZURE_OPENAI_EMBEDDING_DEPLOYMENT=$(azd env get-value AZURE_OPENAI_EMBEDDING_DEPLOYMENT 2>/dev/null || echo "")
-AZURE_OPENAI_NAME=$(azd env get-value AZURE_OPENAI_NAME 2>/dev/null || echo "")
-AZURE_RESOURCE_GROUP_ID=$(azd env get-value AZURE_RESOURCE_GROUP_ID 2>/dev/null || echo "")
-AZURE_RESOURCE_GROUP_NAME=$(azd env get-value AZURE_RESOURCE_GROUP_NAME 2>/dev/null || echo "")
-AZURE_SUBSCRIPTION_ID=$(azd env get-value AZURE_SUBSCRIPTION_ID 2>/dev/null || echo "")
-AZURE_TENANT_ID=$(azd env get-value AZURE_TENANT_ID 2>/dev/null || echo "")
-
-# Fallback to default deployment names if not set
-if [ -z "$AZURE_OPENAI_DEPLOYMENT" ]; then
-    AZURE_OPENAI_DEPLOYMENT="gpt-5"
+# Get environment variables from azd, with fallback to existing .env values
+if [ -f "$ENV_FILE" ]; then
+    # Source existing .env for fallback values
+    set +e
+    source "$ENV_FILE" 2>/dev/null
+    set -e
 fi
 
-if [ -z "$AZURE_OPENAI_EMBEDDING_DEPLOYMENT" ]; then
-    AZURE_OPENAI_EMBEDDING_DEPLOYMENT="text-embedding-3-small"
-fi
+# Try to get from azd, fallback to existing values, then to defaults
+AZD_ENDPOINT=$(azd env get-value AZURE_OPENAI_ENDPOINT 2>/dev/null | head -n 1 || true)
+AZD_API_KEY=$(azd env get-value AZURE_OPENAI_KEY 2>/dev/null | head -n 1 || true)
+AZD_DEPLOYMENT=$(azd env get-value AZURE_OPENAI_DEPLOYMENT 2>/dev/null | head -n 1 || true)
+AZD_EMBEDDING=$(azd env get-value AZURE_OPENAI_EMBEDDING_DEPLOYMENT 2>/dev/null | head -n 1 || true)
+
+# Use azd values if available, otherwise use existing or defaults
+AZURE_OPENAI_ENDPOINT="${AZD_ENDPOINT:-${AZURE_OPENAI_ENDPOINT}}"
+AZURE_OPENAI_API_KEY="${AZD_API_KEY:-${AZURE_OPENAI_API_KEY}}"
+AZURE_OPENAI_DEPLOYMENT="${AZD_DEPLOYMENT:-${AZURE_OPENAI_DEPLOYMENT:-gpt-5}}"
+AZURE_OPENAI_EMBEDDING_DEPLOYMENT="${AZD_EMBEDDING:-${AZURE_OPENAI_EMBEDDING_DEPLOYMENT:-text-embedding-3-small}}"
 
 # Validate required variables
 if [ -z "$AZURE_OPENAI_ENDPOINT" ]; then
-    echo "Error: AZURE_OPENAI_ENDPOINT not found in azd environment"
+    echo "Error: AZURE_OPENAI_ENDPOINT not found in azd environment or existing .env"
     echo "Set it with: azd env set AZURE_OPENAI_ENDPOINT <value>"
     exit 1
 fi
 
 if [ -z "$AZURE_OPENAI_API_KEY" ]; then
-    echo "Error: AZURE_OPENAI_API_KEY not found in azd environment"
-    echo "Set it with: azd env set AZURE_OPENAI_API_KEY <value>"
+    echo "Error: AZURE_OPENAI_API_KEY not found in azd environment or existing .env"
+    echo "Set it with: azd env set AZURE_OPENAI_KEY <value>"
     exit 1
 fi
 
@@ -56,22 +54,29 @@ fi
 echo "Creating/updating .env file from azd environment..."
 
 cat > "$ENV_FILE" << EOF
-AZURE_ENV_NAME="$AZURE_ENV_NAME"
-AZURE_LOCATION="$AZURE_LOCATION"
-AZURE_OPENAI_DEPLOYMENT="$AZURE_OPENAI_DEPLOYMENT"
-AZURE_OPENAI_EMBEDDING_DEPLOYMENT="$AZURE_OPENAI_EMBEDDING_DEPLOYMENT"
-AZURE_OPENAI_ENDPOINT="$AZURE_OPENAI_ENDPOINT"
-AZURE_OPENAI_API_KEY="$AZURE_OPENAI_API_KEY"
-AZURE_OPENAI_KEY="$AZURE_OPENAI_API_KEY"
-AZURE_OPENAI_NAME="$AZURE_OPENAI_NAME"
-AZURE_RESOURCE_GROUP_ID="$AZURE_RESOURCE_GROUP_ID"
-AZURE_RESOURCE_GROUP_NAME="$AZURE_RESOURCE_GROUP_NAME"
-AZURE_SUBSCRIPTION_ID="$AZURE_SUBSCRIPTION_ID"
-AZURE_TENANT_ID="$AZURE_TENANT_ID"
+AZURE_OPENAI_ENDPOINT=$AZURE_OPENAI_ENDPOINT
+AZURE_OPENAI_API_KEY=$AZURE_OPENAI_API_KEY
+AZURE_OPENAI_DEPLOYMENT=$AZURE_OPENAI_DEPLOYMENT
+AZURE_OPENAI_EMBEDDING_DEPLOYMENT=$AZURE_OPENAI_EMBEDDING_DEPLOYMENT
 EOF
+
+# Create .env files in module directories
+for module_dir in 01-introduction 02-prompt-engineering 03-rag 04-tools; do
+    module_env="$SCRIPT_DIR/$module_dir/.env"
+    if [ -d "$SCRIPT_DIR/$module_dir" ]; then
+        echo "Creating .env in $module_dir..."
+        cp "$ENV_FILE" "$module_env"
+        
+        # Add module-specific variables
+        if [ "$module_dir" == "04-tools" ]; then
+            echo "TOOLS_BASE_URL=http://localhost:8084" >> "$module_env"
+        fi
+    fi
+done
 
 echo "✓ Environment variables successfully loaded from azd"
 echo "✓ .env file created/updated at: $ENV_FILE"
+echo "✓ .env files created in all module directories"
 echo ""
 echo "Configuration:"
 echo "  AZURE_OPENAI_ENDPOINT: $AZURE_OPENAI_ENDPOINT"

@@ -1,6 +1,6 @@
 package com.example.langchain4j.agents.app;
 
-import com.example.langchain4j.agents.tools.CalculatorTool;
+import com.example.langchain4j.agents.tools.TemperatureTool;
 import com.example.langchain4j.agents.tools.WeatherTool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,11 +20,11 @@ public class ToolsController {
     private static final Logger log = LoggerFactory.getLogger(ToolsController.class);
 
     private final WeatherTool weatherTool;
-    private final CalculatorTool calculatorTool;
+    private final TemperatureTool temperatureTool;
 
-    public ToolsController(WeatherTool weatherTool, CalculatorTool calculatorTool) {
+    public ToolsController(WeatherTool weatherTool, TemperatureTool temperatureTool) {
         this.weatherTool = weatherTool;
-        this.calculatorTool = calculatorTool;
+        this.temperatureTool = temperatureTool;
     }
 
     // ========== Weather Tool Endpoints ==========
@@ -78,7 +78,7 @@ public class ToolsController {
         log.info("Tool call: celsiusToFahrenheit({})", celsius);
 
         try {
-            String result = calculatorTool.celsiusToFahrenheit(celsius);
+            String result = temperatureTool.celsiusToFahrenheit(celsius);
             return ResponseEntity.ok(Map.of("result", result));
         } catch (Exception e) {
             log.error("Error in temperature conversion", e);
@@ -93,7 +93,7 @@ public class ToolsController {
         log.info("Tool call: fahrenheitToCelsius({})", fahrenheit);
 
         try {
-            String result = calculatorTool.fahrenheitToCelsius(fahrenheit);
+            String result = temperatureTool.fahrenheitToCelsius(fahrenheit);
             return ResponseEntity.ok(Map.of("result", result));
         } catch (Exception e) {
             log.error("Error in temperature conversion", e);
@@ -108,7 +108,7 @@ public class ToolsController {
         log.info("Tool call: celsiusToKelvin({})", celsius);
 
         try {
-            String result = calculatorTool.celsiusToKelvin(celsius);
+            String result = temperatureTool.celsiusToKelvin(celsius);
             return ResponseEntity.ok(Map.of("result", result));
         } catch (Exception e) {
             log.error("Error in temperature conversion", e);
@@ -123,7 +123,7 @@ public class ToolsController {
         log.info("Tool call: kelvinToCelsius({})", kelvin);
 
         try {
-            String result = calculatorTool.kelvinToCelsius(kelvin);
+            String result = temperatureTool.kelvinToCelsius(kelvin);
             return ResponseEntity.ok(Map.of("result", result));
         } catch (IllegalArgumentException e) {
             log.warn("Invalid temperature value");
@@ -142,7 +142,7 @@ public class ToolsController {
         log.info("Tool call: fahrenheitToKelvin({})", fahrenheit);
 
         try {
-            String result = calculatorTool.fahrenheitToKelvin(fahrenheit);
+            String result = temperatureTool.fahrenheitToKelvin(fahrenheit);
             return ResponseEntity.ok(Map.of("result", result));
         } catch (Exception e) {
             log.error("Error in temperature conversion", e);
@@ -157,7 +157,7 @@ public class ToolsController {
         log.info("Tool call: kelvinToFahrenheit({})", kelvin);
 
         try {
-            String result = calculatorTool.kelvinToFahrenheit(kelvin);
+            String result = temperatureTool.kelvinToFahrenheit(kelvin);
             return ResponseEntity.ok(Map.of("result", result));
         } catch (IllegalArgumentException e) {
             log.warn("Invalid temperature value");

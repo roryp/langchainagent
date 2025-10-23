@@ -11,9 +11,9 @@ import org.springframework.stereotype.Component;
  * Demonstrates tool parameter handling with LangChain4j.
  */
 @Component
-public class CalculatorTool {
+public class TemperatureTool {
 
-    private static final Logger log = LoggerFactory.getLogger(CalculatorTool.class);
+    private static final Logger log = LoggerFactory.getLogger(TemperatureTool.class);
 
     /**
      * Convert temperature from Celsius to Fahrenheit.
