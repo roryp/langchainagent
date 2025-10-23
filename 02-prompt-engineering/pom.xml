@@ -23,6 +23,12 @@
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
 
+    <!-- Thymeleaf for UI templates -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-thymeleaf</artifactId>
+    </dependency>
+
     <!-- Core LangChain4j components -->
     <dependency>
       <groupId>dev.langchain4j</groupId>

@@ -42,6 +42,12 @@
       <artifactId>jackson-databind</artifactId>
     </dependency>
 
+    <!-- Thymeleaf for web UI -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-thymeleaf</artifactId>
+    </dependency>
+
     <!-- Testing support -->
     <dependency>
       <groupId>org.springframework.boot</groupId>

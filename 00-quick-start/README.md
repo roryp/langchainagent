@@ -59,7 +59,7 @@ export GITHUB_TOKEN="your_token_here"
 ```bash
 cd 00-quick-start
 mvn clean compile
-mvn exec:java -Dexec.mainClass="com.example.langchain4j.quickstart.BasicChatDemo"
+mvn exec:java -Dexec.mainClass="com.example.langchain4j.quickstart.ComprehensiveDemoRunner"
 ```
 
 ## Examples

@@ -6,11 +6,12 @@ spring:
     name: prompt-engineering
 
 # Azure OpenAI Configuration
+# These values can be overridden by environment variables
 azure:
   openai:
-    endpoint: ${AZURE_OPENAI_ENDPOINT}
-    api-key: ${AZURE_OPENAI_API_KEY}
-    deployment: ${AZURE_OPENAI_DEPLOYMENT:gpt-5}
+    endpoint: ${AZURE_OPENAI_ENDPOINT:}
+    api-key: ${AZURE_OPENAI_API_KEY:}
+    deployment: ${AZURE_OPENAI_DEPLOYMENT:}
     reasoning-effort: medium  # low, medium, high (for GPT-5)
     max-tokens: 2000
 
