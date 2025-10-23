@@ -38,7 +38,7 @@
       }
     }
   },
-  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y maven",
+  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y maven && git config --global core.autocrlf input && git config --global core.eol lf",
   "remoteUser": "vscode",
   "containerEnv": {
     "JAVA_HOME": "/usr/lib/jvm/msopenjdk-current",
