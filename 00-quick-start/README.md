@@ -30,7 +30,7 @@ This quickstart demonstrates LangChain4j with GitHub Models:
 
 1. Navigate to GitHub Settings and select Settings from your profile menu.
 2. In the left sidebar, click Developer settings (usually at the bottom).
-3. Under Personal access tokens, click Fine-grained tokens (or follow this [direct link](https://github.com/settings/tokens?type=beta)).
+3. Under Personal access tokens, click Fine-grained tokens (or follow this [direct link](https://github.com/settings/personal-access-tokens)).
 4. Click Generate new token.
 5. Under "Token name", provide a descriptive name (e.g., "LangChain4j Demo").
 6. Set an expiration date (recommended: 7 days for security best practices).
