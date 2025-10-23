@@ -1,6 +1,6 @@
 # 02 - Prompt Engineering with GPT-5
 
-Learn the art and science of crafting effective prompts for large language models using **GPT-5 practices** from OpenAI's official guide!
+This module covers effective prompt design for large language models using GPT-5 patterns from OpenAI's official guide.
 
 ## Overview
 
@@ -157,7 +157,7 @@ curl -X POST http://localhost:8083/api/gpt5/code \
 
 ### Chain-of-Thought Prompting
 
-Encourage step-by-step reasoning by asking the model to show its work:
+Step-by-step reasoning by asking the model to show its work:
 
 **Example:**
 ```bash
