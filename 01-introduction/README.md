@@ -73,118 +73,21 @@ source ../.env
 mvn spring-boot:run
 ```
 
-## API Endpoints
+Open http://localhost:8080 in your browser.
 
-### 1. Basic Chat (Stateless)
+## Using the Application
 
-**POST** `/api/chat` - Simple one-off questions
+The application provides a web interface with two chat implementations side-by-side.
 
-```bash
-curl -X POST http://localhost:8080/api/chat \
-  -H 'Content-Type: application/json' \
-  -d '{"message":"What is LangChain4j?"}'
-```
+**Stateless Chat (Left Panel)**
 
-### 2. Conversational Chat (Stateful)
+Try this first. Ask "My name is John" and then immediately ask "What's my name?" The model won't remember because each message is independent. This demonstrates the core problem with basic language model integration - no conversation context.
 
-Multi-turn conversations with memory.
+**Stateful Chat (Right Panel)**
 
-**Start:** `POST /api/conversation/start`
-```bash
-CONV_ID=$(curl -X POST http://localhost:8080/api/conversation/start | jq -r '.conversationId')
-```
+Now try the same sequence here. Ask "My name is John" and then "What's my name?" This time it remembers. The difference is MessageWindowChatMemory - it maintains conversation history and includes it with each request. This is how production conversational AI works.
 
-**Chat:** `POST /api/conversation/chat`
-```bash
-curl -X POST http://localhost:8080/api/conversation/chat \
-  -H 'Content-Type: application/json' \
-  -d "{\"conversationId\":\"$CONV_ID\",\"message\":\"My name is John\"}"
-
-# Follow-up - remembers context!
-curl -X POST http://localhost:8080/api/conversation/chat \
-  -H 'Content-Type: application/json' \
-  -d "{\"conversationId\":\"$CONV_ID\",\"message\":\"What is my name?\"}"
-```
-
-**History:** `GET /api/conversation/{id}/history`  
-**Clear:** `DELETE /api/conversation/{id}`
-
-### 3. Health Checks
-
-- `GET /api/chat/health`
-- `GET /api/conversation/health`
-
-## Architecture
-
-### Project Structure
-
-```
-01-getting-started/
- src/main/java/...
-    app/
-       Application.java              # Spring Boot main
-       ChatController.java           # Stateless chat
-       ConversationController.java   # Stateful chat
-    service/
-       ConversationService.java      # Memory management
-    config/
-       LangChainConfig.java          # Azure OpenAI setup
-    model/                             # DTOs
- infra/                                 # Bicep templates
- pom.xml
-```
-
-**Key Components:**
-- `LangChainConfig` - Configures Azure OpenAI chat model
-- `ChatController` - Stateless requests (no memory)
-- `ConversationService` - Manages conversation memory (MessageWindowChatMemory)
-- `ConversationController` - Stateful conversations with lifecycle management
-
-## Configuration
-
-**Environment Variables:**
-
-| Variable | Description |
-|----------|-------------|
-| `AZURE_OPENAI_ENDPOINT` | Azure OpenAI endpoint URL |
-| `AZURE_OPENAI_API_KEY` | API key |
-| `AZURE_OPENAI_DEPLOYMENT` | Model deployment name (e.g., gpt-5) |
-
-**Application Properties (application.yaml):**
-```yaml
-azure:
-  openai:
-    reasoning-effort: medium  # low, medium, high (GPT-5 reasoning depth)
-    max-tokens: 1000          # Max response length
-```
-
-## Azure Infrastructure
-
-Deploy Azure OpenAI with `azd up`:
-- **Azure OpenAI** - gpt-5 + text-embedding-3-small
-
-```bash
-cd 01-introduction
-azd up
-```
-
-**View deployed resources:**
-```bash
-azd env get-values
-```
-
-All examples run locally using the deployed Azure OpenAI endpoint.
-
-## Troubleshooting
-
-**"endpoint cannot be null or blank"**  
-Set environment variables: `export AZURE_OPENAI_ENDPOINT=...`
-
-**"401 Unauthorized"**  
-Verify API key in Azure Portal
-
-**Conversation Not Found**  
-Start new conversation with `/api/conversation/start`
+Both panels use the same GPT-5 model. The only difference is memory. This makes it clear what memory brings to your application and why it's essential for real use cases.
 
 ## Next Steps
 
