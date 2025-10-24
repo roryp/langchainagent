@@ -28,6 +28,13 @@ You'll build two applications that demonstrate the difference:
 
 Both run locally using Azure OpenAI's GPT-5 deployment. You'll see the same Spring Boot application expose both patterns through different API endpoints.
 
+## Prerequisites
+
+- Azure subscription with Azure OpenAI access
+- Java 21, Maven 3.9+ 
+- Azure CLI (https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)
+- azd CLI (https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/install-azd)
+
 ## Quick Start
 
 ### Deploy Azure OpenAI Infrastructure
