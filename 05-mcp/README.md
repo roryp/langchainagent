@@ -73,7 +73,7 @@ node dist/streamableHttp.js
 ```bash
 export GITHUB_TOKEN=your_token_here
 cd 05-mcp
-mvn exec:java -Dexec.mainClass=dev.langchain4j.example.mcp.StreamableHttpDemo
+mvn exec:java -Dexec.mainClass=com.example.langchain4j.mcp.StreamableHttpDemo
 ```
 
 Watch the agent discover available tools, then use the calculator to perform addition.
@@ -85,7 +85,7 @@ This demonstrates local subprocess-based tools.
 ```bash
 export GITHUB_TOKEN=your_token_here
 cd 05-mcp
-mvn exec:java -Dexec.mainClass=dev.langchain4j.example.mcp.StdioTransportDemo
+mvn exec:java -Dexec.mainClass=com.example.langchain4j.mcp.StdioTransportDemo
 ```
 
 The application spawns a filesystem MCP server automatically and reads a local file. Notice how the subprocess management is handled for you.
@@ -104,7 +104,7 @@ docker build -t mcp/git .
 ```bash
 export GITHUB_TOKEN=your_token_here
 cd 05-mcp
-mvn exec:java -Dexec.mainClass=dev.langchain4j.example.mcp.GitRepositoryAnalyzer
+mvn exec:java -Dexec.mainClass=com.example.langchain4j.mcp.GitRepositoryAnalyzer
 ```
 
 The application launches a Docker container, mounts your repository, and queries commit history through the AI agent.
