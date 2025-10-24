@@ -19,6 +19,6 @@ azure:
 logging:
   level:
     root: INFO
-    com.example.langchain4j: DEBUG
+    com.example.langchain4j.prompts: DEBUG
     dev.langchain4j: DEBUG
 

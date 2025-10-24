@@ -18,7 +18,7 @@ azure:
 # Logging configuration
 logging:
   level:
-    dev.rory.azure.langchain4j: INFO
+    com.example.langchain4j: INFO
     dev.langchain4j: INFO
 
 # Values are read from environment variables (see .env.example)
