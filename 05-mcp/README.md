@@ -172,4 +172,9 @@ You now have the foundation to build production AI applications. The concepts yo
 
 Continue exploring the LangChain4j ecosystem, experiment with different models and tools, and most importantly - build something. The best way to solidify this knowledge is by applying it to real problems.
 
+**Official Resources:**
+- [LangChain4j Documentation](https://docs.langchain4j.dev/) - Comprehensive guides and API reference
+- [LangChain4j GitHub](https://github.com/langchain4j/langchain4j) - Source code and examples
+- [LangChain4j Tutorials](https://docs.langchain4j.dev/tutorials/) - Step-by-step tutorials for various use cases
+
 Thank you for completing this course!
