@@ -21,8 +21,8 @@ import java.util.Scanner;
 public class SimpleReaderDemo {
 
     public static void main(String[] args) throws IOException {
-        // GitHub Models endpoint - provides free access to various AI models for learning
-        String endpoint = "https://models.inference.ai.azure.com";
+        // GitHub Models endpoint - provides access to various AI models
+        String endpoint = "https://models.github.ai/inference";
         // PAT = Personal Access Token - this authenticates us with GitHub Models
         String apiKey = System.getenv("GITHUB_TOKEN");
         
@@ -83,7 +83,7 @@ public class SimpleReaderDemo {
             OpenAiChatModel chatModel = OpenAiChatModel.builder()
                     .baseUrl(endpoint)
                     .apiKey(apiKey)
-                    .modelName("gpt-4o-mini")
+                    .modelName("gpt-4.1-nano")
                     .logRequests(true)
                     .logResponses(true)
                     .build();

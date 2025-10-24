@@ -58,13 +58,13 @@ export GITHUB_TOKEN="your_token_here"
 
 ### 1. Simple Chat
 
-Basic question-answer with GPT-4o-mini:
+Basic question-answer with GPT-4.1-nano:
 
 ```java
 OpenAiChatModel model = OpenAiChatModel.builder()
-    .baseUrl("https://models.inference.ai.azure.com")
+    .baseUrl("https://models.github.ai/inference")
     .apiKey(System.getenv("GITHUB_TOKEN"))
-    .modelName("gpt-4o-mini")
+    .modelName("gpt-4.1-nano")
     .build();
 
 String response = model.chat("Explain LangChain4j in 3 bullet points");
@@ -82,9 +82,9 @@ Learn fundamental prompting techniques that improve AI responses:
 
 ```java
 OpenAiChatModel model = OpenAiChatModel.builder()
-    .baseUrl("https://models.inference.ai.azure.com")
+    .baseUrl("https://models.github.ai/inference")
     .apiKey(System.getenv("GITHUB_TOKEN"))
-    .modelName("gpt-4o-mini")
+    .modelName("gpt-4.1-nano")
     .temperature(0.7)
     .build();
 
@@ -166,9 +166,9 @@ String doc = Files.readString(Paths.get("document.txt"));
 
 // Build the model
 OpenAiChatModel chatModel = OpenAiChatModel.builder()
-    .baseUrl("https://models.inference.ai.azure.com")
+    .baseUrl("https://models.github.ai/inference")
     .apiKey(System.getenv("GITHUB_TOKEN"))
-    .modelName("gpt-4o-mini")
+    .modelName("gpt-4.1-nano")
     .build();
 
 // Create prompt with context
@@ -212,7 +212,7 @@ mvn exec:java -Dexec.mainClass="com.example.langchain4j.quickstart.SimpleReaderD
 **Chat Models**
 - Simple, synchronous chat completion
 - Ideal for quick Q&A and demonstrations
-- Uses gpt-4o-mini for fast responses with good rate limits
+- Uses gpt-4.1-nano for fast responses with good rate limits
 
 **Prompt Engineering**
 - Zero-shot: Direct instructions without examples

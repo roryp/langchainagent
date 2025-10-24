@@ -28,11 +28,11 @@ public class BasicChatDemo {
         printHeader("Basic Chat Interaction Demo");
 
         // Initialize the chat model with GitHub Models endpoint
-        // This uses GPT-4o-mini through GitHub's inference API
+        // This uses GPT-4.1-nano through GitHub's inference API
         OpenAiChatModel model = OpenAiChatModel.builder()
-                .baseUrl("https://models.inference.ai.azure.com")
+                .baseUrl("https://models.github.ai/inference")
                 .apiKey(githubToken)
-                .modelName("gpt-4o-mini")
+                .modelName("gpt-4.1-nano")
                 .logRequests(true)  // Enable request logging for debugging
                 .logResponses(true) // Enable response logging for debugging
                 .build();

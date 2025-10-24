@@ -29,8 +29,8 @@ import java.util.List;
 public class StreamableHttpDemo {
 
     private static final String MCP_ENDPOINT = "http://localhost:3001/mcp";
-    private static final String GITHUB_MODELS_URL = "https://models.inference.ai.azure.com";
-    private static final String MODEL_NAME = "gpt-4o-mini";
+    private static final String GITHUB_MODELS_URL = "https://models.github.ai/inference";
+    private static final String MODEL_NAME = "gpt-4.1-nano";
 
     public static void main(String[] args) throws Exception {
         

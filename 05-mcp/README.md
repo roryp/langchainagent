@@ -171,13 +171,13 @@ Application Layer
 
 ### Step 1: Configure the Chat Model
 
-Using GitHub Models (free tier) for LLM access:
+Using GitHub Models API for LLM access:
 
 ```java
 ChatModel chatModel = OpenAiChatModel.builder()
-    .baseUrl("https://models.inference.ai.azure.com")
+    .baseUrl("https://models.github.ai/inference")
     .apiKey(System.getenv("GITHUB_TOKEN"))
-    .modelName("gpt-4o-mini")
+    .modelName("gpt-4.1-nano")
     .build();
 ```
 
@@ -313,8 +313,9 @@ Add these to your `pom.xml`:
 - Confirm GITHUB_TOKEN environment variable is set
 - Check token hasn't expired
 - Verify token permissions (Models should be Read-only)
+- Ensure you're using the current endpoint: `https://models.github.ai/inference`
 
-The base URL `https://models.inference.ai.azure.com` routes to Azure's OpenAI deployment, providing the same model behavior with GitHub authentication.
+**Note:** The previous Azure endpoint (`https://models.inference.ai.azure.com`) was deprecated in July 2025 and sunset in October 2025. All examples now use the current GitHub Models API endpoint.
 
 ## Congratulations!
 

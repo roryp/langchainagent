@@ -24,8 +24,8 @@ import java.util.List;
 public class StdioTransportDemo {
 
     private static final String TARGET_FILE = "src/main/resources/file.txt";
-    private static final String GITHUB_MODELS_URL = "https://models.inference.ai.azure.com";
-    private static final String MODEL_NAME = "gpt-4o-mini";
+    private static final String GITHUB_MODELS_URL = "https://models.github.ai/inference";
+    private static final String MODEL_NAME = "gpt-4.1-nano";
 
     public static void main(String[] args) throws Exception {
 

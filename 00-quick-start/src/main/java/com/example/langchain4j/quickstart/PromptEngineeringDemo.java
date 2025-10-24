@@ -12,8 +12,8 @@ import dev.langchain4j.model.openai.OpenAiChatModel;
  * 3. Chain of thought - Asking the model to show its reasoning
  * 4. Role-based prompting - Setting context and persona
  * 
- * Uses GitHub Models (gpt-4o-mini) which works better with rate limits
- * than gpt-5 for simple demonstrations.
+ * Uses GitHub Models (gpt-4.1-nano) which works better with rate limits
+ * than larger models for simple demonstrations.
  */
 public class PromptEngineeringDemo {
 
@@ -30,9 +30,9 @@ public class PromptEngineeringDemo {
 
         // Build non-streaming model for simpler, rate-limit friendly requests
         OpenAiChatModel model = OpenAiChatModel.builder()
-                .baseUrl("https://models.inference.ai.azure.com")
+                .baseUrl("https://models.github.ai/inference")
                 .apiKey(githubToken)
-                .modelName("gpt-4o-mini")
+                .modelName("gpt-4.1-nano")
                 .temperature(0.7)
                 .build();
 

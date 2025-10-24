@@ -28,8 +28,8 @@ import java.util.List;
  */
 public class GitRepositoryAnalyzer {
 
-    private static final String GITHUB_MODELS_URL = "https://models.inference.ai.azure.com";
-    private static final String MODEL_NAME = "gpt-4o-mini";
+    private static final String GITHUB_MODELS_URL = "https://models.github.ai/inference";
+    private static final String MODEL_NAME = "gpt-4.1-nano";
     private static final String REPO_MOUNT_PATH = "/app/LangChain4j-for-Beginners";
 
     public static void main(String[] args) throws Exception {

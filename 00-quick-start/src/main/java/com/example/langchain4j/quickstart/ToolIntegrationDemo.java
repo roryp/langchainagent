@@ -81,9 +81,9 @@ public class ToolIntegrationDemo {
 
         // Configure the underlying chat model
         OpenAiChatModel model = OpenAiChatModel.builder()
-                .baseUrl("https://models.inference.ai.azure.com")
+                .baseUrl("https://models.github.ai/inference")
                 .apiKey(githubToken)
-                .modelName("gpt-4o-mini")
+                .modelName("gpt-4.1-nano")
                 .build();
 
         // Build AI assistant with tool capabilities
