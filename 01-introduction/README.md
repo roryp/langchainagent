@@ -28,18 +28,6 @@ You'll build two applications that demonstrate the difference:
 
 Both run locally using Azure OpenAI's GPT-5 deployment. You'll see the same Spring Boot application expose both patterns through different API endpoints.
 
-## Technical Stack
-
-- Spring Boot for the REST API
-- LangChain4j for model interaction and memory management
-- Azure OpenAI GPT-5 for language model capabilities
-- MessageWindowChatMemory for conversation state
-
-## Prerequisites
-
-- Azure subscription with Azure OpenAI access
-- Java 21, Maven 3.9+, Azure CLI, azd CLI
-
 ## Quick Start
 
 ### Deploy Azure OpenAI Infrastructure
