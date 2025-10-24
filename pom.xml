@@ -4,9 +4,9 @@
                              https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>dev.rory.langchain4j.azure</groupId>
+  <groupId>com.example.langchain4j.azure</groupId>
   <artifactId>langchain4j-for-beginners-azure</artifactId>
-  <version>0.1.0</version>
+  <version>1.0.0</version>
   <packaging>pom</packaging>
 
   <modules>
@@ -25,6 +25,8 @@
     <spring.boot.version>3.3.4</spring.boot.version>
     <!-- Set the LangChain4j version to a recent stable release -->
     <langchain4j.version>1.7.1</langchain4j.version>
+    <!-- MCP support requires beta version -->
+    <langchain4j.mcp.version>1.7.1-beta14</langchain4j.mcp.version>
     <!-- Encoding -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>

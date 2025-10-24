@@ -6,9 +6,9 @@
     <modelVersion>4.0.0</modelVersion>
     
     <parent>
-        <groupId>dev.rory.langchain4j.azure</groupId>
+        <groupId>com.example.langchain4j.azure</groupId>
         <artifactId>langchain4j-for-beginners-azure</artifactId>
-        <version>0.1.0</version>
+        <version>1.0.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
