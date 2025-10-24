@@ -1,335 +1,175 @@
-# Module 05 - Model Context Protocol (MCP)
+# Module 05: Model Context Protocol (MCP)
 
-Integrate external tools and data sources into LangChain4j applications using the Model Context Protocol standard.
+## What You'll Learn
 
-## Overview
+You've built conversational AI, mastered prompts, grounded responses in documents, and created agents with tools. But all those tools were custom-built for your specific application. What if you could give your AI access to a standardized ecosystem of tools that anyone can create and share?
 
-The Model Context Protocol provides a standardized way for LLM applications to interact with external tools and data sources. This module demonstrates three working examples using different transport mechanisms and practical integrations.
+The Model Context Protocol (MCP) provides exactly that - a standard way for AI applications to discover and use external tools. Instead of writing custom integrations for each data source or service, you connect to MCP servers that expose their capabilities in a consistent format. Your AI agent can then discover and use these tools automatically.
 
-## What You'll Build
+## Understanding MCP
 
-Three working examples in a single project demonstrating MCP integration:
+MCP solves a fundamental problem in AI development: every integration is custom. Want to access GitHub? Custom code. Want to read files? Custom code. Want to query a database? Custom code. And none of these integrations work with other AI applications.
 
-**Example 1: Streamable HTTP Transport (StreamableHttpDemo)**
-- Streamable HTTP transport connecting to a remote MCP server
-- Demonstrates network-based tool integration via HTTP POST requests
-- Uses Server-Sent Events (SSE) for streaming responses
-- Calls remote calculator and utility tools
+MCP standardizes this. An MCP server exposes tools with clear descriptions and schemas. Any MCP client can connect, discover available tools, and use them. Build once, use everywhere.
 
-**Example 2: Stdio Transport (StdioTransportDemo)**
-- Stdio transport spawning a local filesystem server
-- Cross-platform subprocess management
-- File reading operations
+## How MCP Works
 
-**Example 3: Git Repository Analysis (GitRepositoryAnalyzer)**
-- Docker-based MCP git server integration
-- Local repository mounting and analysis
-- Commit history queries via AI assistant
+**Server-Client Architecture**
 
-## Requirements
+MCP uses a client-server model. Servers provide tools - reading files, querying databases, calling APIs. Clients (your AI application) connect to servers and use their tools.
 
-**Software:**
-- Java 21 or later
-- Maven 3.9+
-- npm (for filesystem operations)
-- Docker (for Git integration)
+**Tool Discovery**
 
-**API Access:**
-- GitHub personal access token (for GitHub Models API)
+When your client connects to an MCP server, it asks "What tools do you have?" The server responds with a list of available tools, each with descriptions and parameter schemas. Your AI agent can then decide which tools to use based on user requests.
 
-**Token Setup:**
-Refer to the [Quick Start guide](../00-quick-start/README.md#1-get-your-github-token) for GitHub token creation instructions.
+**Transport Mechanisms**
+
+MCP supports different ways to connect:
+
+**Streamable HTTP** - For remote servers. Your application makes HTTP requests to a server running somewhere on the network. Uses Server-Sent Events for real-time communication.
+
+**Stdio** - For local processes. Your application spawns a server as a subprocess and communicates through standard input/output. Useful for filesystem access or command-line tools.
+
+**Docker** - For containerized services. Your application launches a Docker container that exposes MCP tools. Good for complex dependencies or isolated environments.
+
+## What This Module Covers
+
+You'll work through three examples that demonstrate different MCP integration patterns:
+
+**Streamable HTTP Transport** - Connect to a remote calculator service. See how networked tool integration works with session management.
+
+**Stdio Transport** - Spawn a local filesystem server. Understand subprocess-based tool execution for local operations.
+
+**Docker-Based Git Server** - Launch a containerized Git analysis service. Learn how to work with Docker-based MCP servers and mount local repositories.
+
+Each example shows a different transport mechanism and use case, giving you the foundation to integrate any MCP server.
+
+## Prerequisites
+
+- Java 21+, Maven 3.9+
+- Node.js 16+ and npm (for MCP servers)
+- Docker (for Git integration example)
+- GitHub Personal Access Token (from Quick Start module)
 
 ```bash
-export GITHUB_TOKEN=your_token_value
+export GITHUB_TOKEN=your_token_here
 ```
 
 ## Quick Start
 
-### Example 1: Streamable HTTP Transport
+### Example 1: Remote Calculator (Streamable HTTP)
 
-**Step 1: Clone the MCP servers repository**
+This demonstrates network-based tool integration.
 
+**Terminal 1 - Start the MCP server:**
 ```bash
 git clone https://github.com/modelcontextprotocol/servers.git
 cd servers/src/everything
-```
-
-**Step 2: Install dependencies**
-
-```bash
 npm install
-```
-
-**Step 3: Start the MCP server in streamable HTTP mode**
-
-```bash
 node dist/streamableHttp.js
 ```
 
-You should see:
-```
-Starting Streamable HTTP server...
-MCP Streamable HTTP Server listening on port 3001
-```
-
-**Step 4: In a new terminal, set your GitHub token**
-
+**Terminal 2 - Run the example:**
 ```bash
 export GITHUB_TOKEN=your_token_here
-```
-
-**Step 5: Run the streamable HTTP transport demo**
-
-```bash
 cd 05-mcp
 mvn exec:java -Dexec.mainClass=dev.langchain4j.example.mcp.StreamableHttpDemo
 ```
 
-Expected output:
-```
-Session initialized with ID: [session-id]
-Result: The sum of 5 and 12 is 17.
-```
+Watch the agent discover available tools, then use the calculator to perform addition.
 
-### Example 2: Stdio Transport
+### Example 2: File Operations (Stdio)
 
-**Step 1: Set your GitHub token**
+This demonstrates local subprocess-based tools.
 
 ```bash
 export GITHUB_TOKEN=your_token_here
-```
-
-**Step 2: Run the stdio transport demo**
-
-```bash
 cd 05-mcp
 mvn exec:java -Dexec.mainClass=dev.langchain4j.example.mcp.StdioTransportDemo
 ```
 
-This example launches the MCP filesystem server automatically as a subprocess. The code detects your OS and uses the correct npm command (Windows uses `npm.cmd`, Unix uses `npm`).
+The application spawns a filesystem MCP server automatically and reads a local file. Notice how the subprocess management is handled for you.
 
-### Example 3: Git Repository Analysis
+### Example 3: Git Analysis (Docker)
 
-**Step 1: Clone the MCP servers repository (if not already done)**
+This demonstrates containerized tool servers.
 
+**Terminal 1 - Build the Docker image:**
 ```bash
-git clone https://github.com/modelcontextprotocol/servers.git
 cd servers/src/git
-```
-
-**Step 2: Build the Docker image**
-
-```bash
 docker build -t mcp/git .
 ```
 
-**Step 3: Set your GitHub token**
-
+**Terminal 2 - Run the analyzer:**
 ```bash
 export GITHUB_TOKEN=your_token_here
-```
-
-**Step 4: Run the Git analyzer**
-
-```bash
 cd 05-mcp
 mvn exec:java -Dexec.mainClass=dev.langchain4j.example.mcp.GitRepositoryAnalyzer
 ```
 
-This example:
-- Launches the MCP Git server in a Docker container
-- Mounts your local repository in read-only mode
-- Queries recent commits via AI
-- Automatically converts Windows paths to Unix format for Docker
+The application launches a Docker container, mounts your repository, and queries commit history through the AI agent.
 
-## Architecture
+## Key Concepts
 
-MCP enables communication between your application and external tool servers:
+**Transport Selection**
 
-```
-Application Layer
-├── LangChain4j Bot (AI Assistant)
-└── MCP Client
-    │
-    ├── HTTP Transport ──→ Remote MCP Servers
-    └── Stdio Transport ──→ Local MCP Servers
-                              │
-                              ├── Filesystem Tools
-                              ├── Git Operations
-                              └── Custom Tools
-```
+Choose based on where your tools live:
+- Remote services → Streamable HTTP
+- Local file system → Stdio
+- Complex dependencies → Docker
 
-**Transport Comparison:**
+**Tool Discovery**
 
-| Transport | Use Case | Connection | Server Mode | Example |
-|-----------|----------|------------|-------------|---------|
-| StreamableHTTP | Remote servers | HTTP POST + SSE | `node dist/streamableHttp.js` | Calculator, API services |
-| Stdio | Local processes | stdin/stdout | Subprocess | File access, Git commands |
+MCP clients automatically discover available tools when connecting. Your AI agent sees tool descriptions and decides which ones to use based on the user's request.
 
-## Implementation Guide
+**Session Management**
 
-### Step 1: Configure the Chat Model
+Streamable HTTP transport maintains sessions, allowing stateful interactions with remote servers. Stdio and Docker transports are typically stateless.
 
-Using GitHub Models API for LLM access:
+**Cross-Platform Considerations**
 
-```java
-ChatModel chatModel = OpenAiChatModel.builder()
-    .baseUrl("https://models.github.ai/inference")
-    .apiKey(System.getenv("GITHUB_TOKEN"))
-    .modelName("gpt-4.1-nano")
-    .build();
-```
+The examples handle platform differences automatically (Windows vs Unix command differences, path conversions for Docker). This is important for production deployments across different environments.
 
-### Step 2: Setup MCP Transport
+## When to Use MCP
 
-Choose HTTP or stdio based on your needs:
+**Use MCP when:**
+- You want to leverage existing tool ecosystems
+- Building tools that multiple applications will use
+- Integrating third-party services with standard protocols
+- You need to swap tool implementations without code changes
 
-```java
-// Option A: Streamable HTTP transport for remote servers
-McpTransport httpTransport = new StreamableHttpMcpTransport.Builder()
-    .url("http://localhost:3001/mcp")
-    .timeout(Duration.ofSeconds(60))
-    .logRequests(true)   // Optional: see traffic in logs
-    .logResponses(true)  // Optional: see responses
-    .build();
+**Use custom tools (Module 04) when:**
+- Building application-specific functionality
+- Performance is critical (MCP adds overhead)
+- Your tools are simple and won't be reused
+- You need complete control over execution
 
-// Option B: Stdio transport for local tools
-McpTransport stdioTransport = new StdioMcpTransport.Builder()
-    .command(List.of("npm", "exec", "mcp-server-package"))
-    .build();
-```
 
-### Step 3: Initialize MCP Client
+## MCP Ecosystem
 
-```java
-McpClient client = new DefaultMcpClient.Builder()
-    .transport(httpTransport)  // or stdioTransport
-    .build();
-```
+The Model Context Protocol is an open standard with a growing ecosystem:
 
-### Step 4: Create Tool Provider
+- Official MCP servers for common tasks (filesystem, Git, databases)
+- Community-contributed servers for various services
+- Standardized tool descriptions and schemas
+- Cross-framework compatibility (works with any MCP client)
 
-```java
-ToolProvider tools = McpToolProvider.builder()
-    .mcpClients(List.of(client))
-    .build();
-```
-
-### Step 5: Build AI Assistant
-
-```java
-Bot assistant = AiServices.builder(Bot.class)
-    .chatModel(chatModel)
-    .toolProvider(tools)
-    .build();
-
-// Use the assistant
-String response = assistant.chat("Your query here");
-```
-
-## Project Structure
-
-```
-05-mcp/
-├── pom.xml
-├── src/main/java/dev/langchain4j/example/mcp/
-│   ├── StreamableHttpDemo.java         # Streamable HTTP transport
-│   ├── StdioTransportDemo.java         # Stdio transport
-│   ├── GitRepositoryAnalyzer.java      # Git analysis
-│   └── Bot.java                        # Chat interface
-└── src/main/resources/
-    └── file.txt                        # Sample file for stdio example
-```
-
-**What each example does:**
-
-**Streamable HTTP Example:**
-- Connects to remote MCP server via streamable HTTP transport
-- Uses Server-Sent Events (SSE) for real-time communication
-- Discovers 12 available tools (echo, add, longRunningOperation, etc.)
-- Calls addition tool to perform calculations (5 + 12 = 17)
-- Demonstrates network-based tool integration with session management
-
-**Stdio Example:**
-- Spawns local filesystem MCP server as subprocess
-- Reads file contents from local directory
-- Handles cross-platform npm command differences
-
-**Git Example:**
-- Launches Git MCP server in Docker container
-- Mounts local repository (read-only)
-- Queries commit history and provides AI analysis
-- Automatic path conversion for Windows/Unix
-
-## Maven Dependencies
-
-Add these to your `pom.xml`:
-
-```xml
-<dependency>
-    <groupId>dev.langchain4j</groupId>
-    <artifactId>langchain4j-mcp</artifactId>
-</dependency>
-<dependency>
-    <groupId>dev.langchain4j</groupId>
-    <artifactId>langchain4j-open-ai</artifactId>
-</dependency>
-```
-
-## Common Issues
-
-**MCP server won't start**
-- Verify npm is installed: `npm --version`
-- Check Node.js version: `node --version` (requires Node.js 16+)
-- Navigate to correct directory: `cd servers/src/everything`
-- Install dependencies: `npm install`
-
-**Server connection fails**
-- HTTP: Confirm server is running: `curl http://localhost:3001/mcp`
-- Check server output: Should say "MCP Streamable HTTP Server listening on port 3001"
-- Stdio: Verify npm is in system PATH
-- Check firewall isn't blocking port 3001
-
-**"Session initialized" but no result**
-- Verify GITHUB_TOKEN is set: `echo $GITHUB_TOKEN`
-- Check token hasn't expired (create new one if needed)
-- Ensure Models permission is set to Read-only
-- Review logs for API rate limit errors
-
-**Tool execution errors**
-- Review tool parameter requirements in server logs
-- Check filesystem permissions (stdio transport)
-- Verify repository path is correct (Git example)
-- Ensure Docker has permission to mount volumes
-
-**Docker-specific issues**
-- Verify Docker daemon is running: `docker ps`
-- Check image exists: `docker images | grep mcp/git`
-- Rebuild if needed: `cd servers/src/git && docker build -t mcp/git .`
-- On Windows, ensure Docker Desktop is running
-
-**GitHub Models API issues**
-- Confirm GITHUB_TOKEN environment variable is set
-- Check token hasn't expired
-- Verify token permissions (Models should be Read-only)
-- Ensure you're using the current endpoint: `https://models.github.ai/inference`
-
-**Note:** The previous Azure endpoint (`https://models.inference.ai.azure.com`) was deprecated in July 2025 and sunset in October 2025. All examples now use the current GitHub Models API endpoint.
+This standardization means tools built for one AI application work with others, creating a shared ecosystem of capabilities.
 
 ## Congratulations!
 
-You've completed the LangChain4j for Beginners course! You've learned:
+You've completed the LangChain4j for Beginners course. You've learned:
 
-- LangChain4j fundamentals and chat models
-- Prompt engineering techniques
-- RAG (Retrieval-Augmented Generation) implementation
-- AI tools and function calling
-- Model Context Protocol (MCP) integration
+- How to build conversational AI with memory (Module 01)
+- Prompt engineering patterns for different tasks (Module 02)
+- Grounding responses in your documents with RAG (Module 03)
+- Creating AI agents with custom tools (Module 04)
+- Integrating standardized tools through MCP (Module 05)
+
+You now have the foundation to build production AI applications. The concepts you've learned apply regardless of specific frameworks or models - they're fundamental patterns in AI engineering.
 
 ### What's Next?
 
-- Review the [main course overview](../README.md) to revisit any topics
-- Explore the [official LangChain4j documentation](https://docs.langchain4j.dev/)
+Continue exploring the LangChain4j ecosystem, experiment with different models and tools, and most importantly - build something. The best way to solidify this knowledge is by applying it to real problems.
 
 Thank you for completing this course!
