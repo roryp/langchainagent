@@ -4,7 +4,7 @@ import dev.langchain4j.mcp.McpToolProvider;
 import dev.langchain4j.mcp.client.DefaultMcpClient;
 import dev.langchain4j.mcp.client.McpClient;
 import dev.langchain4j.mcp.client.transport.McpTransport;
-import dev.langchain4j.mcp.client.transport.http.HttpMcpTransport;
+import dev.langchain4j.mcp.client.transport.http.StreamableHttpMcpTransport;
 import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import dev.langchain4j.service.AiServices;
@@ -14,21 +14,21 @@ import java.time.Duration;
 import java.util.List;
 
 /**
- * Demonstrates MCP integration via HTTP transport.
+ * Demonstrates MCP integration via streamable HTTP transport.
  * 
  * Prerequisites:
- * - MCP 'everything' server running on localhost:3001 in SSE mode
+ * - MCP 'everything' server running on localhost:3001
  * - GITHUB_TOKEN environment variable set
  * 
  * Setup:
  * 1. Clone https://github.com/modelcontextprotocol/servers
  * 2. cd servers/src/everything
  * 3. npm install
- * 4. node dist/sse.js
+ * 4. node dist/streamableHttp.js
  */
-public class HttpTransportDemo {
+public class StreamableHttpDemo {
 
-    private static final String SSE_ENDPOINT = "http://localhost:3001/sse";
+    private static final String MCP_ENDPOINT = "http://localhost:3001/mcp";
     private static final String GITHUB_MODELS_URL = "https://models.inference.ai.azure.com";
     private static final String MODEL_NAME = "gpt-4o-mini";
 
@@ -76,8 +76,8 @@ public class HttpTransportDemo {
     }
 
     private static McpTransport buildHttpTransport() {
-        return new HttpMcpTransport.Builder()
-                .sseUrl(SSE_ENDPOINT)
+        return new StreamableHttpMcpTransport.Builder()
+                .url(MCP_ENDPOINT)
                 .timeout(Duration.ofSeconds(60))
                 .logRequests(true)
                 .logResponses(true)

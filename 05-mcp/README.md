@@ -10,10 +10,11 @@ The Model Context Protocol provides a standardized way for LLM applications to i
 
 Three working examples in a single project demonstrating MCP integration:
 
-**Example 1: HTTP Transport (HttpTransportDemo)**
-- HTTP/SSE transport connecting to a remote MCP server
-- Demonstrates network-based tool integration
-- Calls remote calculator tools
+**Example 1: Streamable HTTP Transport (StreamableHttpDemo)**
+- Streamable HTTP transport connecting to a remote MCP server
+- Demonstrates network-based tool integration via HTTP POST requests
+- Uses Server-Sent Events (SSE) for streaming responses
+- Calls remote calculator and utility tools
 
 **Example 2: Stdio Transport (StdioTransportDemo)**
 - Stdio transport spawning a local filesystem server
@@ -45,57 +46,102 @@ export GITHUB_TOKEN=your_token_value
 
 ## Quick Start
 
-### Example 1: HTTP Transport
+### Example 1: Streamable HTTP Transport
 
-Start the MCP server first:
+**Step 1: Clone the MCP servers repository**
 
 ```bash
-# Get the MCP servers repository
 git clone https://github.com/modelcontextprotocol/servers.git
 cd servers/src/everything
-npm install
-node dist/sse.js  # Runs on port 3001
 ```
 
-In a separate terminal, run the client:
+**Step 2: Install dependencies**
+
+```bash
+npm install
+```
+
+**Step 3: Start the MCP server in streamable HTTP mode**
+
+```bash
+node dist/streamableHttp.js
+```
+
+You should see:
+```
+Starting Streamable HTTP server...
+MCP Streamable HTTP Server listening on port 3001
+```
+
+**Step 4: In a new terminal, set your GitHub token**
+
+```bash
+export GITHUB_TOKEN=your_token_here
+```
+
+**Step 5: Run the streamable HTTP transport demo**
 
 ```bash
 cd 05-mcp
-export GITHUB_TOKEN=your_token
-mvn exec:java -Dexec.mainClass=dev.langchain4j.example.mcp.HttpTransportDemo
+mvn exec:java -Dexec.mainClass=dev.langchain4j.example.mcp.StreamableHttpDemo
+```
+
+Expected output:
+```
+Session initialized with ID: [session-id]
+Result: The sum of 5 and 12 is 17.
 ```
 
 ### Example 2: Stdio Transport
 
-This example launches the MCP server automatically:
+**Step 1: Set your GitHub token**
+
+```bash
+export GITHUB_TOKEN=your_token_here
+```
+
+**Step 2: Run the stdio transport demo**
 
 ```bash
 cd 05-mcp
-export GITHUB_TOKEN=your_token
 mvn exec:java -Dexec.mainClass=dev.langchain4j.example.mcp.StdioTransportDemo
 ```
 
-The code detects your OS and uses the correct npm command automatically.
+This example launches the MCP filesystem server automatically as a subprocess. The code detects your OS and uses the correct npm command (Windows uses `npm.cmd`, Unix uses `npm`).
 
 ### Example 3: Git Repository Analysis
 
-Build the Docker image once:
+**Step 1: Clone the MCP servers repository (if not already done)**
 
 ```bash
 git clone https://github.com/modelcontextprotocol/servers.git
 cd servers/src/git
+```
+
+**Step 2: Build the Docker image**
+
+```bash
 docker build -t mcp/git .
 ```
 
-Run the example:
+**Step 3: Set your GitHub token**
+
+```bash
+export GITHUB_TOKEN=your_token_here
+```
+
+**Step 4: Run the Git analyzer**
 
 ```bash
 cd 05-mcp
-export GITHUB_TOKEN=your_token
 mvn exec:java -Dexec.mainClass=dev.langchain4j.example.mcp.GitRepositoryAnalyzer
 ```
 
-This mounts your local repository and analyzes recent commits.
+This example:
+- Launches the MCP Git server in a Docker container
+- Mounts your local repository in read-only mode
+- Queries recent commits via AI
+- Automatically converts Windows paths to Unix format for Docker
 
 ## Architecture
 
@@ -116,10 +162,10 @@ Application Layer
 
 **Transport Comparison:**
 
-| Transport | Use Case | Connection | Example |
-|-----------|----------|------------|---------|
-| HTTP/SSE | Remote servers | Network socket | Calculator, API services |
-| Stdio | Local processes | stdin/stdout | File access, Git commands |
+| Transport | Use Case | Connection | Server Mode | Example |
+|-----------|----------|------------|-------------|---------|
+| StreamableHTTP | Remote servers | HTTP POST + SSE | `node dist/streamableHttp.js` | Calculator, API services |
+| Stdio | Local processes | stdin/stdout | Subprocess | File access, Git commands |
 
 ## Implementation Guide
 
@@ -140,10 +186,12 @@ ChatModel chatModel = OpenAiChatModel.builder()
 Choose HTTP or stdio based on your needs:
 
 ```java
-// Option A: HTTP transport for remote servers
-McpTransport httpTransport = new HttpMcpTransport.Builder()
-    .sseUrl("http://localhost:3001/sse")
+// Option A: Streamable HTTP transport for remote servers
+McpTransport httpTransport = new StreamableHttpMcpTransport.Builder()
+    .url("http://localhost:3001/mcp")
     .timeout(Duration.ofSeconds(60))
+    .logRequests(true)   // Optional: see traffic in logs
+    .logResponses(true)  // Optional: see responses
     .build();
 
 // Option B: Stdio transport for local tools
@@ -186,7 +234,7 @@ String response = assistant.chat("Your query here");
 05-mcp/
 ├── pom.xml
 ├── src/main/java/dev/langchain4j/example/mcp/
-│   ├── HttpTransportDemo.java          # HTTP/SSE transport
+│   ├── StreamableHttpDemo.java         # Streamable HTTP transport
 │   ├── StdioTransportDemo.java         # Stdio transport
 │   ├── GitRepositoryAnalyzer.java      # Git analysis
 │   └── Bot.java                        # Chat interface
@@ -196,10 +244,12 @@ String response = assistant.chat("Your query here");
 
 **What each example does:**
 
-**HTTP Example:**
-- Connects to remote MCP server via HTTP/SSE
-- Calls addition tool to perform calculations
-- Demonstrates network-based tool integration
+**Streamable HTTP Example:**
+- Connects to remote MCP server via streamable HTTP transport
+- Uses Server-Sent Events (SSE) for real-time communication
+- Discovers 12 available tools (echo, add, longRunningOperation, etc.)
+- Calls addition tool to perform calculations (5 + 12 = 17)
+- Demonstrates network-based tool integration with session management
 
 **Stdio Example:**
 - Spawns local filesystem MCP server as subprocess
@@ -229,20 +279,35 @@ Add these to your `pom.xml`:
 
 ## Common Issues
 
-**Docker won't start container**
+**MCP server won't start**
+- Verify npm is installed: `npm --version`
+- Check Node.js version: `node --version` (requires Node.js 16+)
+- Navigate to correct directory: `cd servers/src/everything`
+- Install dependencies: `npm install`
+
+**Server connection fails**
+- HTTP: Confirm server is running: `curl http://localhost:3001/mcp`
+- Check server output: Should say "MCP Streamable HTTP Server listening on port 3001"
+- Stdio: Verify npm is in system PATH
+- Check firewall isn't blocking port 3001
+
+**"Session initialized" but no result**
+- Verify GITHUB_TOKEN is set: `echo $GITHUB_TOKEN`
+- Check token hasn't expired (create new one if needed)
+- Ensure Models permission is set to Read-only
+- Review logs for API rate limit errors
+
+**Tool execution errors**
+- Review tool parameter requirements in server logs
+- Check filesystem permissions (stdio transport)
+- Verify repository path is correct (Git example)
+- Ensure Docker has permission to mount volumes
+
+**Docker-specific issues**
 - Verify Docker daemon is running: `docker ps`
 - Check image exists: `docker images | grep mcp/git`
 - Rebuild if needed: `cd servers/src/git && docker build -t mcp/git .`
-
-**MCP server connection fails**
-- HTTP: Confirm server is running on port 3001
-- Stdio: Verify npm is in system PATH
-- Check firewall isn't blocking connections
-
-**Tool execution errors**
-- Review tool parameter requirements
-- Check filesystem permissions (stdio transport)
-- Verify repository path is correct (Git example)
+- On Windows, ensure Docker Desktop is running
 
 **GitHub Models API issues**
 - Confirm GITHUB_TOKEN environment variable is set
