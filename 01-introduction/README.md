@@ -18,6 +18,30 @@ Chat memory solves the stateless problem by maintaining conversation history. Be
 
 LangChain4j provides memory implementations that handle this automatically. You choose how many messages to retain and the framework manages the context window.
 
+## How This Uses LangChain4j
+
+This module builds on the quick start by adding Spring Boot and conversation memory. Here's what LangChain4j brings:
+
+**Dependencies** - Two core libraries work together:
+```xml
+<dependency>
+    <groupId>dev.langchain4j</groupId>
+    <artifactId>langchain4j</artifactId>
+</dependency>
+<dependency>
+    <groupId>dev.langchain4j</groupId>
+    <artifactId>langchain4j-azure-open-ai</artifactId>
+</dependency>
+```
+
+**AzureOpenAiChatModel** - Instead of the generic `OpenAiChatModel` from the quick start, we use `AzureOpenAiChatModel` which connects directly to Azure OpenAI. Spring Boot configures it as a bean using your Azure credentials (endpoint, API key, deployment name).
+
+**MessageWindowChatMemory** - The key component for stateful conversations. Create it with `MessageWindowChatMemory.withMaxMessages(10)` to retain the last 10 messages. The service stores one memory instance per conversation ID, allowing multiple users to chat simultaneously without mixing contexts.
+
+**Message Types** - LangChain4j uses typed messages: `UserMessage.from(text)` for user input and `AiMessage.from(text)` for AI responses. Add these to memory with `memory.add(message)` and retrieve the full history with `memory.messages()`. This structure makes it easy to build conversation context before sending to the model.
+
+The stateless chat endpoint skips memory entirely - just `chatModel.chat(prompt)` like the quick start. The stateful endpoint adds messages to memory, retrieves history, and includes that context with each request. Same model, different patterns.
+
 ## What This Module Covers
 
 You'll build two applications that demonstrate the difference:
@@ -35,9 +59,7 @@ Both run locally using Azure OpenAI's GPT-5 deployment. You'll see the same Spri
 - Azure CLI (https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)
 - azd CLI (https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/install-azd)
 
-## Quick Start
-
-### Deploy Azure OpenAI Infrastructure
+## Deploy Azure OpenAI Infrastructure
 
 ```bash
 cd 01-introduction
