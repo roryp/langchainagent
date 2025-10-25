@@ -47,12 +47,6 @@ The real power comes from chaining multiple tools. A user might ask "What's the 
 
 This happens in a single conversation turn. The agent orchestrates multiple tool calls autonomously.
 
-## Prerequisites
-
-- Azure subscription with Azure OpenAI access (from Module 01)
-- Java 21, Maven 3.9+
-- Completed Module 01 deployment
-
 ## Quick Start
 
 ### Use Existing Azure Resources

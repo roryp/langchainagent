@@ -35,12 +35,6 @@ When you ask a question, your question also becomes an embedding. The system com
 
 The most relevant chunks are included in the prompt to the model. The model reads those specific chunks and answers your question based on that information. This prevents hallucination - the model can only answer from what's in front of it.
 
-## Prerequisites
-
-- Azure subscription with Azure OpenAI access (from Module 01)
-- Java 21, Maven 3.9+
-- Completed Module 01 deployment
-
 ## Quick Start
 
 ### Use Existing Azure Resources

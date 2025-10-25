@@ -12,9 +12,37 @@ Prompt engineering is about designing input text that consistently gets you the 
 
 Think of it like giving instructions to a colleague. "Fix the bug" is vague. "Fix the null pointer exception in UserService.java line 45 by adding a null check" is specific. Language models work the same way - specificity and structure matter.
 
+## How This Uses LangChain4j
+
+This module demonstrates advanced prompting patterns using the same LangChain4j foundation from previous modules, with a focus on prompt structure and reasoning control.
+
+**Dependencies** - Same core libraries as Module 01:
+```xml
+<dependency>
+    <groupId>dev.langchain4j</groupId>
+    <artifactId>langchain4j</artifactId>
+</dependency>
+<dependency>
+    <groupId>dev.langchain4j</groupId>
+    <artifactId>langchain4j-azure-open-ai</artifactId>
+</dependency>
+```
+
+**AzureOpenAiChatModel Configuration** - Spring Boot configures the chat model with GPT-5 specific settings. The key difference from Module 01 is how we structure the prompts sent to `chatModel.chat()`, not the model setup itself.
+
+**System and User Messages** - LangChain4j separates message types for clarity. `SystemMessage` sets the AI's behavior and context (like "You are a code reviewer"), while `UserMessage` contains the actual request. This separation lets you maintain consistent AI behavior across different user queries.
+
+**MessageWindowChatMemory for Multi-Turn** - For the multi-turn conversation pattern, we reuse `MessageWindowChatMemory` from Module 01. Each session gets its own memory instance stored in a `Map<String, ChatMemory>`, allowing multiple concurrent conversations without context mixing.
+
+**Prompt Templates** - The real focus here is prompt engineering, not new LangChain4j APIs. Each pattern (low eagerness, high eagerness, task execution, etc.) uses the same `chatModel.chat(prompt)` method but with carefully structured prompt strings. The XML tags, instructions, and formatting are all part of the prompt text, not LangChain4j features.
+
+**Reasoning Control** - GPT-5's reasoning effort is controlled through prompt instructions like "maximum 2 reasoning steps" or "explore thoroughly". These are prompt engineering techniques, not LangChain4j configurations. The library simply delivers your prompts to the model.
+
+The key takeaway: LangChain4j provides the infrastructure (model connection, memory, message handling), while this module teaches you how to craft effective prompts within that infrastructure.
+
 ## The Core Patterns
 
-Different tasks need different approaches. Here are eight patterns that cover most real-world scenarios:
+Not all problems need the same approach. Some questions need quick answers, others need deep thinking. Some need visible reasoning, others just need results. This module covers eight prompting patterns - each optimized for different scenarios. You'll experiment with all of them to learn when each approach works best.
 
 **Low Eagerness (Quick & Focused)** - For simple questions where you want fast, direct answers. The model does minimal reasoning - maximum 2 steps. Use this for calculations, lookups, or straightforward questions.
 
@@ -32,12 +60,6 @@ Different tasks need different approaches. Here are eight patterns that cover mo
 
 **Constrained Output** - For responses with specific format requirements. The model strictly follows format and length rules. Use this for summaries or when you need precise output structure.
 
-## Prerequisites
-
-- Azure subscription with Azure OpenAI access (from Module 01)
-- Java 21, Maven 3.9+
-- Completed Module 01 deployment
-
 ## Quick Start
 
 ### Use Existing Azure Resources
@@ -51,61 +73,63 @@ mvn spring-boot:run
 
 Open http://localhost:8083 in your browser.
 
-## Using the Application
+## Exploring the Patterns
 
-The application provides a web interface where you can try each pattern and see the differences.
+The web interface lets you experiment with different prompting strategies. Each pattern solves different problems - try them to see when each approach shines.
 
-**Try Low vs High Eagerness**
+**Start with Low vs High Eagerness**
 
-Start with a simple question like "What is 15% of 200?" using Low Eagerness. You'll get a fast, direct answer. Now try a complex problem like "Design a caching strategy for a high-traffic API" using High Eagerness. Notice how the model takes more time and provides detailed reasoning.
+Ask a simple question like "What is 15% of 200?" using Low Eagerness. You'll get an instant, direct answer. Now ask something complex like "Design a caching strategy for a high-traffic API" using High Eagerness. Watch how the model slows down and provides detailed reasoning. Same model, same question structure - but the prompt tells it how much thinking to do.
 
-**Experiment with Code Generation**
+**Generate Production-Quality Code**
 
-Use the Self-Reflecting Code pattern to generate a service. Try "Create an email validation service". Watch how the model generates code, evaluates it against quality criteria, and improves it. This is how you get production-ready code instead of quick prototypes.
+Try the Self-Reflecting Code pattern with "Create an email validation service". Instead of just generating code and stopping, the model generates, evaluates against quality criteria, identifies weaknesses, and improves. You'll see it iterate until the code meets production standards. This is the difference between a quick prototype and code you'd actually deploy.
 
-**Test Multi-Turn Conversations**
+**Experience Multi-Turn Conversations**
 
-Ask "What is Spring Boot?" then follow up with "Show me an example". The model maintains context from your first question. This demonstrates how conversational memory works in practice.
+Ask "What is Spring Boot?" then immediately follow up with "Show me an example". The model remembers your first question and gives you a Spring Boot example specifically. Without memory, that second question would be too vague. This is how you build conversational experiences that feel natural.
 
-**Compare Reasoning Styles**
+**Compare How Reasoning Appears**
 
-Try the same math problem with both Step-by-Step Reasoning and Low Eagerness. The reasoning pattern shows you the logic explicitly, while low eagerness just gives you the answer. Each has its place depending on your needs.
+Pick a math problem and try it with both Step-by-Step Reasoning and Low Eagerness. Low eagerness just gives you the answer - fast but opaque. Step-by-step shows you every calculation and decision. Neither approach is "better" - it depends on whether you need to understand the process or just get the result.
 
-## Key Concepts
+## What You're Really Learning
 
-**Reasoning Effort Control**
+**Reasoning Effort Changes Everything**
 
-GPT-5 lets you control how much thinking the model does. Low effort is fast but basic. High effort is slower but more thorough. Most tasks work fine with medium (the default).
+GPT-5 lets you control computational effort through your prompts. Low effort means fast responses with minimal exploration. High effort means the model takes time to think deeply. You're learning to match effort to task complexity - don't waste time on simple questions, but don't rush complex decisions either.
 
-**XML Structure for Clarity**
+**Structure Guides Behavior**
 
-The patterns use XML tags to organize instructions clearly. This isn't just formatting - it helps the model understand the structure of your request and follow complex multi-step instructions reliably.
+Notice the XML tags in the prompts? They're not decorative. Models follow structured instructions more reliably than freeform text. When you need multi-step processes or complex logic, structure helps the model track where it is and what comes next.
 
-**Quality Rubrics**
+**Quality Through Self-Evaluation**
 
-Self-reflecting patterns work by giving the model explicit quality criteria. Instead of "write good code", you specify: correct logic, proper error handling, performance considerations, security checks. The model evaluates its own output against these criteria and improves it.
+The self-reflecting patterns work by making quality criteria explicit. Instead of hoping the model "does it right", you tell it exactly what "right" means: correct logic, error handling, performance, security. The model can then evaluate its own output and improve. This turns code generation from a lottery into a process.
 
-**Context Windows**
+**Context Is Finite**
 
-Multi-turn conversations work by including previous messages with each request. But every model has a limit on total tokens. When conversations get long, you need strategies to maintain relevant context without hitting limits.
+Multi-turn conversations work by including message history with each request. But there's a limit - every model has a maximum token count. As conversations grow, you'll need strategies to keep relevant context without hitting that ceiling. This module shows you how memory works; later you'll learn when to summarize, when to forget, and when to retrieve.
 
-## When to Use Each Pattern
+## Choosing Your Approach
 
-**Low Eagerness** - Simple queries, calculations, quick facts. Fast response matters more than deep analysis.
+You've seen eight patterns. Here's when each one makes sense:
 
-**High Eagerness** - Architecture decisions, complex design problems, thorough research. Quality matters more than speed.
+**Low Eagerness** - You need quick facts or simple calculations. Speed matters more than thoroughness.
 
-**Task Execution** - Multi-step workflows where users need progress updates. Migration scripts, deployment processes.
+**High Eagerness** - You're making architectural decisions or designing complex systems. Take the time to think it through.
 
-**Self-Reflecting Code** - Production code generation. When code quality really matters.
+**Task Execution** - You're running multi-step processes and users need progress updates. Migrations, deployments, anything with visible stages.
 
-**Structured Analysis** - Code reviews, quality assessments. When you need consistent evaluation frameworks.
+**Self-Reflecting Code** - You're generating code that will run in production. Quality matters more than speed.
 
-**Multi-Turn Chat** - Interactive help, troubleshooting sessions, exploratory conversations.
+**Structured Analysis** - You're reviewing code or assessing quality. You need consistent evaluation every time.
 
-**Step-by-Step Reasoning** - Teaching moments, logic problems, when you need to understand the thinking.
+**Multi-Turn Chat** - You're building conversational interfaces. Users ask follow-up questions and expect the AI to remember context.
 
-**Constrained Output** - Summaries, specific formats, when structure is non-negotiable.
+**Step-by-Step Reasoning** - You're solving problems where the logic matters as much as the answer. Teaching scenarios, debugging, complex calculations.
+
+**Constrained Output** - You need responses in specific formats. Summaries with exact word counts, JSON output, structured reports.
 
 ## Next Steps
 
